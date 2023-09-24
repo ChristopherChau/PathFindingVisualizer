@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
+import { dijsktra } from '../algorithms/dijkstras';
 import Node from './Node/Node';
 
 class PathFindingVisualizer extends Component {
@@ -10,7 +11,6 @@ class PathFindingVisualizer extends Component {
       nodes: [],
     };
   }
-
   componentDidMount() { //this is a function that is automatically called 
     this.componentCreateGrid();
   }
@@ -28,6 +28,8 @@ class PathFindingVisualizer extends Component {
           row,
           isStart: row === 10 && col === 5,
           isFinish: row === 10 && col === 45,
+          visited: false,
+          distance: Infinity,
         };
         currentRow.push(currentNode); 
       }
@@ -39,6 +41,7 @@ class PathFindingVisualizer extends Component {
 
   render() {
     const {nodes} = this.state;
+    // dijsktra();
 
     return (
       <div className='grid'>

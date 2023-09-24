@@ -1,9 +1,18 @@
-export default function getAllNodes(grid){
+/* eslint-disable import/no-anonymous-default-export */
+function getAllNodes(grid){
   let allNodes = [];
-  for (let row in grid){
-    for (let node in row){
+  for (let row of grid){
+    for (let node of row){
       allNodes.push(node);
     }
   }
   return allNodes;
 }
+
+
+function sortByDistance(unvisitedNodes){
+  unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
+}
+
+
+export default {getAllNodes, sortByDistance};
