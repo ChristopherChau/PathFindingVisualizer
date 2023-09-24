@@ -33,14 +33,15 @@ function sortByDistance(unvisitedNodes){
 }
 
 function updateUnvisitedNeighbors(node, grid){
-
-
+  const unvisitedNeighbors = getAllNeighbors(node,grid);
+  for (let neighbor in unvisitedNeighbors){
+    neighbor.distance = node.distance + 1;
+    neighbor.previousNode = node;
+  }
 }
 
 
 function getAllNeighbors(node, grid){
-  //check col to the left and right 
-  //check row to up and down 
   const neighbors = [];
   const {row, col} = node;
   if (row > 0) {neighbors.push(grid[row-1][col])};

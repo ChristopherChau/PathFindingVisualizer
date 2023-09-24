@@ -75,26 +75,14 @@ const initializeGrid = () => {
   }
   return grid;
 }
-
-// redo Create node
-
-
-
-
-
-
-
-
-
-
-// const createNode = (row,col) => { 
-//   return{
-//     col,
-//     row,
-//     distance: Infinity,
-//     visited: false,
-//     isStart: row === START_NODE_ROW && col === START_NODE_COL,
-//     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-//     previousNode: null
-//   };
-// }
+const createNode = (row, col) => {
+  return {
+    row,
+    col,
+    visited: false,
+    distance: Infinity,
+    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+    isStart: row === START_NODE_ROW && col === START_NODE_COL,
+    previousNode: null
+  };
+}
