@@ -11,7 +11,7 @@ class PathFindingVisualizer extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount() { //this is a function that is automatically called 
     this.componentCreateGrid();
   }
 
@@ -20,11 +20,18 @@ class PathFindingVisualizer extends Component {
 
     //basically array where we have arrays of empty arrays 
     const nodes = [];
-    for (let rows = 0; rows < 15; rows++) {
+    for (let row = 0; row < 15; row++) {
       let currentRow = [];
       for (let col = 0; col < 50; col++) {
-        currentRow.push([]);
+        const currentNode = {
+          col,
+          row,
+          isStart: row === 10 && col === 5,
+          isFinish: row === 10 && col === 45,
+        };
+        currentRow.push(currentNode); 
       }
+      
       nodes.push(currentRow);
     }
     this.setState({nodes});
@@ -36,8 +43,17 @@ class PathFindingVisualizer extends Component {
     return (
       <div className='grid'>
         {nodes.map((row,rowIndex) => {
-          return <div>
-            {row.map((node, nodeIndex) => <Node></Node>)}
+          return <div key={rowIndex}>
+            {row.map((node, nodeIndex) => {
+              let {isStart, isFinish} = node;
+              return(
+                <Node
+                  key={nodeIndex}
+                  isStart = {isStart}
+                  isFinish = {isFinish}
+                ></Node>
+              )
+            })}
           </div>
         })}
       </div>
