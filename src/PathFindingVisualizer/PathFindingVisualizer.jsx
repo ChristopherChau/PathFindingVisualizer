@@ -27,17 +27,20 @@ class PathFindingVisualizer extends Component {
       }
       nodes.push(currentRow);
     }
-    this.setState({ nodes: nodes });
+    this.setState({nodes});
   }
 
   render() {
+    const {nodes} = this.state;
+
     return (
-      <>
-        <div>
-          Foobar
-          {/* <Node></Node> */}
-        </div>
-      </>
+      <div className='grid'>
+        {nodes.map((row,rowIndex) => {
+          return <div>
+            {row.map((node, nodeIndex) => <Node></Node>)}
+          </div>
+        })}
+      </div>
     );
   }
 }

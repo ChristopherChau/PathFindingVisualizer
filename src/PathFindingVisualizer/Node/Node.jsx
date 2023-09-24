@@ -13,3 +13,4 @@ const Node = (props) => {
       </>
     )
 }
+export default Node;

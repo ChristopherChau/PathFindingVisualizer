@@ -1,3 +1,10 @@
+body{
+  margin: 100px 0 0;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow-x: auto;   /* Add horizontal scrolling when needed */
+  white-space: nowrap;
+} 
+
 .App {
   text-align: center;
 }
