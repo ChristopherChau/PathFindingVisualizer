@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { dijsktra } from '../algorithms/dijkstras';
 import Node from './Node/Node';
 
-class PathFindingVisualizer extends Component {
+export default class PathFindingVisualizer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,4 +64,37 @@ class PathFindingVisualizer extends Component {
   }
 }
 
-export default PathFindingVisualizer;
+const initializeGrid = () => {
+  let grid = [];
+  for (let row = 0; row < 20; row++){
+    let currentRow = [];
+    for (let col = 0; col < 20; col++){
+      currentRow.push(createNode(row,col));
+    }
+    grid.push(currentRow);
+  }
+  return grid;
+}
+
+// redo Create node
+
+
+
+
+
+
+
+
+
+
+// const createNode = (row,col) => { 
+//   return{
+//     col,
+//     row,
+//     distance: Infinity,
+//     visited: false,
+//     isStart: row === START_NODE_ROW && col === START_NODE_COL,
+//     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+//     previousNode: null
+//   };
+// }

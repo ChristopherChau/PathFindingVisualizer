@@ -32,8 +32,7 @@ function sortByDistance(unvisitedNodes){
   unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
 
-function updateUnvisitedNeighbors(closestNode, grid){
-  const univistedNeighbors = getAllNeighbors(closestNode,grid);
+function updateUnvisitedNeighbors(node, grid){
 
 
 }

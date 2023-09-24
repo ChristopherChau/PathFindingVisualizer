@@ -9,6 +9,8 @@ export default class Node extends Component{
     super(props);
     this.state = {};
   }
+
+  
   
   render() {
     let {isFinish, isStart} = this.props;
@@ -19,6 +21,9 @@ export default class Node extends Component{
        </>
     )
   }
+
+
+
 }
 
 export const DEFAULT_NODE = {
@@ -26,16 +31,5 @@ export const DEFAULT_NODE = {
   col: 0,
 };
 
-// export default Node;
 
 
-
-// const Node = (props) => {
-//   const [state, setState] = React.useState({});
-
-//     return (
-//       <>
-//         <div className='node'></div>
-//       </>
-//     )
-// } 
