@@ -10,7 +10,7 @@ export default class Node extends Component{
     this.state = {};
   }
 
-  
+
   
   render() {
     let {isFinish, isStart} = this.props;

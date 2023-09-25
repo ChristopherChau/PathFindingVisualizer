@@ -2,16 +2,16 @@
 
 export function dijsktra(grid, start, finish){
   const visitedNodesInOrder = [];
-  start.distance = 0;
-  const unvisitedNodes = getAllNodes(grid);
-  while(!!unvisitedNodes.length){
-    sortByDistance(unvisitedNodes); //later implement using a heap
-    const closestNode = unvisitedNodes.shift(); //use closestnode as heap.top
-    closestNode.visited = true;
-    visitedNodesInOrder.push(closestNode);
-    if (closestNode === finish) return visitedNodesInOrder;
-    updateUnvisitedNeighbors(closestNode, grid);
-  }
+  // start.distance = 0;
+  // const unvisitedNodes = getAllNodes(grid);
+  // while(!!unvisitedNodes.length){
+  //   sortByDistance(unvisitedNodes); //later implement using a heap
+  //   const closestNode = unvisitedNodes.shift(); //use closestnode as heap.top
+  //   closestNode.visited = true;
+  //   visitedNodesInOrder.push(closestNode);
+  //   if (closestNode === finish) return visitedNodesInOrder;
+  //   updateUnvisitedNeighbors(closestNode, grid);
+  // }
 
 }
 
