@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 // import helpers from './helper';
 
 export function dijsktra(grid, start, finish){
   const visitedNodesInOrder = [];
-  // start.distance = 0;
-  // const unvisitedNodes = getAllNodes(grid);
+  start.distance = 0;
+  const unvisitedNodes = getAllNodes(grid);
   // while(!!unvisitedNodes.length){
+    // console.log('hi');
   //   sortByDistance(unvisitedNodes); //later implement using a heap
   //   const closestNode = unvisitedNodes.shift(); //use closestnode as heap.top
   //   closestNode.visited = true;
@@ -17,7 +19,6 @@ export function dijsktra(grid, start, finish){
 
 
 function getAllNodes(grid){
-  console.log('hi');
   let allNodes = [];
   for (let row of grid){
     for (let node of row){

@@ -22,6 +22,8 @@ export default class PathFindingVisualizer extends Component {
   }
   render() {
     const {nodes} = this.state;
+    dijsktra(nodes,createNode(START_NODE_ROW,START_NODE_COL), createNode(FINISH_NODE_ROW,FINISH_NODE_COL))
+    
 
     return (
       <div className='grid'>
