@@ -18,34 +18,46 @@ export default class PathFindingVisualizer extends Component {
   }
   componentDidMount() { //this is a function that is automatically called 
     const grid = initializeGrid();
-    this.setState({ nodes: grid }); // Change 'grid' to 'nodes'
+    this.setState({ nodes: grid });
   }
+
+  visualizeDijkstra() {
+    const {nodes} = this.state;
+    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
+    const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
+    startNode.distance = 0;
+    const visitedNodesInOrder = dijsktra(nodes,startNode,finishNode);
+    // console.log(visitedNodesInOrder);
+  }
+
   render() {
     const {nodes} = this.state;
-    dijsktra(nodes,createNode(START_NODE_ROW,START_NODE_COL), createNode(FINISH_NODE_ROW,FINISH_NODE_COL))
-    
 
     return (
-      <div className='grid'>
+      <>
+        <button onClick={() => this.visualizeDijkstra()}>
+          Visualize Dijkstra
+        </button>
+        <div className='grid'>
+          {nodes.map((row,rowIndex) => {
+            return <div key={rowIndex}>
+              {row.map((node, nodeIndex) => {
+                let {isStart, isFinish,row, col} = node;
+                return(
+                  <Node
+                    key={nodeIndex}
+                    col={col}
+                    row={row}
+                    isStart = {isStart}
+                    isFinish = {isFinish}
+                  ></Node>
+                )
+              })}
 
-        {nodes.map((row,rowIndex) => {
-          return <div key={rowIndex}>
-            {row.map((node, nodeIndex) => {
-              let {isStart, isFinish,row, col} = node;
-              return(
-                <Node
-                  key={nodeIndex}
-                  col={col}
-                  row={row}
-                  isStart = {isStart}
-                  isFinish = {isFinish}
-                ></Node>
-              )
-            })}
-
+            </div>
+          })}
           </div>
-        })}
-      </div>
+      </>
     );
   }
 }
