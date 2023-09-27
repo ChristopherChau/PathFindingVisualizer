@@ -5,7 +5,7 @@ import { dijkstra } from '../algorithms/dijkstras';
 import Node from './Node/Node';
 
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 45;
+const FINISH_NODE_COL = 25;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 13;
 export default class PathFindingVisualizer extends Component {
@@ -30,7 +30,7 @@ export default class PathFindingVisualizer extends Component {
         newGrid[node.row][node.col] = newNode;
         // console.log(newGrid);
         this.setState({ nodes: newGrid });
-      }, 50 * i); // Increased delay for smoother animation
+      }, 40 * i); // Increased delay for smoother animation
     }
   }
   
@@ -102,3 +102,11 @@ const createNode = (row,col) => {
     isVisitedAgain: false,
   };
 };
+
+const getNewGridWithWall = (grid, row, col) => {
+  const newGrid = grid.slice();
+  const node = newGrid[row][col];
+  const newNode  = {...node, isWall: !node.isWall};
+  newGrid[row][col] = newNode;
+  return newGrid;
+}
