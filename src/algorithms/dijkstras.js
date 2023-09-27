@@ -13,12 +13,10 @@ export function dijsktra(grid, start, finish){
     closestNode.visited = true;
     
 
-    
+  
     visitedNodesInOrder.push(closestNode);
     if (closestNode === finish) return visitedNodesInOrder;
     updateUnvisitedNeighbors(closestNode, grid);
-    if (count === 3) break;
-    count++;
   }
   
 

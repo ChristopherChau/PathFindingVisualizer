@@ -21,13 +21,28 @@ export default class PathFindingVisualizer extends Component {
     this.setState({ nodes: grid });
   }
 
+  animateDijkstras(visitedNodesInOrder){
+    for (let i = 0; i < visitedNodesInOrder.length; i++){
+      setTimeout(() => {
+        let node = visitedNodesInOrder[i];
+        const newGrid = this.state.nodes.slice();
+        let newNode = {...node, visited: true};
+        newGrid[node.row][node.col] = newNode;
+    
+        // Update the nodes in the state with the newGrid
+        this.setState({ nodes: newGrid });
+      }, 100 * i); // Reduced delay for smoother animation
+    }    
+  }
+  
+
   visualizeDijkstra() {
     const {nodes} = this.state;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     startNode.distance = 0;
     const visitedNodesInOrder = dijsktra(nodes,startNode,finishNode);
-    // console.log(visitedNodesInOrder);
+    this.animateDijkstras(visitedNodesInOrder);
   }
 
   render() {
@@ -42,7 +57,7 @@ export default class PathFindingVisualizer extends Component {
           {nodes.map((row,rowIndex) => {
             return <div key={rowIndex}>
               {row.map((node, nodeIndex) => {
-                let {isStart, isFinish,row, col} = node;
+                let {isStart, isFinish, visited, row, col} = node;
                 return(
                   <Node
                     key={nodeIndex}
@@ -50,10 +65,10 @@ export default class PathFindingVisualizer extends Component {
                     row={row}
                     isStart = {isStart}
                     isFinish = {isFinish}
+                    visited = {visited}
                   ></Node>
                 )
               })}
-
             </div>
           })}
           </div>
