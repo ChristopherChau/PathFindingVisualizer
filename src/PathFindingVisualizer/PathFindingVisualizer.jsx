@@ -67,20 +67,21 @@ const initializeGrid = () => {
   for (let row = 0; row < 20; row++) {
     const currentRow = [];
     for (let col = 0; col < 50; col++) {
-      currentRow.push(createNode(row,col));
+      currentRow.push(createNode(row, col));
     }
     grid.push(currentRow);
   }
   return grid;
 }
-const createNode = (row, col) => {
+
+const createNode = (row,col) => {
   return {
-    row,
     col,
-    visited: false,
-    distance: Infinity,
-    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+    row,
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
-    previousNode: null
+    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+    distance: Infinity,
+    visited: false,
+    previousNode: null,
   };
-}
+};

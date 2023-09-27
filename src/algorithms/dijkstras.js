@@ -2,17 +2,25 @@
 // import helpers from './helper';
 
 export function dijsktra(grid, start, finish){
+  let count = 0;
   const visitedNodesInOrder = [];
+  start.distance = 0;
   const unvisitedNodes = getAllNodes(grid);
-  console.log(start.distance);
-  // while(!!unvisitedNodes.length){
-  //   sortByDistance(unvisitedNodes); //later implement using a heap
-  //   const closestNode = unvisitedNodes.shift(); //use closestnode as heap.top
-  //   closestNode.visited = true;
-  //   visitedNodesInOrder.push(closestNode);
-  //   if (closestNode === finish) return visitedNodesInOrder;
-  //   updateUnvisitedNeighbors(closestNode, grid);
-  // }
+  while (!!unvisitedNodes.length) {
+    sortByDistance(unvisitedNodes);
+    const closestNode = unvisitedNodes.shift();
+    if (closestNode.distance === Infinity) return visitedNodesInOrder;
+    closestNode.visited = true;
+    
+
+    
+    visitedNodesInOrder.push(closestNode);
+    if (closestNode === finish) return visitedNodesInOrder;
+    updateUnvisitedNeighbors(closestNode, grid);
+    if (count === 3) break;
+    count++;
+  }
+  
 
 }
 
@@ -34,12 +42,11 @@ function sortByDistance(unvisitedNodes){
 
 function updateUnvisitedNeighbors(node, grid){
   const unvisitedNeighbors = getAllNeighbors(node,grid);
-  for (let neighbor in unvisitedNeighbors){
+  for (let neighbor of unvisitedNeighbors){
     neighbor.distance = node.distance + 1;
     neighbor.previousNode = node;
   }
 }
-
 
 function getAllNeighbors(node, grid){
   const neighbors = [];
@@ -47,7 +54,7 @@ function getAllNeighbors(node, grid){
   if (row > 0)  neighbors.push(grid[row-1][col]);
   if (row < grid.length-1) neighbors.push(grid[row+1][col]);
   if (col > 0)  neighbors.push(grid[row][col-1]);
-  if (col < grid[0].length -1)  neighbors.push(grid[row]);
+  if (col < grid[0].length -1)  neighbors.push(grid[row][col+1]); // Fix here
 
   return neighbors.filter((neighbor) => !neighbor.visited);
 }
