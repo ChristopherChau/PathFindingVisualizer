@@ -13,8 +13,8 @@ export default class Node extends Component{
 
   
   render() {
-    let {isFinish, isStart, visited} = this.props;
-    let extraClassName = isFinish ? 'nodeFinish' : isStart ? 'nodeStart' : visited ? 'nodeVisited' :  '';
+    let {isFinish, isStart, isVisitedAgain} = this.props;
+    let extraClassName = isFinish ? 'nodeFinish' : isStart ? 'nodeStart' : isVisitedAgain ? 'nodeVisited' :  '';
     return(
       <>
          <div className={`node ${extraClassName}`}></div>

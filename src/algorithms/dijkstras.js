@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 // import helpers from './helper';
 
-export function dijsktra(grid, start, finish){
-  let count = 0;
+export function dijkstra(grid, start, finish){
   const visitedNodesInOrder = [];
   start.distance = 0;
   const unvisitedNodes = getAllNodes(grid);
@@ -11,14 +10,10 @@ export function dijsktra(grid, start, finish){
     const closestNode = unvisitedNodes.shift();
     if (closestNode.distance === Infinity) return visitedNodesInOrder;
     closestNode.visited = true;
-    
-
-  
     visitedNodesInOrder.push(closestNode);
     if (closestNode === finish) return visitedNodesInOrder;
     updateUnvisitedNeighbors(closestNode, grid);
   }
-  
 
 }
 
