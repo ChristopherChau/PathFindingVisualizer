@@ -9,27 +9,39 @@ export default class Node extends Component{
     super(props);
     this.state = {};
   }
-
-
   
   render() {
-    let {isFinish, isStart, isVisitedAgain} = this.props;
-    let extraClassName = isFinish ? 'nodeFinish' : isStart ? 'nodeStart' : isVisitedAgain ? 'nodeVisited' :  '';
+    let {
+      row, 
+      col, 
+      isWall, 
+      isFinish, 
+      isStart, 
+      isVisitedAgain,
+      onMouseDown, 
+      onMouseEnter, 
+      onMouseUp
+    } = this.props;
+    let extraClassName = 
+    isFinish ? 'nodeFinish' : 
+    isStart ? 'nodeStart' : 
+    isVisitedAgain ? 'nodeVisited' :  
+    isWall ? 'nodeWall' : '';
+
     return(
       <>
-         <div className={`node ${extraClassName}`}></div>
+         <div 
+              className={`node ${extraClassName}`}
+              onMouseEnter={() => onMouseEnter(row,col)} //onMouseEnter will call the function we pass in as onMouseEnter and pass in col and row
+              onMouseDown={() => onMouseDown(row,col)}
+              onMouseUp={() => onMouseUp()}
+         ></div>
        </>
     )
   }
-
-
-
 }
 
 export const DEFAULT_NODE = {
   row: 0,
   col: 0,
 };
-
-
-

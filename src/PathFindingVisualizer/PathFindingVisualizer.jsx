@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { dijkstra } from '../algorithms/dijkstras';
 import Node from './Node/Node';
 
+
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 25;
 const START_NODE_ROW = 10;
@@ -14,6 +15,7 @@ export default class PathFindingVisualizer extends Component {
     super(props);
     this.state = {
       nodes: [],
+      mouseIsPressed: false,
     };
   }
   componentDidMount() { //this is a function that is automatically called 
@@ -21,6 +23,21 @@ export default class PathFindingVisualizer extends Component {
     this.setState({ nodes: grid });
   }
 
+  handleMouseDown(row,col){
+    const newGrid = getNewGridWithWall(this.state.nodes, row, col);
+    this.setState({nodes : newGrid, mouseIsPressed:true});
+  }
+  
+  handleMouseEnter(row,col){
+    if (!this.state.mouseIsPressed) return
+    const newGrid = getNewGridWithWall(this.state.nodes, row, col);
+    this.setState({nodes : newGrid});
+  }
+  
+  handleMouseUp(){
+    this.setState({mouseIsPressed:false});
+  }
+  
   animateDijkstras(visitedNodesInOrder) {
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
       let node = visitedNodesInOrder[i]; // Create a new variable for each iteration
@@ -30,12 +47,10 @@ export default class PathFindingVisualizer extends Component {
         newGrid[node.row][node.col] = newNode;
         // console.log(newGrid);
         this.setState({ nodes: newGrid });
-      }, 40 * i); // Increased delay for smoother animation
+      }, 100); // Increased delay for smoother animation
     }
   }
   
-  
-
   visualizeDijkstra() {
     const {nodes} = this.state;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
@@ -46,7 +61,7 @@ export default class PathFindingVisualizer extends Component {
   }
 
   render() {
-    const {nodes} = this.state;
+    const {nodes, mouseIsPressed} = this.state;
 
     return (
       <>
@@ -57,16 +72,21 @@ export default class PathFindingVisualizer extends Component {
           {nodes.map((row,rowIndex) => {
             return <div key={rowIndex}>
               {row.map((node, nodeIndex) => {
-                let {isStart, isFinish, visited, row, col, isVisitedAgain} = node;
+                let {isStart, isFinish, visited, row, col, isVisitedAgain, isWall} = node;
                 return(
                   <Node
                     key={nodeIndex}
                     col={col}
                     row={row}
+                    isWall = {isWall}
                     isStart = {isStart}
                     isFinish = {isFinish}
                     visited = {visited}
                     isVisitedAgain = {isVisitedAgain}
+                    mouseIsPressed = {mouseIsPressed}
+                    onMouseDown={(row,col) => this.handleMouseDown(row,col)}
+                    onMouseEnter={(row,col) => this.handleMouseEnter(row,col)}
+                    onMouseUp={() => this.handleMouseUp()}
                   ></Node>
                 )
               })}
@@ -109,4 +129,4 @@ const getNewGridWithWall = (grid, row, col) => {
   const newNode  = {...node, isWall: !node.isWall};
   newGrid[row][col] = newNode;
   return newGrid;
-}
+};

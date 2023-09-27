@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 
 function getAllNodes(grid){
   let allNodes = [];
