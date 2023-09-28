@@ -19,6 +19,6 @@
 .nodeWall{
   background-color: gray;
 }
-.final{
-  background-color: yellow !important;
+.finalNode{
+  background-color: yellow;
 }

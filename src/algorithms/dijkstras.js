@@ -21,10 +21,10 @@ export function dijkstra(grid, start, finish){
 
 export function getFinalPath(finishNode){
   let finalPath = [];
-  let node = finishNode.previousNode;
+  let node = finishNode;
   while (node !== null){
-    node = node.previousNode;
     finalPath.push(node);
+    node = node.previousNode;
   }
   return finalPath;
 }

@@ -20,13 +20,15 @@ export default class Node extends Component{
       isVisitedAgain,
       onMouseDown, 
       onMouseEnter, 
-      onMouseUp
+      onMouseUp,
+      isFinal
     } = this.props;
     let extraClassName = 
     isFinish ? 'nodeFinish' : 
     isStart ? 'nodeStart' : 
     isVisitedAgain ? 'nodeVisited' :  
-    isWall ? 'nodeWall' : '';
+    isWall ? 'nodeWall' :
+    isFinal ? 'finalNode': '';
 
     return(
       <>

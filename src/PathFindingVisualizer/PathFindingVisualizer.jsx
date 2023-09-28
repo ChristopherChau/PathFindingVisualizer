@@ -53,16 +53,15 @@ export default class PathFindingVisualizer extends Component {
   
   animateFinalPath(finalPathNodes){
     console.log('in animate final');
-    for (let i = 0; i < finalPathNodes.length-1; i++)
+    for (let i = 0; i < finalPathNodes.length; i++)
     {
       let node = finalPathNodes[i];
       setTimeout( ()=> {
         const newGrid = this.state.nodes.slice();
-        let newNode = {...node};
-        newNode.className = 'node final';
-        console.log(newNode);
+        let newNode = {...node, isFinal: true};
+        newGrid[node.row][node.col] = newNode;
         this.setState({nodes: newGrid});
-      }, 50 * i);
+      }, 50 );
     }
   }
   
@@ -89,7 +88,7 @@ export default class PathFindingVisualizer extends Component {
           {nodes.map((row,rowIndex) => {
             return <div key={rowIndex}>
               {row.map((node, nodeIndex) => {
-                let {isStart, isFinish, visited, row, col, isVisitedAgain, isWall} = node;
+                let {isStart, isFinish, visited, row, col, isVisitedAgain,isFinal, isWall} = node;
                 return(
                   <Node
                     key={nodeIndex}
@@ -100,6 +99,7 @@ export default class PathFindingVisualizer extends Component {
                     isFinish = {isFinish}
                     visited = {visited}
                     isVisitedAgain = {isVisitedAgain}
+                    isFinal = {isFinal}
                     mouseIsPressed = {mouseIsPressed}
                     onMouseDown={(row,col) => this.handleMouseDown(row,col)}
                     onMouseEnter={(row,col) => this.handleMouseEnter(row,col)}
@@ -137,6 +137,7 @@ const createNode = (row,col) => {
     visited: false,
     previousNode: null,
     isVisitedAgain: false,
+    isFinal: false,
   };
 };
 
