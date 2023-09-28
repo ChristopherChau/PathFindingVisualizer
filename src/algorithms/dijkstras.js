@@ -12,9 +12,20 @@ export function dijkstra(grid, start, finish){
     if (closestNode.distance === Infinity) return visitedNodesInOrder;
     closestNode.visited = true;
     visitedNodesInOrder.push(closestNode);
-    if (closestNode === finish) return visitedNodesInOrder;
+    if (closestNode === finish) {
+      return visitedNodesInOrder;}
     helpers.updateUnvisitedNeighbors(closestNode, grid);
   }
+}
 
+
+export function getFinalPath(finishNode){
+  let finalPath = [];
+  let node = finishNode.previousNode;
+  while (node !== null){
+    node = node.previousNode;
+    finalPath.push(node);
+  }
+  return finalPath;
 }
 

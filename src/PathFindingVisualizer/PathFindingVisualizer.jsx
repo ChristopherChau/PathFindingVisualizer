@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { dijkstra } from '../algorithms/dijkstras';
+import { dijkstra , getFinalPath} from '../algorithms/dijkstras';
 import Node from './Node/Node';
 
 
@@ -47,7 +47,22 @@ export default class PathFindingVisualizer extends Component {
         newGrid[node.row][node.col] = newNode;
         // console.log(newGrid);
         this.setState({ nodes: newGrid });
-      }, 100); // Increased delay for smoother animation
+      }, 50); // Increased delay for smoother animation
+    }
+  }
+  
+  animateFinalPath(finalPathNodes){
+    console.log('in animate final');
+    for (let i = 0; i < finalPathNodes.length-1; i++)
+    {
+      let node = finalPathNodes[i];
+      setTimeout( ()=> {
+        const newGrid = this.state.nodes.slice();
+        let newNode = {...node};
+        newNode.className = 'node final';
+        console.log(newNode);
+        this.setState({nodes: newGrid});
+      }, 50 * i);
     }
   }
   
@@ -58,6 +73,8 @@ export default class PathFindingVisualizer extends Component {
     startNode.distance = 0;
     const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
     this.animateDijkstras(visitedNodesInOrder);
+    const finalPath = getFinalPath(finishNode);
+    this.animateFinalPath(finalPath);
   }
 
   render() {
