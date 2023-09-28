@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { dijkstra , getFinalPath} from '../algorithms/dijkstras';
+import { dijkstra , getFinalPath} from '../algorithms/dijkstras/dijkstras';
 import Node from './Node/Node';
 
 
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 25;
+const FINISH_NODE_COL = 40;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 13;
 export default class PathFindingVisualizer extends Component {
@@ -61,7 +61,7 @@ export default class PathFindingVisualizer extends Component {
         let newNode = {...node, isFinal: true};
         newGrid[node.row][node.col] = newNode;
         this.setState({nodes: newGrid});
-      }, 50 );
+      }, 75 * i );
     }
   }
   

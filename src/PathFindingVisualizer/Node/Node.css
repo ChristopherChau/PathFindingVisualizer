@@ -14,11 +14,11 @@
 }
 
 .nodeVisited{
-  background-color: blue;
+  background-color: rgb(83, 195, 255);
 }
 .nodeWall{
-  background-color: gray;
+  background-color: rgb(27, 27, 125);
 }
 .finalNode{
-  background-color: yellow;
+  background-color: rgb(246, 246, 44);
 }

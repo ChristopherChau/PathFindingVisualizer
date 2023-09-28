@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import helpers from './helper';
 
+
 export function dijkstra(grid, start, finish){
   const visitedNodesInOrder = [];
   start.distance = 0;
   const unvisitedNodes = helpers.getAllNodes(grid);
   while (!!unvisitedNodes.length) {
-    helpers.sortByDistance(unvisitedNodes);
+    helpers.sortByDistance(unvisitedNodes);//make this min heap 
     const closestNode = unvisitedNodes.shift();
     if (closestNode.isWall) continue;
     if (closestNode.distance === Infinity) return visitedNodesInOrder;
@@ -28,4 +29,6 @@ export function getFinalPath(finishNode){
   }
   return finalPath;
 }
+
+
 
