@@ -22,6 +22,15 @@ function updateUnvisitedNeighbors(node, grid){
     neighbor.previousNode = node;
   }
 }
+function updateUnvisitedNeighbors2(node, grid, minHeap){
+  const unvisitedNeighbors = getAllNeighbors(node,grid);
+  for (let neighbor of unvisitedNeighbors){
+    neighbor.distance = node.distance + 1;
+    neighbor.previousNode = node;
+    minHeap.insert(neighbor, neighbor.distance);
+  }
+  // return minHeap;
+}
 
 function getAllNeighbors(node, grid){
   const neighbors = [];
@@ -35,4 +44,4 @@ function getAllNeighbors(node, grid){
 }
 
 
-export default {getAllNodes, sortByDistance, updateUnvisitedNeighbors, getAllNeighbors};
+export default {getAllNodes, sortByDistance, updateUnvisitedNeighbors, getAllNeighbors, updateUnvisitedNeighbors2};

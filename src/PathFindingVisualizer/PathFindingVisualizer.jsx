@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { dijkstra , getFinalPath} from '../algorithms/dijkstras/dijkstras';
+import { dijkstra2 , getFinalPath} from '../algorithms/dijkstras/dijkstras';
 import Node from './Node/Node';
 
 
@@ -70,7 +70,7 @@ export default class PathFindingVisualizer extends Component {
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     startNode.distance = 0;
-    const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
+    const visitedNodesInOrder = dijkstra2(nodes,startNode,finishNode);
     this.animateDijkstras(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
