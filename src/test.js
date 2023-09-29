@@ -1,4 +1,4 @@
-export class MinHeap {
+class MinHeap {
   constructor() {
       this.heap = [];
   }
@@ -54,7 +54,7 @@ export class MinHeap {
       if (this.heap.length === 0) {
           return null;
       }
-      const item = this.peek();
+      const item = this.heap[0];
       this.heap[0] = this.heap[this.heap.length - 1];
       this.heap.pop();
       this.heapifyDown();
@@ -72,7 +72,7 @@ export class MinHeap {
       this.swap(this.getParentIndex(index), index);
       index = this.getParentIndex(index);
     }
-    // console.log(`The peek distance: ${this.peek().distance}`);
+    console.log(`The peek distance: ${this.peek().distance}`);
 
   }
   
@@ -91,8 +91,51 @@ export class MinHeap {
           }
           index = smallerChildIndex;
       }
-      // console.log(`The peek distance: ${this.peek().distance}`);
+      // console.log(`The peek distance: ${this.peek().distance}`);'
+
+        
   }
+  printHeap() {
+    var heap =` ${this.heap[0]} `
+    for(var i = 0; i<this.heap.length;i++) {
+        heap += ` ${this.heap[i].distance} `;
+    }
+    console.log(heap);
+}
   
 
 }
+
+
+
+
+export function testMain() {
+  let minHeap = new MinHeap();
+
+  minHeap.add({ node: 'node4', distance: 6 });
+  minHeap.add({ node: 'node2', distance: 5 });
+  minHeap.add({ node: 'node5', distance: 4 });
+  minHeap.add({ node: 'node1', distance: 3 });
+  minHeap.add({ node: 'node3', distance: 2 });
+  minHeap.add({ node: 'node1', distance: 1 });
+  
+  minHeap.printHeap();
+  minHeap.remove();
+  
+  minHeap.printHeap();
+  minHeap.remove();
+
+  minHeap.printHeap();
+  minHeap.remove();
+
+  minHeap.printHeap();
+  minHeap.remove();
+
+  minHeap.printHeap();
+  minHeap.remove();
+
+  minHeap.printHeap();
+  minHeap.remove();
+  
+}
+

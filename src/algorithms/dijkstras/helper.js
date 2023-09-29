@@ -43,7 +43,7 @@ function getAllNeighbors(node, grid){
   if (col < grid[0].length -1)  neighbors.push(grid[row][col+1]);
 
 
-console.log(neighbors.filter((neighbor) => !neighbor.visited));
+// console.log(neighbors.filter((neighbor) => !neighbor.visited));
   return neighbors.filter((neighbor) => !neighbor.visited);
 }
 

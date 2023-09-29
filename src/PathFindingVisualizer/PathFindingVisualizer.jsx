@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { dijkstra , minHeapDijkstra, getFinalPath} from '../algorithms/dijkstras/dijkstras';
 import Node from './Node/Node';
+import { testMain } from '../test';
 
 
 const FINISH_NODE_ROW = 10;
@@ -69,12 +70,14 @@ export default class PathFindingVisualizer extends Component {
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     startNode.distance = 0;
-    const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
+
+    // const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
     // const visitedNodesInOrder2 = dijkstra(nodes,startNode,finishNode);
-    // // console.log(visitedNodesInOrder);
     // this.animateDijkstras(visitedNodesInOrder);
     // const finalPath = getFinalPath(finishNode);
     // this.animateFinalPath(finalPath);
+
+    testMain();
   }
 
   render() {
