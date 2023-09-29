@@ -58,8 +58,6 @@ export class MinHeap{
   size(){
     return this.heap.length;
   }
-
-
 }
 
 
