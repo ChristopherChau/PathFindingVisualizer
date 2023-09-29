@@ -1,9 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
 
+
 function getAllNodes(grid){
   let allNodes = [];
   for (let row of grid){
     for (let node of row){
+      node.visited = false;
       allNodes.push(node);
     }
   }
@@ -22,26 +24,28 @@ function updateUnvisitedNeighbors(node, grid){
     neighbor.previousNode = node;
   }
 }
-function updateUnvisitedNeighbors2(node, grid, minHeap){
+function minHeapUpdateNeighbors(node, grid, minHeap){
   const unvisitedNeighbors = getAllNeighbors(node,grid);
   for (let neighbor of unvisitedNeighbors){
     neighbor.distance = node.distance + 1;
     neighbor.previousNode = node;
     minHeap.insert(neighbor, neighbor.distance);
   }
-  // return minHeap;
 }
 
 function getAllNeighbors(node, grid){
+  // console.log(node);
   const neighbors = [];
   const {row, col} = node;
   if (row > 0)  neighbors.push(grid[row-1][col]);
   if (row < grid.length-1) neighbors.push(grid[row+1][col]);
   if (col > 0)  neighbors.push(grid[row][col-1]);
-  if (col < grid[0].length -1)  neighbors.push(grid[row][col+1]); // Fix here
+  if (col < grid[0].length -1)  neighbors.push(grid[row][col+1]);
 
+
+console.log(neighbors.filter((neighbor) => !neighbor.visited));
   return neighbors.filter((neighbor) => !neighbor.visited);
 }
 
 
-export default {getAllNodes, sortByDistance, updateUnvisitedNeighbors, getAllNeighbors, updateUnvisitedNeighbors2};
+export default {getAllNodes, sortByDistance, updateUnvisitedNeighbors, getAllNeighbors, minHeapUpdateNeighbors};

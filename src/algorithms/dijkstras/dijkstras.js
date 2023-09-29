@@ -7,9 +7,11 @@ export function dijkstra(grid, start, finish){
   const visitedNodesInOrder = [];
   start.distance = 0;
   const unvisitedNodes = helpers.getAllNodes(grid);
+  let count = 0;
   while (!!unvisitedNodes.length) {
     helpers.sortByDistance(unvisitedNodes);//make this min heap 
     const closestNode = unvisitedNodes.shift();
+    console.log(closestNode);
     if (closestNode.isWall) continue;
     if (closestNode.distance === Infinity) return visitedNodesInOrder;
     closestNode.visited = true;
@@ -17,6 +19,9 @@ export function dijkstra(grid, start, finish){
     if (closestNode === finish) {
       return visitedNodesInOrder;} //still want to return an array of the visited nodes in order
     helpers.updateUnvisitedNeighbors(closestNode, grid);
+    closestNode.visited = true;
+      count++;
+      if (count === 5) break;
   }
 }
 
@@ -31,22 +36,23 @@ export function getFinalPath(finishNode){
   return finalPath;
 }
 
-export function dijkstra2(grid, start, finish){
+export function minHeapDijkstra(grid, start, finish){
   let minHeap = new MinHeap();
   const visitedNodesInOrder2 = [];
   start.distance = 0;
   minHeap.insert(start, 0);
-  // const unvisitedNodes = helpers.getAllNodes(grid); 
+  let count = 0;
   while (!minHeap.isEmpty()){
-    const node = minHeap.extractMin();
+    const {node} = minHeap.extractMin();
+    console.log(node);
+    //something wrong with the node passing in 
     if (node.isWall) continue;
     if (node.distance === Infinity) return visitedNodesInOrder2;
     node.visited = true;
     visitedNodesInOrder2.push(node);
     if (node === finish) return visitedNodesInOrder2;
-    helpers.updateUnvisitedNeighbors2(node, grid, minHeap);
+    helpers.minHeapUpdateNeighbors(node, grid, minHeap);
+    count++;
+    // if(count === 5) break;
   }
 }
-/*So we have a minheap and a node for the visited nodes and we have start set at 0 
-we insert start into the minheap with its distance to create an object and then we extract information on it 
-we then mark it as visited and then push it into visitednodesinorder and then we update */

@@ -27,16 +27,19 @@ export class MinHeap{
     const right = 2 * index + 2;
     let smallest = index;
 
-    if (left < this.size() && this.heap[left].key < this.heap[smallest].key) {
+    if (left < this.size() && this.heap[left].distance < this.heap[smallest].distance) {
       smallest = left;
     }
 
-    if (right < this.size() && this.heap[right].key < this.heap[smallest].key) {
+    if (right < this.size() && this.heap[right].distance < this.heap[smallest].distance) {
       smallest = right;
     }
 
     if (smallest !== index) {
       [this.heap[index], this.heap[smallest]] = [this.heap[smallest], this.heap[index]];
+      let temp = this.heap[index];
+      this.heap[index] = this.heap[smallest];
+      this.heap[smallest] = temp;
       this.heapify(smallest);
     }
   }

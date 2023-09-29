@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { dijkstra2 , getFinalPath} from '../algorithms/dijkstras/dijkstras';
+import { dijkstra , minHeapDijkstra, getFinalPath} from '../algorithms/dijkstras/dijkstras';
 import Node from './Node/Node';
 
 
@@ -52,7 +52,6 @@ export default class PathFindingVisualizer extends Component {
   }
   
   animateFinalPath(finalPathNodes){
-    console.log('in animate final');
     for (let i = 0; i < finalPathNodes.length; i++)
     {
       let node = finalPathNodes[i];
@@ -70,10 +69,12 @@ export default class PathFindingVisualizer extends Component {
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     startNode.distance = 0;
-    const visitedNodesInOrder = dijkstra2(nodes,startNode,finishNode);
-    this.animateDijkstras(visitedNodesInOrder);
-    const finalPath = getFinalPath(finishNode);
-    this.animateFinalPath(finalPath);
+    const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
+    // const visitedNodesInOrder2 = dijkstra(nodes,startNode,finishNode);
+    // // console.log(visitedNodesInOrder);
+    // this.animateDijkstras(visitedNodesInOrder);
+    // const finalPath = getFinalPath(finishNode);
+    // this.animateFinalPath(finalPath);
   }
 
   render() {
