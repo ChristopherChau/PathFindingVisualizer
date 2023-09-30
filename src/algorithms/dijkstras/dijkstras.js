@@ -20,8 +20,8 @@ export function dijkstra(grid, start, finish){
       return visitedNodesInOrder;} //still want to return an array of the visited nodes in order
     helpers.updateUnvisitedNeighbors(closestNode, grid);
     closestNode.visited = true;
-    count++;
-    if (count === 8) break;
+    // count++;
+    // if (count === 8) break;
   }
 }
 

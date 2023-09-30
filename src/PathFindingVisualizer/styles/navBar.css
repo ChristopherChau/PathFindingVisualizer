@@ -1,11 +1,66 @@
+.header{
+  display:flex;
+  flex-direction: column;
+  background-color: rgb(22, 49, 94);
+}
+
+.title{
+  color:white;
+  font-size:35px;
+  font-weight: 700;
+
+}
+
 .visualizeButn{
+
+  font-weight: 700;
   font-size:25px;
   background-color: dodgerblue;
   color:white;
 
+
   border-radius:5px;
-
-  margin-bottom:25px;
-
   padding: 10px 15px 10px 15px;
 }
+
+.buttonList{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.regularButn{
+  font-size:25px;
+  background-color: transparent;
+  color:white;
+  font-weight: 700;
+  padding: 10px 15px 10px 15px;
+  border:none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.regularButn:hover{
+  color: aquamarine;
+  border: 1px solid white;
+  background-color: rgb(33, 71, 137);
+  border-radius: 5px;
+}
+.dropdown{
+  position:relative;
+  display:inline-block;
+}
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dijkstrasMenu{
+  background-color: rgb(22, 49, 94);
+  margin-bottom: 0px;
+}
+
+.dropdown:hover .dropdownContent{display:block;}

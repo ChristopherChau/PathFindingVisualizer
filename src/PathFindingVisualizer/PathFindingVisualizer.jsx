@@ -5,6 +5,7 @@ import { dijkstra , minHeapDijkstra, getFinalPath} from '../algorithms/dijkstras
 import Node from './Node/Node';
 import { testMain } from '../test';
 import './styles/navBar.css';
+import './styles/grid.css'
 
 
 const FINISH_NODE_ROW = 10;
@@ -72,11 +73,11 @@ export default class PathFindingVisualizer extends Component {
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     startNode.distance = 0;
 
-    const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
-    // const visitedNodesInOrder2 = dijkstra(nodes,startNode,finishNode);
-    // this.animateDijkstras(visitedNodesInOrder);
+    // const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
+    const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
+    this.animateDijkstras(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode);
-    // this.animateFinalPath(finalPath);
+    this.animateFinalPath(finalPath);
 
     // testMain();
   }
@@ -87,10 +88,24 @@ export default class PathFindingVisualizer extends Component {
     return (
       <>
         <div className='header'>
-          
-          <button className='visualizeButn' onClick={() => this.visualizeDijkstra()}>
-            Visualize!
-          </button>
+          <div className='title'>Pathfinding Visualizer</div>
+          <div className='buttonList'>
+            <div className='dropdown'>
+              <button className='dropButn regularButn'>Algorithms</button>
+              <div class='dropdownContent'>
+                <div className='regularButn dijkstrasMenu'>Dijkstra's Algorithm</div>
+              </div>
+            </div>
+            <button className='visualizeButn' onClick={() => this.visualizeDijkstra()}>
+              Visualize!
+            </button>
+            <button className='regularButn'>
+              Reset Grid
+            </button>
+            <button className='regularButn'>
+              Clear Walls
+            </button>
+          </div>
         </div>
         <div className='grid'>
           {nodes.map((row,rowIndex) => {
