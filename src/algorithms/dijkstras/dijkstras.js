@@ -44,16 +44,16 @@ export function minHeapDijkstra(grid, start, finish){
   minHeap.add(finish);
   let count = 0;
   console.log(minHeap);
-  while (minHeap.length !== 0){
+  while (minHeap.size() !== 0){
     const node = minHeap.remove();
     console.log(node);
-    console.log(node.distance);
-    // if (node.isWall) continue;
-    // if (node.distance === Infinity) return visitedNodesInOrder2;
-    // node.visited = true;
-    // visitedNodesInOrder2.push(node);
-    // if (node === finish) return visitedNodesInOrder2;
-    // helpers.minHeapUpdateNeighbors(node, grid, minHeap);
+    // console.log(node.distance);
+    if (node.isWall) continue;
+    if (node.distance === Infinity) return visitedNodesInOrder2;
+    node.visited = true;
+    visitedNodesInOrder2.push(node);
+    if (node === finish) return visitedNodesInOrder2;
+    helpers.minHeapUpdateNeighbors(node, grid, minHeap);
     count++;
     if(count === 8) break;
   }

@@ -54,7 +54,7 @@ class MinHeap {
       if (this.heap.length === 0) {
           return null;
       }
-      const item = this.heap[0];
+      const item = this.peek();
       this.heap[0] = this.heap[this.heap.length - 1];
       this.heap.pop();
       this.heapifyDown();
@@ -72,7 +72,7 @@ class MinHeap {
       this.swap(this.getParentIndex(index), index);
       index = this.getParentIndex(index);
     }
-    console.log(`The peek distance: ${this.peek().distance}`);
+    // console.log(`The peek distance: ${this.peek().distance}`);
 
   }
   

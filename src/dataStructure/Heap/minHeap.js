@@ -93,6 +93,9 @@ export class MinHeap {
       }
       // console.log(`The peek distance: ${this.peek().distance}`);
   }
+  size(){
+    return this.heap.length;
+  }
   
 
 }

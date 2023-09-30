@@ -29,7 +29,7 @@ function minHeapUpdateNeighbors(node, grid, minHeap){
   for (let neighbor of unvisitedNeighbors){
     neighbor.distance = node.distance + 1;
     neighbor.previousNode = node;
-    minHeap.insert(neighbor, neighbor.distance);
+    minHeap.add(neighbor);
   }
 }
 
