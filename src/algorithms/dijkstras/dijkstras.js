@@ -11,7 +11,7 @@ export function dijkstra(grid, start, finish){
   while (!!unvisitedNodes.length) {
     helpers.sortByDistance(unvisitedNodes);//make this min heap 
     const closestNode = unvisitedNodes.shift();
-    console.log(closestNode);
+    // console.log(closestNode);
     if (closestNode.isWall) continue;
     if (closestNode.distance === Infinity) return visitedNodesInOrder;
     closestNode.visited = true;
@@ -32,7 +32,6 @@ export function getFinalPath(finishNode){
   while (node !== null){
     finalPath.push(node);
     node = node.previousNode;
-    console.log('hi');
   }
   return finalPath;
 }

@@ -12,6 +12,7 @@ const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 40;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 13;
+let reset = false;
 export default class PathFindingVisualizer extends Component {
   
   constructor(props) {
@@ -29,6 +30,20 @@ export default class PathFindingVisualizer extends Component {
       }
     }
     this.setState({nodes: newGrid});
+  }
+
+  resetPath() {
+    const newGrid = this.state.nodes.slice();
+    for (let row of newGrid){
+      for (let node of row){
+        node.visited = false;
+        node.isVisitedAgain = false;
+        node.isFinal = false;
+        if (node.isWall) continue;
+      }
+    }
+    this.setState({nodes: newGrid});
+  
   }
 
   resetGrid() {
@@ -82,6 +97,11 @@ export default class PathFindingVisualizer extends Component {
   }
   
   visualizeDijkstra() {
+    if (reset === true){
+      this.resetPath();
+      reset = false;
+
+    }
     const {nodes} = this.state;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
@@ -92,6 +112,7 @@ export default class PathFindingVisualizer extends Component {
     this.animateDijkstras(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
+    reset = true;
 
     // testMain();
   }
@@ -106,7 +127,7 @@ export default class PathFindingVisualizer extends Component {
           <div className='buttonList'>
             <div className='dropdown'>
               <button className='dropButn regularButn'>Algorithms</button>
-              <div class='dropdownContent'>
+              <div className='dropdownContent'>
                 <div className='regularButn dijkstrasMenu'>Dijkstra's Algorithm</div>
               </div>
             </div>
@@ -187,15 +208,4 @@ const getNewGridWithWall = (grid, row, col) => {
   newGrid[row][col] = newNode;
   return newGrid;
 };
-
-
-// const resetWalls = () => {
-//   const newGrid = this.state.nodes.slice();
-//   for (let row of newGrid){
-//     for (let node of row){
-//       node.isWall = false;
-//     }
-//   }
-//   this.setState({nodes: newGrid});
-// }
 
