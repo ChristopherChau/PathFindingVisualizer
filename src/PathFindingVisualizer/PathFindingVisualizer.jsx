@@ -21,6 +21,16 @@ export default class PathFindingVisualizer extends Component {
       mouseIsPressed: false,
     };
   }
+  resetWalls = () => {
+    const newGrid = this.state.nodes.slice();
+    for (let row of newGrid){
+      for (let node of row){
+        node.isWall = false;
+      }
+    }
+    this.setState({nodes: newGrid});
+  }
+
   resetGrid() {
     const grid = initializeGrid();
     this.setState({ nodes: grid });
@@ -103,10 +113,10 @@ export default class PathFindingVisualizer extends Component {
             <button className='visualizeButn' onClick={() => this.visualizeDijkstra()}>
               Visualize!
             </button>
-            <button onClick={() => {this.resetGrid()}} className='regularButn'>
+            <button onClick={() => this.resetGrid()} className='regularButn'>
               Reset Grid
             </button>
-            <button className='regularButn'>
+            <button onClick={() => this.resetWalls()}className='regularButn'>
               Clear Walls
             </button>
           </div>
@@ -178,4 +188,14 @@ const getNewGridWithWall = (grid, row, col) => {
   return newGrid;
 };
 
+
+// const resetWalls = () => {
+//   const newGrid = this.state.nodes.slice();
+//   for (let row of newGrid){
+//     for (let node of row){
+//       node.isWall = false;
+//     }
+//   }
+//   this.setState({nodes: newGrid});
+// }
 

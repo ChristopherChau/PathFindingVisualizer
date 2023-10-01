@@ -32,6 +32,7 @@ export function getFinalPath(finishNode){
   while (node !== null){
     finalPath.push(node);
     node = node.previousNode;
+    console.log('hi');
   }
   return finalPath;
 }
@@ -59,3 +60,13 @@ export function minHeapDijkstra(grid, start, finish){
   }
   // console.log('end of minheap dijkstra');
 }
+
+
+/*Features to add
+
+1. If we click visualize again, it should reset the grid but keep the walls where they are and run dijkstras again
+2. We should be able to add more walls on visited nodes even after it's done running 
+3. Maybe add weights and set the default extra distance of weights to 5 
+4. Add the ability to move start and finish node with mouse 
+
+*/
