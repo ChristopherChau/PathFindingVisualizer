@@ -21,9 +21,13 @@ export default class PathFindingVisualizer extends Component {
       mouseIsPressed: false,
     };
   }
-  componentDidMount() { //this is a function that is automatically called 
+  resetGrid() {
     const grid = initializeGrid();
     this.setState({ nodes: grid });
+  }
+
+  componentDidMount() { //this is a function that is automatically called 
+    this.resetGrid();
   }
 
   handleMouseDown(row,col){
@@ -99,7 +103,7 @@ export default class PathFindingVisualizer extends Component {
             <button className='visualizeButn' onClick={() => this.visualizeDijkstra()}>
               Visualize!
             </button>
-            <button className='regularButn'>
+            <button onClick={() => {this.resetGrid()}} className='regularButn'>
               Reset Grid
             </button>
             <button className='regularButn'>
@@ -138,6 +142,8 @@ export default class PathFindingVisualizer extends Component {
   }
 }
 
+
+
 const initializeGrid = () => {
   const grid = [];
   for (let row = 0; row < 20; row++) {
@@ -171,3 +177,5 @@ const getNewGridWithWall = (grid, row, col) => {
   newGrid[row][col] = newNode;
   return newGrid;
 };
+
+
