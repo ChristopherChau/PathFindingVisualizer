@@ -39,16 +39,22 @@ export default class PathFindingVisualizer extends Component {
         node.visited = false;
         node.isVisitedAgain = false;
         node.isFinal = false;
-        if (node.isWall) continue;
+        if (node.isWall){
+          console.log(`${node.row} ${node.col}`);
+          continue;
+        }
       }
     }
+    reset = false;
     this.setState({nodes: newGrid});
-  
+    console.log(this.state.nodes);
+    return newGrid;
   }
 
   resetGrid() {
     const grid = initializeGrid();
     this.setState({ nodes: grid });
+    reset = false;
   }
 
   componentDidMount() { //this is a function that is automatically called 
@@ -70,6 +76,10 @@ export default class PathFindingVisualizer extends Component {
     this.setState({mouseIsPressed:false});
   }
   
+
+
+
+
   animateDijkstras(visitedNodesInOrder) {
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
       let node = visitedNodesInOrder[i]; // Create a new variable for each iteration
@@ -98,11 +108,11 @@ export default class PathFindingVisualizer extends Component {
   
   visualizeDijkstra() {
     if (reset === true){
-      this.resetPath();
-      reset = false;
-
+      let newGrid = this.resetPath();
+      this.setState({nodes: newGrid});
     }
     const {nodes} = this.state;
+
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     startNode.distance = 0;
@@ -198,12 +208,13 @@ const createNode = (row,col) => {
     previousNode: null,
     isVisitedAgain: false,
     isFinal: false,
+    isWall: false,
   };
 };
 
 const getNewGridWithWall = (grid, row, col) => {
   const newGrid = grid.slice();
-  const node = newGrid[row][col];
+  const node = grid[row][col];
   const newNode  = {...node, isWall: !node.isWall};
   newGrid[row][col] = newNode;
   return newGrid;

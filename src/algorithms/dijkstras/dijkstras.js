@@ -17,11 +17,11 @@ export function dijkstra(grid, start, finish){
     closestNode.visited = true;
     visitedNodesInOrder.push(closestNode);
     if (closestNode === finish) {
+      // console.log(grid);
       return visitedNodesInOrder;} //still want to return an array of the visited nodes in order
     helpers.updateUnvisitedNeighbors(closestNode, grid);
     closestNode.visited = true;
-    // count++;
-    // if (count === 8) break;
+    
   }
 }
 
@@ -63,7 +63,6 @@ export function minHeapDijkstra(grid, start, finish){
 
 /*Features to add
 
-1. If we click visualize again, it should reset the grid but keep the walls where they are and run dijkstras again
 2. We should be able to add more walls on visited nodes even after it's done running 
 3. Maybe add weights and set the default extra distance of weights to 5 
 4. Add the ability to move start and finish node with mouse 
