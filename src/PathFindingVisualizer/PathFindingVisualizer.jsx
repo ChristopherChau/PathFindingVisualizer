@@ -13,6 +13,8 @@ const FINISH_NODE_COL = 40;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 13;
 let reset = false;
+
+
 export default class PathFindingVisualizer extends Component {
   
   constructor(props) {
@@ -20,8 +22,12 @@ export default class PathFindingVisualizer extends Component {
     this.state = {
       nodes: [],
       mouseIsPressed: false,
+      currentMode: 'wallMode'
     };
   }
+
+
+// ------------------------------------------------------------------------------------------
   resetWalls = () => {
     const newGrid = this.state.nodes.slice();
     for (let row of newGrid){
@@ -61,14 +67,22 @@ export default class PathFindingVisualizer extends Component {
     this.resetGrid();
   }
 
+  // ------------------------------------------------------------------------------------------
+
   handleMouseDown(row,col){
-    const newGrid = getNewGridWithWall(this.state.nodes, row, col);
+    let newGrid;
+    if (this.state.currentMode === 'weightMode'){
+      newGrid = getNewGridWithWeight(this.state.nodes, row, col);
+    }
+    else{
+      newGrid = getNewGridWithWall(this.state.nodes, row, col);
+    }
     this.setState({nodes : newGrid, mouseIsPressed:true});
   }
   
   handleMouseEnter(row,col){
     if (!this.state.mouseIsPressed) return
-    const newGrid = getNewGridWithWall(this.state.nodes, row, col);
+    let newGrid = getNewGridWithWall(this.state.nodes, row, col);
     this.setState({nodes : newGrid});
   }
   
@@ -76,8 +90,11 @@ export default class PathFindingVisualizer extends Component {
     this.setState({mouseIsPressed:false});
   }
   
+  setMode(mode){
+    this.setState({currentMode : mode});
+  }
 
-
+// ------------------------------------------------------------------------------------------
 
 
   animateDijkstras(visitedNodesInOrder) {
@@ -102,7 +119,7 @@ export default class PathFindingVisualizer extends Component {
         let newNode = {...node, isFinal: true};
         newGrid[node.row][node.col] = newNode;
         this.setState({nodes: newGrid});
-      }, 75 * i );
+      }, 75 );
     }
   }
   
@@ -127,6 +144,8 @@ export default class PathFindingVisualizer extends Component {
     // testMain();
   }
 
+  // ------------------------------------------------------------------------------------------
+
   render() {
     const {nodes, mouseIsPressed} = this.state;
 
@@ -150,13 +169,15 @@ export default class PathFindingVisualizer extends Component {
             <button onClick={() => this.resetWalls()}className='regularButn'>
               Clear Walls
             </button>
+            <button onClick={() => this.setMode('wallMode')}className='regularButn wallButn'>Wall Mode</button>
+            <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
           </div>
         </div>
         <div className='grid'>
           {nodes.map((row,rowIndex) => {
             return <div key={rowIndex}>
               {row.map((node, nodeIndex) => {
-                let {isStart, isFinish, visited, row, col, isVisitedAgain,isFinal, isWall} = node;
+                let {isStart, isFinish, visited, row, col, isVisitedAgain,isFinal, isWall, isWeight} = node;
                 return(
                   <Node
                     key={nodeIndex}
@@ -168,6 +189,7 @@ export default class PathFindingVisualizer extends Component {
                     visited = {visited}
                     isVisitedAgain = {isVisitedAgain}
                     isFinal = {isFinal}
+                    isWeight = {isWeight}
                     mouseIsPressed = {mouseIsPressed}
                     onMouseDown={(row,col) => this.handleMouseDown(row,col)}
                     onMouseEnter={(row,col) => this.handleMouseEnter(row,col)}
@@ -209,13 +231,26 @@ const createNode = (row,col) => {
     isVisitedAgain: false,
     isFinal: false,
     isWall: false,
+    isWeight: false,
   };
 };
 
 const getNewGridWithWall = (grid, row, col) => {
+  // console.log('before');
+  // console.log(grid);
   const newGrid = grid.slice();
   const node = grid[row][col];
   const newNode  = {...node, isWall: !node.isWall};
+  newGrid[row][col] = newNode;
+  // console.log(newGrid);
+  return newGrid;
+};
+
+
+const getNewGridWithWeight = (grid, row, col) => {
+  const newGrid = grid.slice();
+  const node = grid[row][col];
+  const newNode  = {...node, isWeight: !node.isWeight};
   newGrid[row][col] = newNode;
   return newGrid;
 };

@@ -21,14 +21,17 @@ export default class Node extends Component{
       onMouseDown, 
       onMouseEnter, 
       onMouseUp,
-      isFinal
+      isFinal,
+      isWeight
     } = this.props;
     let extraClassName = 
     isFinish ? 'nodeFinish' : 
     isStart ? 'nodeStart' : 
     isVisitedAgain ? 'nodeVisited' :  
     isWall ? 'nodeWall' :
-    isFinal ? 'finalNode': '';
+    isFinal ? 'finalNode': 
+    isWeight ? 'nodeWeight' : 
+    '';
 
     return(
       <>
