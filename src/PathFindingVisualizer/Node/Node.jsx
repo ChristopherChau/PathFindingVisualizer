@@ -24,6 +24,7 @@ export default class Node extends Component{
       isFinal,
       isWeight
     } = this.props;
+    
     let extraClassName = 
     isFinish ? 'nodeFinish' : 
     isStart ? 'nodeStart' : 

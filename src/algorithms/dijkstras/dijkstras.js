@@ -30,7 +30,7 @@ export function getFinalPath(finishNode){
   let finalPath = [];
   let node = finishNode;
   while (node !== null){
-    finalPath.push(node);
+    finalPath.unshift(node);
     node = node.previousNode;
   }
   return finalPath;
@@ -65,8 +65,6 @@ export function minHeapDijkstra(grid, start, finish){
 
 2. We should be able to add more walls on visited nodes even after it's done running 
 
-
-3. Maybe add weights and set the default extra distance of weights to 5 
 4. Add the ability to move start and finish node with mouse 
 
 */

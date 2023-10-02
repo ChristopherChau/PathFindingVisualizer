@@ -124,7 +124,7 @@ export default class PathFindingVisualizer extends Component {
         let newNode = {...node, isFinal: true};
         newGrid[node.row][node.col] = newNode;
         this.setState({nodes: newGrid});
-      }, 75 );
+      }, 75);
     }
   }
   
@@ -210,7 +210,7 @@ export default class PathFindingVisualizer extends Component {
   }
 }
 
-
+// ------------------------------------------------------------------------------------------
 
 const initializeGrid = () => {
   const grid = [];
