@@ -11,9 +11,8 @@ import './styles/grid.css'
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 40;
 const START_NODE_ROW = 10;
-const START_NODE_COL = 13;
+const START_NODE_COL = 15;
 let reset = false;
-
 
 export default class PathFindingVisualizer extends Component {
   
@@ -81,8 +80,14 @@ export default class PathFindingVisualizer extends Component {
   }
   
   handleMouseEnter(row,col){
-    if (!this.state.mouseIsPressed) return
-    let newGrid = getNewGridWithWall(this.state.nodes, row, col);
+    if (!this.state.mouseIsPressed) return;
+    let newGrid;
+    if (this.state.currentMode === 'weightMode'){
+      newGrid = getNewGridWithWeight(this.state.nodes, row, col);
+    }
+    else{
+      newGrid = getNewGridWithWall(this.state.nodes, row, col);
+    }
     this.setState({nodes : newGrid});
   }
   
@@ -236,13 +241,13 @@ const createNode = (row,col) => {
 };
 
 const getNewGridWithWall = (grid, row, col) => {
-  // console.log('before');
-  // console.log(grid);
   const newGrid = grid.slice();
   const node = grid[row][col];
+  if (node.isWeight){
+    node.isWeight = !node.isWeight;
+  }
   const newNode  = {...node, isWall: !node.isWall};
   newGrid[row][col] = newNode;
-  // console.log(newGrid);
   return newGrid;
 };
 
@@ -250,6 +255,9 @@ const getNewGridWithWall = (grid, row, col) => {
 const getNewGridWithWeight = (grid, row, col) => {
   const newGrid = grid.slice();
   const node = grid[row][col];
+  if (node.isWall){
+    node.isWall = !node.isWall;
+  }
   const newNode  = {...node, isWeight: !node.isWeight};
   newGrid[row][col] = newNode;
   return newGrid;

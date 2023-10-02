@@ -30,7 +30,7 @@ export default class Node extends Component{
     isVisitedAgain ? 'nodeVisited' :  
     isWall ? 'nodeWall' :
     isFinal ? 'finalNode': 
-    isWeight ? 'nodeWeight' : 
+    isWeight ? 'weightNode' : 
     '';
 
     return(

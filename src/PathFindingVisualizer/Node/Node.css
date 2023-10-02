@@ -1,6 +1,6 @@
 .node{
-  width:35px;
-  height:35px;
+  width:43px;
+  height:43px;
   outline: 1px solid grey;
   background-color: white;
   display: inline-block;
@@ -22,6 +22,14 @@
 .finalNode{
   background-color: rgb(246, 246, 44);
 }
-.nodeWeight{
+
+.weightNode {
+  background-image: url('../../../public/images/weight.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.weightNode .nodeVisited {
   background-color: black;
 }
