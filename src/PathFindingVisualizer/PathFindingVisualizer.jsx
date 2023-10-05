@@ -9,7 +9,7 @@ import './styles/grid.css'
 
 
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 20;
+const FINISH_NODE_COL = 40;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 
@@ -24,7 +24,6 @@ export default class PathFindingVisualizer extends Component {
       nodes: [],
       mouseIsPressed: false,
       currentMode: 'wallMode',
-      resetPath:false,
     };
   }
 
@@ -47,12 +46,15 @@ export default class PathFindingVisualizer extends Component {
         node.visited = false;
         node.isVisitedAgain = false;
         node.isFinal = false;
+        node.distance = Infinity;
+        node.previousNode = null;
+        node.isWeight = false;
         if (node.isWall){
           continue;
         }
       }
     }
-    this.setState({nodes: newGrid, resetPath: false});
+    this.setState({nodes: newGrid});
     return newGrid;
   }
 
@@ -85,10 +87,6 @@ export default class PathFindingVisualizer extends Component {
   
   handleMouseEnter(row,col){
     if (!this.state.mouseIsPressed) return;
-    if(pathFound === true) {
-      pathFound = false;
-      this.resetPath();
-    }  
     let newGrid;
     if (this.state.currentMode === 'weightMode'){
       newGrid = getNewGridWithWeight(this.state.nodes, row, col);
@@ -102,9 +100,10 @@ export default class PathFindingVisualizer extends Component {
   }
   
   handleMouseUp(){
-    // console.log(this.state.nodes);
-    console.log('just lifted mouse)');
+    console.log('just lifted mouse this is right after we lift mouse');
     this.setState({mouseIsPressed:false}); //as of over here too the new state does indeed have the walls
+    let newGrid = (this.state.nodes);
+    console.log(newGrid);
   }
   
   setMode(mode){
@@ -140,13 +139,13 @@ export default class PathFindingVisualizer extends Component {
     }
   }
   
-  visualizeDijkstra() {
-    if (this.state.resetPath === true){
-      let newGrid = this.resetPath(); //our walls are being updated but once we click visualize dijkstra again, it clears the nodes?
-      console.log('in visualize');
+  visualizeDijkstra(grid) {
+    if (pathFound === true){
+      let newGrid = this.resetPath();
       this.setState({ nodes: newGrid, resetPath: false });
     }
-    const nodes = this.state.nodes;
+    // let nodes = this.state.nodes; //state is not updatred ere even tho it is when we let go of mouse
+    let nodes = grid;
     console.log(nodes);
 
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
@@ -159,7 +158,6 @@ export default class PathFindingVisualizer extends Component {
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
     pathFound = true;
-    this.setState({ resetPath: true });
   }
 
   // ------------------------------------------------------------------------------------------
@@ -178,7 +176,7 @@ export default class PathFindingVisualizer extends Component {
                 <div className='regularButn dijkstrasMenu'>Dijkstra's Algorithm</div>
               </div>
             </div>
-            <button className='visualizeButn' onClick={() => this.visualizeDijkstra()}>
+            <button className='visualizeButn' onClick={() => this.visualizeDijkstra(this.state.nodes)}>
               Visualize!
             </button>
             <button onClick={() => this.resetGrid()} className='regularButn'>
@@ -189,6 +187,7 @@ export default class PathFindingVisualizer extends Component {
             </button>
             <button onClick={() => this.setMode('wallMode')}className='regularButn wallButn'>Wall Mode</button>
             <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
+            <button onClick={()=> this.resetPath()}className='regularButn'>Temporary Reset Path</button>
           </div>
         </div>
         <div className='grid'>
