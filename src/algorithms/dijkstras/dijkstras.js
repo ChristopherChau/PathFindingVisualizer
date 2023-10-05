@@ -67,4 +67,9 @@ export function minHeapDijkstra(grid, start, finish){
 
 4. Add the ability to move start and finish node with mouse 
 
+
+use a global variable to check if we start node 
+
+if onmousedown, check the 
+
 */

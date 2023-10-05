@@ -9,10 +9,12 @@ import './styles/grid.css'
 
 
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 40;
+const FINISH_NODE_COL = 20;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
+
 let reset = false;
+let pathFound = false;
 
 export default class PathFindingVisualizer extends Component {
   
@@ -45,14 +47,12 @@ export default class PathFindingVisualizer extends Component {
         node.isVisitedAgain = false;
         node.isFinal = false;
         if (node.isWall){
-          console.log(`${node.row} ${node.col}`);
           continue;
         }
       }
     }
     reset = false;
     this.setState({nodes: newGrid});
-    console.log(this.state.nodes);
     return newGrid;
   }
 
@@ -69,6 +69,10 @@ export default class PathFindingVisualizer extends Component {
   // ------------------------------------------------------------------------------------------
 
   handleMouseDown(row,col){
+    if(pathFound === true) {
+      pathFound = false;
+      this.resetPath();
+    }  
     let newGrid;
     if (this.state.currentMode === 'weightMode'){
       newGrid = getNewGridWithWeight(this.state.nodes, row, col);
@@ -81,18 +85,26 @@ export default class PathFindingVisualizer extends Component {
   
   handleMouseEnter(row,col){
     if (!this.state.mouseIsPressed) return;
+    if(pathFound === true) {
+      pathFound = false;
+      this.resetPath();
+    }  
     let newGrid;
+    let value;
     if (this.state.currentMode === 'weightMode'){
       newGrid = getNewGridWithWeight(this.state.nodes, row, col);
     }
     else{
       newGrid = getNewGridWithWall(this.state.nodes, row, col);
+      // console.log(newGrid);
     }
-    this.setState({nodes : newGrid});
+    // console.log(newGrid);
+    this.setState({nodes : newGrid}); //according to the console.log, at this time once enter is done running, the new grid does have the updated walls
   }
   
   handleMouseUp(){
-    this.setState({mouseIsPressed:false});
+    console.log(this.state.nodes);
+    this.setState({mouseIsPressed:false}); //as of over here too the new state does indeed have the walls
   }
   
   setMode(mode){
@@ -144,6 +156,7 @@ export default class PathFindingVisualizer extends Component {
     this.animateDijkstras(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
+    pathFound = true;
     reset = true;
 
     // testMain();
@@ -248,6 +261,7 @@ const getNewGridWithWall = (grid, row, col) => {
   }
   const newNode  = {...node, isWall: !node.isWall};
   newGrid[row][col] = newNode;
+  // console.log(newGrid);
   return newGrid;
 };
 
