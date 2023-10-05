@@ -23,7 +23,8 @@ export default class PathFindingVisualizer extends Component {
     this.state = {
       nodes: [],
       mouseIsPressed: false,
-      currentMode: 'wallMode'
+      currentMode: 'wallMode',
+      resetPath:false,
     };
   }
 
@@ -51,8 +52,7 @@ export default class PathFindingVisualizer extends Component {
         }
       }
     }
-    reset = false;
-    this.setState({nodes: newGrid});
+    this.setState({nodes: newGrid, resetPath: false});
     return newGrid;
   }
 
@@ -90,7 +90,6 @@ export default class PathFindingVisualizer extends Component {
       this.resetPath();
     }  
     let newGrid;
-    let value;
     if (this.state.currentMode === 'weightMode'){
       newGrid = getNewGridWithWeight(this.state.nodes, row, col);
     }
@@ -103,7 +102,8 @@ export default class PathFindingVisualizer extends Component {
   }
   
   handleMouseUp(){
-    console.log(this.state.nodes);
+    // console.log(this.state.nodes);
+    console.log('just lifted mouse)');
     this.setState({mouseIsPressed:false}); //as of over here too the new state does indeed have the walls
   }
   
@@ -141,11 +141,13 @@ export default class PathFindingVisualizer extends Component {
   }
   
   visualizeDijkstra() {
-    if (reset === true){
-      let newGrid = this.resetPath();
-      this.setState({nodes: newGrid});
+    if (this.state.resetPath === true){
+      let newGrid = this.resetPath(); //our walls are being updated but once we click visualize dijkstra again, it clears the nodes?
+      console.log('in visualize');
+      this.setState({ nodes: newGrid, resetPath: false });
     }
-    const {nodes} = this.state;
+    const nodes = this.state.nodes;
+    console.log(nodes);
 
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
@@ -157,9 +159,7 @@ export default class PathFindingVisualizer extends Component {
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
     pathFound = true;
-    reset = true;
-
-    // testMain();
+    this.setState({ resetPath: true });
   }
 
   // ------------------------------------------------------------------------------------------
