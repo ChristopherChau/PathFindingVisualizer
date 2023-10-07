@@ -26,6 +26,7 @@ export default class Node extends Component{
     } = this.props;
     
     let extraClassName = 
+    (isVisitedAgain && isWeight) ? 'nodeVisited weightNode' :
     isFinish ? 'nodeFinish' : 
     isStart ? 'nodeStart' : 
     isVisitedAgain ? 'nodeVisited' :  
