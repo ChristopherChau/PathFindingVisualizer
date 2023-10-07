@@ -30,6 +30,6 @@
   background-size: cover;
 }
 
-.weightNode .nodeVisited {
-  background-color: black;
+.nodeVisited.weightNode {
+  background-color: rgb(50, 127, 169);
 }

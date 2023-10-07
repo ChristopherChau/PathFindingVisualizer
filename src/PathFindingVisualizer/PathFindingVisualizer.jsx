@@ -9,7 +9,7 @@ import './styles/grid.css'
 
 
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 40;
+const FINISH_NODE_COL = 30;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 
@@ -48,8 +48,7 @@ export default class PathFindingVisualizer extends Component {
         node.isFinal = false;
         node.distance = Infinity;
         node.previousNode = null;
-        node.isWeight = false;
-        if (node.isWall){
+        if (node.isWall || node.isWeight){
           continue;
         }
       }
@@ -120,7 +119,6 @@ export default class PathFindingVisualizer extends Component {
         const newGrid = this.state.nodes.slice();
         let newNode = { ...node, isVisitedAgain: true };
         newGrid[node.row][node.col] = newNode;
-        // console.log(newGrid);
         this.setState({ nodes: newGrid });
       }, 50); // Increased delay for smoother animation
     }
