@@ -9,7 +9,7 @@ import './styles/grid.css'
 
 
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 30;
+const FINISH_NODE_COL = 45;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 
@@ -165,6 +165,7 @@ export default class PathFindingVisualizer extends Component {
 
     return (
       <>
+      <div className='container'>
         <div className='header'>
           <div className='title'>Pathfinding Visualizer</div>
           <div className='buttonList'>
@@ -185,9 +186,9 @@ export default class PathFindingVisualizer extends Component {
             </button>
             <button onClick={() => this.setMode('wallMode')}className='regularButn wallButn'>Wall Mode</button>
             <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
-            <button onClick={()=> this.resetPath()}className='regularButn'>Temporary Reset Path</button>
           </div>
         </div>
+
         <div className='grid'>
           {nodes.map((row,rowIndex) => {
             return <div key={rowIndex}>
@@ -215,6 +216,7 @@ export default class PathFindingVisualizer extends Component {
             </div>
           })}
           </div>
+        </div>
       </>
     );
   }
