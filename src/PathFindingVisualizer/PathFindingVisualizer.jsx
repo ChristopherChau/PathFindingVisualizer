@@ -82,6 +82,14 @@ export default class PathFindingVisualizer extends Component {
     if (this.state.currentMode === 'weightMode'){
       newGrid = getNewGridWithWeight(this.state.nodes, row, col);
     }
+    // else if(this.state.currentMode === 'moveStartNode')
+    // {
+
+    // }
+    // else if(this.state.currentMode === 'moveFinishNode')
+    // {
+
+    // }
     else{
       newGrid = getNewGridWithWall(this.state.nodes, row, col);
     }
