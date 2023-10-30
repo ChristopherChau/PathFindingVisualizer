@@ -183,6 +183,22 @@ export default class PathFindingVisualizer extends Component {
     let nodes = grid;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = dfs(grid, startNode, finishNode);
+    this.animateAlgorithm(visitedNodesInOrder);
+    const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
+    this.animateFinalPath(finalPath);
+    pathFound = true;
+  }
+
+  visualizeBFS(grid)
+  {
+    if (pathFound === true){
+      let newGrid = this.resetPath();
+      this.setState({ nodes: newGrid, resetPath: false });
+    }
+    let nodes = grid;
+    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
+    const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = bfs(grid, startNode, finishNode);
     this.animateAlgorithm(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
@@ -210,7 +226,7 @@ export default class PathFindingVisualizer extends Component {
               </div>
               
             </div>
-            <button className='visualizeButn' onClick={() => this.visualizeDFS(this.state.nodes)}>
+            <button className='visualizeButn' onClick={() => this.visualizeBFS(this.state.nodes)}>
               Visualize!
             </button>
             <button onClick={() => this.resetGrid()} className='regularButn'>

@@ -13,7 +13,7 @@ export function bfs(grid, start, finish) {
     if (node.isWall || node.visited) {continue;}
     node.visited = true;
   
-    if(node === finish || node.isFinish) {
+    if(node === finish) {
       console.log('found');
       return visitedNodesInOrder;
     }
