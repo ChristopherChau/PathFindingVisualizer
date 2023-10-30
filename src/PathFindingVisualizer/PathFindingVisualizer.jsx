@@ -184,8 +184,11 @@ export default class PathFindingVisualizer extends Component {
             <div className='dropdown'>
               <button className='dropButn regularButn'>Algorithms</button>
               <div className='dropdownContent'>
-                <div className='regularButn dijkstrasMenu'>Dijkstra's Algorithm</div>
+                <button className='regularButn dijkstrasMenu'>Dijkstra's Algorithm</button>
+                <button className='regularButn dijkstrasMenu'>Breadth First Search</button>
+                <button className='regularButn dijkstrasMenu'>Depth First Search</button>
               </div>
+              
             </div>
             <button className='visualizeButn' onClick={() => this.visualizeDijkstra(this.state.nodes)}>
               Visualize!
