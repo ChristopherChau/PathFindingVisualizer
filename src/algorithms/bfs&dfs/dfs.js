@@ -5,7 +5,6 @@ export function dfs(grid, start, finish) {
   let visitedNodesInOrder = [];
   const status = { finishFound: false };
   visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid, status);
-  console.log(visitedNodesInOrder);
   return visitedNodesInOrder;
 }
 
@@ -16,8 +15,8 @@ function exploreNeighbors(node, visitedNodesInOrder, finish, grid, status) {
     node.row >= 20 ||
     node.col < 0 ||
     node.col >= 50 ||
-    node.visited === true ||
-    node.isWall === true
+    node.visited ||
+    node.isWall
   ) {
     return visitedNodesInOrder;
   }

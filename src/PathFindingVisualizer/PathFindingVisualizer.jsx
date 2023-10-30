@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { dijkstra , minHeapDijkstra} from '../algorithms/dijkstras/dijkstras';
 import { getFinalPath } from '../algorithms/algHelpers/globalHelpers';
 import {dfs} from '../algorithms/bfs&dfs/dfs';
+import {bfs} from '../algorithms/bfs&dfs/bfs';
 import Node from './Node/Node';
 import { testMain } from '../test';
 import './styles/navBar.css';
@@ -182,7 +183,7 @@ export default class PathFindingVisualizer extends Component {
     let nodes = grid;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = dfs(grid, startNode, finishNode);
+    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
     this.animateAlgorithm(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
     this.animateFinalPath(finalPath);

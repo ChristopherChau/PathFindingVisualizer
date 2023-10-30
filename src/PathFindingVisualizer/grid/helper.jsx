@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
+const FINISH_NODE_COL = 30;
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
 
