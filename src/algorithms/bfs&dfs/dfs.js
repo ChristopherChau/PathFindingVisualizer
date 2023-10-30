@@ -2,32 +2,59 @@
 // import helper from '../dijkstras/helper'
 
 //up right down left 
-
-export function dfs(grid, start, finish)
-{
+export function dfs(grid, start, finish) {
   let visitedNodesInOrder = [];
-  // let unvisitedNodes = helper.getAllNodes(grid);
-  visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid);
-  // console.log(visitedNodesInOrder);
+  let finishFound = false;
+  visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid, finishFound);
   console.log('end of exploration');
   return visitedNodesInOrder;
 }
-function exploreNeighbors(node, visitedNodesInOrder, finish, grid)
-{
-  console.log('explore');
-  if (node.row < 0 || node.row >= 20 || node.col < 0 || node.col >= 50 || node.visited === true || node.isWall === true) {return;}
+
+function exploreNeighbors(node, visitedNodesInOrder, finish, grid, finishFound) {
+  if (
+    node.row < 0 ||
+    node.row >= 20 ||
+    node.col < 0 ||
+    node.col >= 50 ||
+    node.visited === true ||
+    node.isWall === true
+  ) {
+    return visitedNodesInOrder;
+  }
 
   node.visited = true;
   visitedNodesInOrder.push(node);
-  if (node === finish || node.isFinish === true) {return visitedNodesInOrder;}
+  
+  if (finishFound) {
+    return visitedNodesInOrder;
+  }
+
+  if (node === finish) {
+    console.log('FOUND IT');
+    finishFound = true;
+    return visitedNodesInOrder;
+  }
+
   
   const neighbors = getAllNeighbors(node, grid);
-  for (let neighbor of neighbors){
-    console.log(neighbor);
-    exploreNeighbors(neighbor, visitedNodesInOrder, finish, grid);
+  for (let neighbor of neighbors) {
+    if (finishFound) {
+      return visitedNodesInOrder;
+    }
+    
+    // console.log(neighbor);
+    visitedNodesInOrder = exploreNeighbors(neighbor, visitedNodesInOrder, finish, grid, finishFound);
+    
+    if (finishFound) {
+      return visitedNodesInOrder;
+    }
+    
     neighbor.previousNode = node;
   }
+
+  return visitedNodesInOrder;
 }
+
 
 function getAllNeighbors(node, grid,)
 {
