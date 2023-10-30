@@ -30,6 +30,7 @@ export default class PathFindingVisualizer extends Component {
       nodes: [],
       mouseIsPressed: false,
       currentMode: 'wallMode',
+      currentAlg: 'dijkstra',
     };
   }
 

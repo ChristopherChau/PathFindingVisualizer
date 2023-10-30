@@ -19,4 +19,5 @@ export function getAllNeighbors(node, grid,)
   if (col > 0)  neighbors.push(grid[row][col-1]); //left
 
   return neighbors.filter((neighbor) => !neighbor.visited);
+  //return an array of neighbors
 }

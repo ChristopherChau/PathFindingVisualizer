@@ -27,6 +27,7 @@ function updateUnvisitedNeighbors(node, grid){
     neighbor.previousNode = node;
   }
 }
+
 function minHeapUpdateNeighbors(node, grid, minHeap){
   const unvisitedNeighbors = getAllNeighbors(node,grid);
   for (let neighbor of unvisitedNeighbors){
