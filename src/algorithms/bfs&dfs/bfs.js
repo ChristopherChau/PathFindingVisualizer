@@ -14,8 +14,7 @@ export function bfs(grid, start, finish) {
       node.col < 0 ||
       node.col >= 50 ||
       node.visited ||
-      node.isWall || 
-      node.distance === Infinity) {continue;}
+      node.isWall) {continue;}
       
     visitedNodesInOrder.push(node);
     node.visited = true;
@@ -33,6 +32,4 @@ export function bfs(grid, start, finish) {
       neighbor.distance = 0;
     }
   }
-
 }
-
