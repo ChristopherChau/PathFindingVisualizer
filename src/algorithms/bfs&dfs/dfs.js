@@ -8,21 +8,22 @@ export function dfs(grid, start, finish)
   let visitedNodesInOrder = [];
   // let unvisitedNodes = helper.getAllNodes(grid);
   visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid);
-  console.log(visitedNodesInOrder);
+  // console.log(visitedNodesInOrder);
+  console.log('end of exploration');
   return visitedNodesInOrder;
 }
-
 function exploreNeighbors(node, visitedNodesInOrder, finish, grid)
 {
   console.log('explore');
-  if (node.row < 0 || node.row >= 20 || node.col < 0 || node.col >= 50 || node.visited === true || grid[node.row][node.col].isWall === true) {return;}
+  if (node.row < 0 || node.row >= 20 || node.col < 0 || node.col >= 50 || node.visited === true || node.isWall === true) {return;}
 
   node.visited = true;
   visitedNodesInOrder.push(node);
-  if (node === finish) {return visitedNodesInOrder;}
+  if (node === finish || node.isFinish === true) {return visitedNodesInOrder;}
   
   const neighbors = getAllNeighbors(node, grid);
   for (let neighbor of neighbors){
+    console.log(neighbor);
     exploreNeighbors(neighbor, visitedNodesInOrder, finish, grid);
     neighbor.previousNode = node;
   }
