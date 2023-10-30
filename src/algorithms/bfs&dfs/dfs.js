@@ -6,12 +6,11 @@ export function dfs(grid, start, finish) {
   let visitedNodesInOrder = [];
   const status = { finishFound: false };
   visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid, status);
-  console.log('end of exploration');
+  console.log(visitedNodesInOrder);
   return visitedNodesInOrder;
 }
 
 function exploreNeighbors(node, visitedNodesInOrder, finish, grid, status) {
-  console.log('explore');
   if (
     status.finishFound ||
     node.row < 0 ||
@@ -27,7 +26,7 @@ function exploreNeighbors(node, visitedNodesInOrder, finish, grid, status) {
   node.visited = true;
   visitedNodesInOrder.push(node);
 
-  if (node === finish || node.isFinish === true) {
+  if (node === finish) {
     status.finishFound = true;
     return visitedNodesInOrder;
   }
@@ -37,8 +36,6 @@ function exploreNeighbors(node, visitedNodesInOrder, finish, grid, status) {
     if (status.finishFound) {
       break;
     }
-
-    console.log(neighbor);
     visitedNodesInOrder = exploreNeighbors(neighbor, visitedNodesInOrder, finish, grid, status);
     neighbor.previousNode = node;
   }
