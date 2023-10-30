@@ -5,6 +5,10 @@ import { getAllNeighbors } from "../algHelpers/globalHelpers"; //returns array o
 export function bfs(grid, start, finish) {
   const queue = [];
   let visitedNodesInOrder = [];
+  let object = {
+    array: visitedNodesInOrder,
+    found: false,
+  };
   queue.push(start);
   while (queue.length !== 0){
     const node = queue.shift();
@@ -20,8 +24,11 @@ export function bfs(grid, start, finish) {
     node.visited = true;
   
     if(node === finish) {
-      console.log('found');
-      return visitedNodesInOrder;
+      object = {
+        array: visitedNodesInOrder,
+        found: true,
+      }
+      return object;
     }
 
     const neighbors = getAllNeighbors(node, grid);
@@ -32,4 +39,5 @@ export function bfs(grid, start, finish) {
       neighbor.distance = 0;
     }
   }
+  return object;
 }

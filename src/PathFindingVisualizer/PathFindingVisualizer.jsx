@@ -200,9 +200,11 @@ export default class PathFindingVisualizer extends Component {
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = bfs(grid, startNode, finishNode);
-    this.animateAlgorithm(visitedNodesInOrder);
-    const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
-    this.animateFinalPath(finalPath);
+    if (visitedNodesInOrder.found === true){
+      this.animateAlgorithm(visitedNodesInOrder.array);
+      const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
+      this.animateFinalPath(finalPath);
+    }
     pathFound = true;
   }
 
