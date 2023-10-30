@@ -26,16 +26,6 @@ export function dijkstra(grid, start, finish){
 }
 
 
-export function getFinalPath(finishNode){
-  let finalPath = [];
-  let node = finishNode;
-  while (node !== null){
-    finalPath.unshift(node);
-    node = node.previousNode;
-  }
-  return finalPath;
-}
-
 export function minHeapDijkstra(grid, start, finish){
   let minHeap = new MinHeap();
   const visitedNodesInOrder2 = [];

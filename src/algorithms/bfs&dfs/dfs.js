@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
-// import helper from '../dijkstras/helper'
+import { getAllNeighbors } from "../algHelpers/globalHelpers";
 
-//up right down left 
 export function dfs(grid, start, finish) {
   let visitedNodesInOrder = [];
   const status = { finishFound: false };
@@ -44,16 +43,3 @@ function exploreNeighbors(node, visitedNodesInOrder, finish, grid, status) {
 }
 
 
-
-function getAllNeighbors(node, grid,)
-{
-  const neighbors = [];
-  const {row, col} = node;
-
-  if (row > 0)  neighbors.push(grid[row-1][col]); //up
-  if (col < grid[0].length -1)  neighbors.push(grid[row][col+1]);//right
-  if (row < grid.length-1) neighbors.push(grid[row+1][col]); //down
-  if (col > 0)  neighbors.push(grid[row][col-1]); //left
-
-  return neighbors.filter((neighbor) => !neighbor.visited);
-}

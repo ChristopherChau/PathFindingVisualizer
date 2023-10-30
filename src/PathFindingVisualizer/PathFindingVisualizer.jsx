@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { dijkstra , minHeapDijkstra, getFinalPath} from '../algorithms/dijkstras/dijkstras';
+import { dijkstra , minHeapDijkstra} from '../algorithms/dijkstras/dijkstras';
+import { getFinalPath } from '../algorithms/algHelpers/globalHelpers';
 import {dfs} from '../algorithms/bfs&dfs/dfs';
 import Node from './Node/Node';
 import { testMain } from '../test';
@@ -125,7 +126,7 @@ export default class PathFindingVisualizer extends Component {
 // ------------------------------------------------------------------------------------------
 
 
-  animateDijkstras(visitedNodesInOrder) {
+  animateAlgorithm(visitedNodesInOrder) {
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
       let node = visitedNodesInOrder[i]; // Create a new variable for each iteration
       setTimeout(() => {
@@ -165,7 +166,7 @@ export default class PathFindingVisualizer extends Component {
 
     // const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
     const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
-    this.animateDijkstras(visitedNodesInOrder);
+    this.animateAlgorithm(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
     pathFound = true;
@@ -181,7 +182,7 @@ export default class PathFindingVisualizer extends Component {
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = dfs(grid, startNode, finishNode);
-    this.animateDijkstras(visitedNodesInOrder);
+    this.animateAlgorithm(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
     this.animateFinalPath(finalPath);
     pathFound = true;
