@@ -181,6 +181,9 @@ export default class PathFindingVisualizer extends Component {
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = dfs(grid, startNode, finishNode);
     this.animateDFS(visitedNodesInOrder);
+    const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
+    this.animateFinalDFSPath(finalPath);
+    pathFound = true;
   }
 
   // ------------------------------------------------------------------------------------------

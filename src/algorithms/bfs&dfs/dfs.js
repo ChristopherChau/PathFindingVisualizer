@@ -24,9 +24,8 @@ function exploreNeighbors(node, visitedNodesInOrder, finish, grid)
   const neighbors = getAllNeighbors(node, grid);
   for (let neighbor of neighbors){
     exploreNeighbors(neighbor, visitedNodesInOrder, finish, grid);
+    neighbor.previousNode = node;
   }
-
-
 }
 
 function getAllNeighbors(node, grid,)
