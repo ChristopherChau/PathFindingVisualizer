@@ -5,9 +5,9 @@
 
 export function dfs(grid, start, finish)
 {
-  const visitedNodesInOrder = [];
+  let visitedNodesInOrder = [];
   // let unvisitedNodes = helper.getAllNodes(grid);
-  exploreNeighbors(start, visitedNodesInOrder, finish, grid);
+  visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid);
   console.log(visitedNodesInOrder);
   return visitedNodesInOrder;
 }

@@ -156,7 +156,7 @@ export default class PathFindingVisualizer extends Component {
     }
     // let nodes = this.state.nodes; //state is not updatred ere even tho it is when we let go of mouse
     let nodes = grid;
-    console.log(nodes);
+    // console.log(nodes);
 
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
@@ -168,6 +168,19 @@ export default class PathFindingVisualizer extends Component {
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
     pathFound = true;
+  }
+
+  visualizeDFS(grid)
+  {
+    if (pathFound === true){
+      let newGrid = this.resetPath();
+      this.setState({ nodes: newGrid, resetPath: false });
+    }
+    let nodes = grid;
+    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
+    const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = dfs(grid, startNode, finishNode);
+    this.animateDFS(visitedNodesInOrder);
   }
 
   // ------------------------------------------------------------------------------------------
