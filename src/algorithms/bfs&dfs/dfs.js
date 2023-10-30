@@ -4,14 +4,16 @@
 //up right down left 
 export function dfs(grid, start, finish) {
   let visitedNodesInOrder = [];
-  let finishFound = false;
-  visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid, finishFound);
+  const status = { finishFound: false };
+  visitedNodesInOrder = exploreNeighbors(start, visitedNodesInOrder, finish, grid, status);
   console.log('end of exploration');
   return visitedNodesInOrder;
 }
 
-function exploreNeighbors(node, visitedNodesInOrder, finish, grid, finishFound) {
+function exploreNeighbors(node, visitedNodesInOrder, finish, grid, status) {
+  console.log('explore');
   if (
+    status.finishFound ||
     node.row < 0 ||
     node.row >= 20 ||
     node.col < 0 ||
@@ -24,36 +26,26 @@ function exploreNeighbors(node, visitedNodesInOrder, finish, grid, finishFound) 
 
   node.visited = true;
   visitedNodesInOrder.push(node);
-  
-  if (finishFound) {
+
+  if (node === finish || node.isFinish === true) {
+    status.finishFound = true;
     return visitedNodesInOrder;
   }
 
-  if (node === finish) {
-    console.log('FOUND IT');
-    finishFound = true;
-    return visitedNodesInOrder;
-  }
-
-  
   const neighbors = getAllNeighbors(node, grid);
   for (let neighbor of neighbors) {
-    if (finishFound) {
-      return visitedNodesInOrder;
+    if (status.finishFound) {
+      break;
     }
-    
-    // console.log(neighbor);
-    visitedNodesInOrder = exploreNeighbors(neighbor, visitedNodesInOrder, finish, grid, finishFound);
-    
-    if (finishFound) {
-      return visitedNodesInOrder;
-    }
-    
+
+    console.log(neighbor);
+    visitedNodesInOrder = exploreNeighbors(neighbor, visitedNodesInOrder, finish, grid, status);
     neighbor.previousNode = node;
   }
 
   return visitedNodesInOrder;
 }
+
 
 
 function getAllNeighbors(node, grid,)
