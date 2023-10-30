@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import { dijkstra , minHeapDijkstra, getFinalPath} from '../algorithms/dijkstras/dijkstras';
+import {dfs} from '../algorithms/bfs&dfs/dfs';
 import Node from './Node/Node';
 import { testMain } from '../test';
 import './styles/navBar.css';
@@ -132,7 +133,7 @@ export default class PathFindingVisualizer extends Component {
         let newNode = { ...node, isVisitedAgain: true };
         newGrid[node.row][node.col] = newNode;
         this.setState({ nodes: newGrid });
-      }, 50); // Increased delay for smoother animation
+      }, 60); // Increased delay for smoother animation
     }
   }
   
@@ -180,9 +181,9 @@ export default class PathFindingVisualizer extends Component {
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = dfs(grid, startNode, finishNode);
-    this.animateDFS(visitedNodesInOrder);
+    this.animateDijkstras(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same 
-    this.animateFinalDFSPath(finalPath);
+    this.animateFinalath(finalPath);
     pathFound = true;
   }
 
@@ -206,7 +207,7 @@ export default class PathFindingVisualizer extends Component {
               </div>
               
             </div>
-            <button className='visualizeButn' onClick={() => this.visualizeDijkstra(this.state.nodes)}>
+            <button className='visualizeButn' onClick={() => this.visualizeDFS(this.state.nodes)}>
               Visualize!
             </button>
             <button onClick={() => this.resetGrid()} className='regularButn'>
