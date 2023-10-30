@@ -6,11 +6,18 @@ export function bfs(grid, start, finish) {
   const queue = [];
   let visitedNodesInOrder = [];
   queue.push(start);
-  let count = 0;
   while (queue.length !== 0){
     const node = queue.shift();
+    if (  
+      node.row < 0 ||
+      node.row >= 20 ||
+      node.col < 0 ||
+      node.col >= 50 ||
+      node.visited ||
+      node.isWall || 
+      node.distance === Infinity) {continue;}
+      
     visitedNodesInOrder.push(node);
-    if (node.isWall || node.visited) {continue;}
     node.visited = true;
   
     if(node === finish) {
@@ -23,9 +30,8 @@ export function bfs(grid, start, finish) {
     {
       queue.push(neighbor);
       neighbor.previousNode = node;
+      neighbor.distance = 0;
     }
-    count++;
-    if (count === 2000) break;
   }
 
 }
