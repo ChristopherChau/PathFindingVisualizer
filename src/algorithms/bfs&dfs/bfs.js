@@ -17,8 +17,7 @@ export function bfs(grid, start, finish) {
       node.row >= 20 ||
       node.col < 0 ||
       node.col >= 50 ||
-      node.visited ||
-      node.isWall) {continue;}
+      node.visited) {continue;}
       
     visitedNodesInOrder.push(node);
     node.visited = true;

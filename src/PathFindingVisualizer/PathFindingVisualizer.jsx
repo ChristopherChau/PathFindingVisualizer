@@ -107,10 +107,7 @@ export default class PathFindingVisualizer extends Component {
   }
   
   handleMouseUp(){
-    console.log('just lifted mouse this is right after we lift mouse');
     this.setState({mouseIsPressed:false}); //as of over here too the new state does indeed have the walls
-    let newGrid = (this.state.nodes);
-    console.log(newGrid);
   }
   
   setMode(mode){
@@ -154,9 +151,7 @@ export default class PathFindingVisualizer extends Component {
       let newGrid = this.resetPath();
       this.setState({ nodes: newGrid, resetPath: false });
     }
-    // let nodes = this.state.nodes; //state is not updatred ere even tho it is when we let go of mouse
     let nodes = grid;
-    // console.log(nodes);
 
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
