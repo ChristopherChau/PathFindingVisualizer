@@ -27,11 +27,12 @@ export default class PathFindingVisualizer extends Component {
   
   constructor(props) {
     super(props);
+    const currentAlgorithm = localStorage.getItem('currentAlgorithm') || 'dijkstra';
     this.state = {
       nodes: [],
       mouseIsPressed: false,
       currentMode: 'wallMode',
-      currentAlg: 'dijkstra',
+      currentAlg: currentAlgorithm,
     };
   }
 
@@ -116,6 +117,8 @@ export default class PathFindingVisualizer extends Component {
   
   setCurrentAlgorithm(currAlg){
     this.setState({currentAlg : currAlg});
+    localStorage.setItem('currentAlgorithm', currAlg);
+    window.location.reload();
   }
 
 // ------------------------------------------------------------------------------------------
