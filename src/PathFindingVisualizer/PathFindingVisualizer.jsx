@@ -86,14 +86,6 @@ export default class PathFindingVisualizer extends Component {
     if (this.state.currentMode === 'weightMode'){
       newGrid = getNewGridWithWeight(this.state.nodes, row, col);
     }
-    // else if(this.state.currentMode === 'moveStartNode')
-    // {
-
-    // }
-    // else if(this.state.currentMode === 'moveFinishNode')
-    // {
-
-    // }
     else{
       newGrid = getNewGridWithWall(this.state.nodes, row, col);
     }
@@ -123,6 +115,10 @@ export default class PathFindingVisualizer extends Component {
   
   setMode(mode){
     this.setState({currentMode : mode});
+  }
+  
+  setCurrentAlgorithm(currAlg){
+    this.setState({currentAlg : currAlg});
   }
 
 // ------------------------------------------------------------------------------------------
@@ -220,9 +216,16 @@ export default class PathFindingVisualizer extends Component {
             <div className='dropdown'>
               <button className='dropButn regularButn'>Algorithms</button>
               <div className='dropdownContent'>
-                <button className='regularButn dijkstrasMenu'>Dijkstra's Algorithm</button>
-                <button className='regularButn dijkstrasMenu'>Breadth First Search</button>
-                <button className='regularButn dijkstrasMenu'>Depth First Search</button>
+                <button 
+                  className='regularButn dijkstrasMenu' 
+                  onClick={() => this.setCurrentAlgorithm('dijkstra')}
+                  >Dijkstra's Algorithm</button>
+                  <button className='regularButn dijkstrasMenu' 
+                  onClick={() => this.setCurrentAlgorithm('bfs')}
+                  >Breadth First Search</button>
+                  <button className='regularButn dijkstrasMenu'
+                  onClick={() => this.setCurrentAlgorithm('dfs')}
+                  >Depth First Search</button>
               </div>
               
             </div>
