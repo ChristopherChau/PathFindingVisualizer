@@ -72,7 +72,7 @@ export default class PathFindingVisualizer extends Component {
     reset = false;
   }
 
-  componentDidMount() { //this is a function that is automatically called 
+  componentDidMount() {
     this.resetGrid();
   }
 
@@ -101,14 +101,12 @@ export default class PathFindingVisualizer extends Component {
     }
     else{
       newGrid = getNewGridWithWall(this.state.nodes, row, col);
-      // console.log(newGrid);
     }
-    // console.log(newGrid);
-    this.setState({nodes : newGrid}); //according to the console.log, at this time once enter is done running, the new grid does have the updated walls
+    this.setState({nodes : newGrid}); 
   }
   
   handleMouseUp(){
-    this.setState({mouseIsPressed:false}); //as of over here too the new state does indeed have the walls
+    this.setState({mouseIsPressed:false}); 
   }
   
   setMode(mode){
@@ -230,8 +228,8 @@ export default class PathFindingVisualizer extends Component {
       <>
       <div className='container'>
         <div className='header'>
-          <div className='title'>Pathfinding Visualizer</div>
           <div className='buttonList'>
+          <div className='title'>Pathfinding Visualizer</div>
             <div className='dropdown'>
               <button className='dropButn regularButn'>Algorithms</button>
               <div className='dropdownContent'>
@@ -248,14 +246,14 @@ export default class PathFindingVisualizer extends Component {
               </div>
               
             </div>
-            <button className='visualizeButn' onClick={() => this.visualizeCurrAlg(this.state.nodes)}>
-              Visualize!
-            </button>
             <button onClick={() => this.resetGrid()} className='regularButn'>
               Reset Grid
             </button>
             <button onClick={() => this.resetWalls()}className='regularButn'>
               Clear Walls
+            </button>
+            <button className='visualizeButn' onClick={() => this.visualizeCurrAlg(this.state.nodes)}>
+              Visualize!
             </button>
             <button onClick={() => this.setMode('wallMode')}className='regularButn wallButn'>Wall Mode</button>
             <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
