@@ -84,6 +84,9 @@ export default class PathFindingVisualizer extends Component {
       this.resetPath();
     }  
     let newGrid;
+    if (this.state.currentAlg !== 'dijkstra'){
+      return; //preferably create a function that we can use to create a pop up of somesort saying this algorithm isn't weighted
+    }
     if (this.state.currentMode === 'weightMode'){
       newGrid = getNewGridWithWeight(this.state.nodes, row, col);
     }
