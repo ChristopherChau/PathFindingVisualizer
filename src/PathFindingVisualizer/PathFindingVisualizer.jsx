@@ -197,6 +197,27 @@ export default class PathFindingVisualizer extends Component {
     pathFound = true;
   }
 
+  visualizeCurrAlg(grid)
+  {
+    if (pathFound === true){
+      let newGrid = this.resetPath();
+      this.setState({ nodes: newGrid, resetPath: false });
+    }
+    if (this.state.currentAlg === 'dijkstra')
+    {
+      this.visualizeDijkstra(grid);
+    }
+    else if (this.state.currentAlg === 'bfs')
+    {
+      this.visualizeBFS(grid);
+    }
+    else if (this.state.currentAlg === 'dfs')
+    {
+      this.visualizeDFS(grid);
+    }
+
+  }
+
   // ------------------------------------------------------------------------------------------
 
   render() {
@@ -224,7 +245,7 @@ export default class PathFindingVisualizer extends Component {
               </div>
               
             </div>
-            <button className='visualizeButn' onClick={() => this.visualizeBFS(this.state.nodes)}>
+            <button className='visualizeButn' onClick={() => this.visualizeCurrAlg(this.state.nodes)}>
               Visualize!
             </button>
             <button onClick={() => this.resetGrid()} className='regularButn'>
