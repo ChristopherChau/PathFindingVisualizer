@@ -33,6 +33,7 @@ export default class PathFindingVisualizer extends Component {
       mouseIsPressed: false,
       currentMode: 'wallMode',
       currentAlg: currentAlgorithm,
+      intervalDelay : 60,
     };
   }
 
@@ -133,7 +134,7 @@ export default class PathFindingVisualizer extends Component {
         let newNode = { ...node, isVisitedAgain: true };
         newGrid[node.row][node.col] = newNode;
         this.setState({ nodes: newGrid });
-      }, 60); // Increased delay for smoother animation
+      }, 25); // Increased delay for smoother animation
     }
   }
   
@@ -146,7 +147,7 @@ export default class PathFindingVisualizer extends Component {
         let newNode = {...node, isFinal: true};
         newGrid[node.row][node.col] = newNode;
         this.setState({nodes: newGrid});
-      }, 75);
+      }, 25);
     }
   }
   
@@ -259,6 +260,23 @@ export default class PathFindingVisualizer extends Component {
             </button>
             <button onClick={() => this.setMode('wallMode')}className='regularButn wallButn'>Wall Mode</button>
             <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
+            <div className='dropdown'>
+              <button className='dropButn regularButn'>Speed</button>
+              <div className='dropdownContent'>
+                <button 
+                  className='regularButn dijkstrasMenu' 
+                  onClick={() => this.setState({ intervalDelay: 40 })}
+                  >Slow</button>
+                  <button className='regularButn dijkstrasMenu' 
+                  onClick={() => this.setState({ intervalDelay: 60 })}
+                  >Medium</button>
+                  <button className='regularButn dijkstrasMenu'
+                  onClick={() => this.setState({ intervalDelay: 100 })}
+                  >Fast</button>
+              </div>
+              
+            </div>
+
           </div>
         </div>
 
