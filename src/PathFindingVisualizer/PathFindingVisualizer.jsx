@@ -126,48 +126,56 @@ export default class PathFindingVisualizer extends Component {
 // ------------------------------------------------------------------------------------------
 
 
-  animateAlgorithm(visitedNodesInOrder) {
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-      let node = visitedNodesInOrder[i]; // Create a new variable for each iteration
-      setTimeout(() => {
-        const newGrid = this.state.nodes.slice();
-        let newNode = { ...node, isVisitedAgain: true };
-        newGrid[node.row][node.col] = newNode;
-        this.setState({ nodes: newGrid });
-      }, 25); // Increased delay for smoother animation
-    }
-  }
-  
-  animateFinalPath(finalPathNodes){
-    for (let i = 0; i < finalPathNodes.length; i++)
-    {
-      let node = finalPathNodes[i];
-      setTimeout( ()=> {
-        const newGrid = this.state.nodes.slice();
-        let newNode = {...node, isFinal: true};
-        newGrid[node.row][node.col] = newNode;
-        this.setState({nodes: newGrid});
-      }, 25);
-    }
-  }
-  
-  visualizeDijkstra(grid) {
-    if (pathFound === true){
-      let newGrid = this.resetPath();
-      this.setState({ nodes: newGrid, resetPath: false });
-    }
-    let nodes = grid;
+animateAlgorithm(visitedNodesInOrder) {
+  for (let i = 0; i < visitedNodesInOrder.length; i++) {
+    let node = visitedNodesInOrder[i];
+    setTimeout(() => {
+      const newGrid = this.state.nodes.slice();
+      let newNode = { ...node, isVisitedAgain: true };
+      newGrid[node.row][node.col] = newNode;
+      this.setState({ nodes: newGrid });
 
-    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
-    const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-    startNode.distance = 0;
+      // Check if it's the last iteration
+      if (i === visitedNodesInOrder.length - 1) {
+        // Call animateFinalPath after the last iteration
 
-    const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
-    this.animateAlgorithm(visitedNodesInOrder);
-    const finalPath = getFinalPath(finishNode);
-    this.animateFinalPath(finalPath);
-    pathFound = true;
+        const finishNode = this.state.nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
+        const finalPath = getFinalPath(finishNode);
+        this.animateFinalPath(finalPath);
+      }
+    }, 10 * i); // Increase the timeout for a slower animation
   }
+}
+
+animateFinalPath(finalPathNodes) {
+  for (let i = 0; i < finalPathNodes.length; i++) {
+    let node = finalPathNodes[i];
+    setTimeout(() => {
+      const newGrid = this.state.nodes.slice();
+      let newNode = { ...node, isFinal: true };
+      newGrid[node.row][node.col] = newNode;
+      this.setState({ nodes: newGrid });
+    }, 10 * i); // Increase the timeout for a slower animation
+  }
+}
+
+visualizeDijkstra(grid) {
+  if (pathFound === true) {
+    let newGrid = this.resetPath();
+    this.setState({ nodes: newGrid, resetPath: false });
+  }
+
+  let nodes = grid;
+
+  const startNode = nodes[START_NODE_ROW][START_NODE_COL];
+  const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
+  startNode.distance = 0;
+
+  const visitedNodesInOrder = minHeapDijkstra(nodes, startNode, finishNode);
+  this.animateAlgorithm(visitedNodesInOrder);
+  pathFound = true;
+}
+
 
   visualizeDFS(grid)
   {
