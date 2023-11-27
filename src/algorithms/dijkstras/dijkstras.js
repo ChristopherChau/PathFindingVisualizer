@@ -30,7 +30,7 @@ export function minHeapDijkstra(grid, start, finish){
   let minHeap = new MinHeap();
   const visitedNodesInOrder2 = [];
   start.distance = 0;
-  finish.distance = 10000;
+  // finish.distance = 10000;
   minHeap.push(start);
   minHeap.push(finish);
   let count = 0;
@@ -43,7 +43,11 @@ export function minHeapDijkstra(grid, start, finish){
     if (node.distance === Infinity) return visitedNodesInOrder2;
     node.visited = true;
     visitedNodesInOrder2.push(node);
-    if (node === finish) return visitedNodesInOrder2;
+    if (node === finish) 
+    {
+      console.log('found node')
+      return visitedNodesInOrder2;
+    }
     helpers.minHeapUpdateNeighbors(node, grid, minHeap);
     count++;
     if (count === 1000) break;
