@@ -33,7 +33,7 @@ export default class PathFindingVisualizer extends Component {
       mouseIsPressed: false,
       currentMode: 'wallMode',
       currentAlg: currentAlgorithm,
-      intervalDelay : 60,
+      intervalDelay : 12,
     };
   }
 
@@ -143,9 +143,12 @@ animateAlgorithm(visitedNodesInOrder) {
         const finalPath = getFinalPath(finishNode);
         this.animateFinalPath(finalPath);
       }
-    }, 10 * i); // Increase the timeout for a slower animation
+    }, this.state.intervalDelay * i); // Increase the timeout for a slower animation
   }
 }
+// slow is twenty
+// med is twelve
+// fast is three
 
 animateFinalPath(finalPathNodes) {
   for (let i = 0; i < finalPathNodes.length; i++) {
@@ -155,7 +158,7 @@ animateFinalPath(finalPathNodes) {
       let newNode = { ...node, isFinal: true };
       newGrid[node.row][node.col] = newNode;
       this.setState({ nodes: newGrid });
-    }, 10 * i); // Increase the timeout for a slower animation
+    }, this.state.intervalDelay * i); // Increase the timeout for a slower animation
   }
 }
 
@@ -273,13 +276,13 @@ visualizeDijkstra(grid) {
               <div className='dropdownContent'>
                 <button 
                   className='regularButn dijkstrasMenu' 
-                  onClick={() => this.setState({ intervalDelay: 40 })}
+                  onClick={() => this.setState({ intervalDelay: 20 })}
                   >Slow</button>
                   <button className='regularButn dijkstrasMenu' 
-                  onClick={() => this.setState({ intervalDelay: 60 })}
+                  onClick={() => this.setState({ intervalDelay: 12 })}
                   >Medium</button>
                   <button className='regularButn dijkstrasMenu'
-                  onClick={() => this.setState({ intervalDelay: 100 })}
+                  onClick={() => this.setState({ intervalDelay: 3 })}
                   >Fast</button>
               </div>
               
