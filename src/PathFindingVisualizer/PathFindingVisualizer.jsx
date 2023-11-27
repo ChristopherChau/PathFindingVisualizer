@@ -27,7 +27,7 @@ export default class PathFindingVisualizer extends Component {
   
   constructor(props) {
     super(props);
-    const currentAlgorithm = localStorage.getItem('currentAlgorithm') || 'dijkstra';
+    const currentAlgorithm = localStorage.getItem('currentAlgorithm') || "Dijkstra's";
     this.state = {
       nodes: [],
       mouseIsPressed: false,
@@ -84,7 +84,7 @@ export default class PathFindingVisualizer extends Component {
       this.resetPath();
     }  
     let newGrid;
-    if (this.state.currentAlg !== 'dijkstra'){
+    if (this.state.currentAlg !== "Dijkstra's"){
       return; //preferably create a function that we can use to create a pop up of somesort saying this algorithm isn't weighted
     }
     if (this.state.currentMode === 'weightMode'){
@@ -207,15 +207,15 @@ export default class PathFindingVisualizer extends Component {
       let newGrid = this.resetPath();
       this.setState({ nodes: newGrid, resetPath: false });
     }
-    if (this.state.currentAlg === 'dijkstra')
+    if (this.state.currentAlg === "Dijkstra's")
     {
       this.visualizeDijkstra(grid);
     }
-    else if (this.state.currentAlg === 'bfs')
+    else if (this.state.currentAlg === 'BFS')
     {
       this.visualizeBFS(grid);
     }
-    else if (this.state.currentAlg === 'dfs')
+    else if (this.state.currentAlg === 'DFS')
     {
       this.visualizeDFS(grid);
     }
@@ -238,13 +238,13 @@ export default class PathFindingVisualizer extends Component {
               <div className='dropdownContent'>
                 <button 
                   className='regularButn dijkstrasMenu' 
-                  onClick={() => this.setCurrentAlgorithm('dijkstra')}
+                  onClick={() => this.setCurrentAlgorithm("Dijkstra's")}
                   >Dijkstra's Algorithm</button>
                   <button className='regularButn dijkstrasMenu' 
-                  onClick={() => this.setCurrentAlgorithm('bfs')}
+                  onClick={() => this.setCurrentAlgorithm('BFS')}
                   >Breadth First Search</button>
                   <button className='regularButn dijkstrasMenu'
-                  onClick={() => this.setCurrentAlgorithm('dfs')}
+                  onClick={() => this.setCurrentAlgorithm('DFS')}
                   >Depth First Search</button>
               </div>
               
@@ -256,7 +256,7 @@ export default class PathFindingVisualizer extends Component {
               Clear Walls
             </button>
             <button className='visualizeButn' onClick={() => this.visualizeCurrAlg(this.state.nodes)}>
-              Visualize!
+              Visualize {this.state.currentAlg}!
             </button>
             <button onClick={() => this.setMode('wallMode')}className='regularButn wallButn'>Wall Mode</button>
             <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
