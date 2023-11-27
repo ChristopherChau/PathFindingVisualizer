@@ -161,12 +161,12 @@ export default class PathFindingVisualizer extends Component {
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
     startNode.distance = 0;
 
-    // const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
-    const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
-    this.animateAlgorithm(visitedNodesInOrder);
-    const finalPath = getFinalPath(finishNode);
-    this.animateFinalPath(finalPath);
-    pathFound = true;
+    const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
+    // const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
+    // this.animateAlgorithm(visitedNodesInOrder);
+    // const finalPath = getFinalPath(finishNode);
+    // this.animateFinalPath(finalPath);
+    // pathFound = true;
   }
 
   visualizeDFS(grid)

@@ -17,7 +17,7 @@ export function dijkstra(grid, start, finish){
     closestNode.visited = true;
     visitedNodesInOrder.push(closestNode);
     if (closestNode === finish) {
-      // console.log(grid);
+      console.log(visitedNodesInOrder);
       return visitedNodesInOrder;} //still want to return an array of the visited nodes in order
     helpers.updateUnvisitedNeighbors(closestNode, grid);
     closestNode.visited = true;
@@ -30,13 +30,14 @@ export function minHeapDijkstra(grid, start, finish){
   let minHeap = new MinHeap();
   const visitedNodesInOrder2 = [];
   start.distance = 0;
-  minHeap.add(start);
-  minHeap.add(finish);
+  finish.distance = 10000;
+  minHeap.push(start);
+  minHeap.push(finish);
   let count = 0;
   console.log(minHeap);
   while (minHeap.size() !== 0){
-    const node = minHeap.remove();
-    console.log(node);
+    const node = minHeap.pop();
+    // console.log(node);
     // console.log(node.distance);
     if (node.isWall) continue;
     if (node.distance === Infinity) return visitedNodesInOrder2;
@@ -45,21 +46,15 @@ export function minHeapDijkstra(grid, start, finish){
     if (node === finish) return visitedNodesInOrder2;
     helpers.minHeapUpdateNeighbors(node, grid, minHeap);
     count++;
-    if(count === 8) break;
+    if (count === 1000) break;
+
   }
-  // console.log('end of minheap dijkstra');
+  console.log('end of minheap dijkstra');
 }
 
 
 /*Features to add
 
-2. We should be able to add more walls on visited nodes even after it's done running 
-
 4. Add the ability to move start and finish node with mouse 
-
-
-use a global variable to check if we start node 
-
-if onmousedown, check the 
 
 */

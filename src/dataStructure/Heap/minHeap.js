@@ -1,101 +1,81 @@
 export class MinHeap {
-  constructor() {
-      this.heap = [];
-  }
-
-  // Helper Methods
-  getLeftChildIndex(parentIndex) {
-      return 2 * parentIndex + 1;
-  }
-  getRightChildIndex(parentIndex) {
-      return 2 * parentIndex + 2;
-  }
-  getParentIndex(childIndex) {
-      return Math.floor((childIndex - 1) / 2);
-  }
-  hasLeftChild(index) {
-      return this.getLeftChildIndex(index) < this.heap.length;
-  }
-  hasRightChild(index) {
-      return this.getRightChildIndex(index) < this.heap.length;
-  }
-  hasParent(index) {
-      return this.getParentIndex(index) >= 0;
-  }
-  leftChild(index) {
-      return this.heap[this.getLeftChildIndex(index)];
-  }
-  rightChild(index) {
-      return this.heap[this.getRightChildIndex(index)];
-  }
-  parent(index) {
-      return this.heap[this.getParentIndex(index)];
-  }
-
-  // Functions to create Min Heap
-   
-  swap(indexOne, indexTwo) {
-      const temp = this.heap[indexOne];
-      this.heap[indexOne] = this.heap[indexTwo];
-      this.heap[indexTwo] = temp;
-  }
-
-  peek() {
-      if (this.heap.length === 0) {
-          return null;
-      }
-      return this.heap[0];
-  }
-   
-  // Removing an element will remove the
-  // top element with highest priority then
-  // heapifyDown will be called
-  remove() {
-      if (this.heap.length === 0) {
-          return null;
-      }
-      const item = this.peek();
-      this.heap[0] = this.heap[this.heap.length - 1];
-      this.heap.pop();
-      this.heapifyDown();
-      return item;
-  }
-
-  add(item) {
-      this.heap.push(item);
-      this.heapifyUp();
-  }
-
-  heapifyUp() {
-    let index = this.heap.length - 1;
-    while (this.hasParent(index) && this.parent(index).distance >= this.heap[index].distance) {
-      this.swap(this.getParentIndex(index), index);
-      index = this.getParentIndex(index);
+    constructor() {
+        this.heap = [];
     }
-    // console.log(`The peek distance: ${this.peek().distance}`);
 
-  }
-  
+    push(value) {
+        this.heap.push(value);
+        this.heapifyUp();
+    }
 
-  heapifyDown() {
-      let index = 0;
-      while (this.hasLeftChild(index)) {
-          let smallerChildIndex = this.getLeftChildIndex(index);
-          if (this.hasRightChild(index) && this.rightChild(index).distance < this.leftChild(index).distance) {
-              smallerChildIndex = this.getRightChildIndex(index);
-          }
-          if (this.heap[index].distance < this.heap[smallerChildIndex].distance) {
-              break;
-          } else {
-              this.swap(index, smallerChildIndex);
-          }
-          index = smallerChildIndex;
-      }
-      // console.log(`The peek distance: ${this.peek().distance}`);
-  }
-  size(){
-    return this.heap.length;
-  }
-  
+    pop() {
+        if (this.isEmpty()) {
+            return null;
+        }
 
+        const root = this.heap[0];
+        const lastNode = this.heap.pop();
+
+        if (!this.isEmpty()) {
+            this.heap[0] = lastNode;
+            this.heapifyDown();
+        }
+
+        return root;
+    }
+
+    isEmpty() {
+        return this.heap.length === 0;
+    }
+
+    heapifyUp() {
+        let currentIndex = this.heap.length - 1;
+
+        while (currentIndex > 0) {
+            const parentIndex = Math.floor((currentIndex - 1) / 2);
+
+            if (this.heap[parentIndex].distance > this.heap[currentIndex].distance) {
+                this.swap(parentIndex, currentIndex);
+                currentIndex = parentIndex;
+            } else {
+                break;
+            }
+        }
+    }
+
+    heapifyDown() {
+        let currentIndex = 0;
+        const length = this.heap.length;
+
+        while (true) {
+            const leftChildIndex = 2 * currentIndex + 1;
+            const rightChildIndex = 2 * currentIndex + 2;
+            let smallestChildIndex = currentIndex;
+
+            if (leftChildIndex < length && this.heap[leftChildIndex].distance < this.heap[smallestChildIndex].distance) {
+                smallestChildIndex = leftChildIndex;
+            }
+
+            if (rightChildIndex < length && this.heap[rightChildIndex].distance < this.heap[smallestChildIndex].distance) {
+                smallestChildIndex = rightChildIndex;
+            }
+
+            if (currentIndex !== smallestChildIndex) {
+                this.swap(currentIndex, smallestChildIndex);
+                currentIndex = smallestChildIndex;
+            } else {
+                break;
+            }
+        }
+    }
+
+    swap(index1, index2) {
+        const temp = this.heap[index1];
+        this.heap[index1] = this.heap[index2];
+        this.heap[index2] = temp;
+    }
+    
+    size() {
+        return this.heap.length;
+    }
 }
