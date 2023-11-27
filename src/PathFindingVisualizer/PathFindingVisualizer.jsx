@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { dijkstra , minHeapDijkstra} from '../algorithms/dijkstras/dijkstras';
+import {minHeapDijkstra} from '../algorithms/dijkstras/dijkstras';
 import { getFinalPath } from '../algorithms/algHelpers/globalHelpers';
 import {dfs} from '../algorithms/bfs&dfs/dfs';
 import {bfs} from '../algorithms/bfs&dfs/bfs';
@@ -162,8 +162,6 @@ export default class PathFindingVisualizer extends Component {
     startNode.distance = 0;
 
     const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
-    console.log(visitedNodesInOrder)
-    // const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
     this.animateAlgorithm(visitedNodesInOrder);
     const finalPath = getFinalPath(finishNode);
     this.animateFinalPath(finalPath);
