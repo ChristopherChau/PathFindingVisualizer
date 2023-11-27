@@ -164,9 +164,9 @@ export default class PathFindingVisualizer extends Component {
     const visitedNodesInOrder = minHeapDijkstra(nodes,startNode,finishNode);
     console.log(visitedNodesInOrder)
     // const visitedNodesInOrder = dijkstra(nodes,startNode,finishNode);
-    // this.animateAlgorithm(visitedNodesInOrder);
-    // const finalPath = getFinalPath(finishNode);
-    // this.animateFinalPath(finalPath);
+    this.animateAlgorithm(visitedNodesInOrder);
+    const finalPath = getFinalPath(finishNode);
+    this.animateFinalPath(finalPath);
     pathFound = true;
   }
 

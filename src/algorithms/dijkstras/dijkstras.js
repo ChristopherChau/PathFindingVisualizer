@@ -30,29 +30,39 @@ export function minHeapDijkstra(grid, start, finish){
   let minHeap = new MinHeap();
   const visitedNodesInOrder2 = [];
   start.distance = 0;
-  // finish.distance = 10000;
+  finish.distance = Infinity; // Set finish distance to Infinity
   minHeap.push(start);
   minHeap.push(finish);
   let count = 0;
-  console.log(minHeap);
-  while (minHeap.size() !== 0){
-    const node = minHeap.pop();
-    // console.log(node);
-    // console.log(node.distance);
-    if (node.isWall) continue;
-    if (node.distance === Infinity) return visitedNodesInOrder2;
-    node.visited = true;
-    visitedNodesInOrder2.push(node);
-    if (node === finish) 
-    {
-      console.log('found node')
-      return visitedNodesInOrder2;
-    }
-    helpers.minHeapUpdateNeighbors(node, grid, minHeap);
-    count++;
-    if (count === 1000) break;
-
+  
+  while (minHeap.size() !== 0) {
+      const node = minHeap.pop();
+      
+      if (node.isWall || node.visited) {
+          // Skip walls and already visited nodes
+          continue;
+      }
+  
+      node.visited = true;
+      visitedNodesInOrder2.push(node);
+  
+      if (node === finish) {
+          console.log('found node');
+          return visitedNodesInOrder2;
+      }
+  
+      // Assuming minHeapUpdateNeighbors is a function that updates neighbors' distances
+      // based on the current node's distance and adds them to the minHeap
+      helpers.minHeapUpdateNeighbors(node, grid, minHeap);
+  
+      count++;
+  
+      if (count === 1000) {
+          console.log('reached max iterations');
+          break;
+      }
   }
+  
   console.log('end of minheap dijkstra');
 }
 
