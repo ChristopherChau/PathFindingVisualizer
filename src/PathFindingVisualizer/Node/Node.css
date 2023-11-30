@@ -1,9 +1,8 @@
 .node{
   width:30px;
   height:30px;
-  outline: 1px solid rgba(128, 128, 128, 0.712);
+  outline: 1px solid rgba(0, 0, 0, 0.712);
   background-color: white;
-  display: inline-block;
 }
 /*.node{
   width:30px;
