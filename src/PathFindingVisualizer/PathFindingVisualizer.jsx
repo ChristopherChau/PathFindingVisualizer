@@ -34,6 +34,7 @@ export default class PathFindingVisualizer extends Component {
       currentMode: 'wallMode',
       currentAlg: currentAlgorithm,
       intervalDelay : 12,
+      algorithmDone: false,
     };
   }
 
@@ -145,20 +146,21 @@ animateAlgorithm(visitedNodesInOrder) {
       }
     }, this.state.intervalDelay * i); // Increase the timeout for a slower animation
   }
+  this.setState({ algorithmDone: true});
 }
-// slow is twenty
-// med is twelve
-// fast is three
 
 animateFinalPath(finalPathNodes) {
-  for (let i = 0; i < finalPathNodes.length; i++) {
-    let node = finalPathNodes[i];
-    setTimeout(() => {
-      const newGrid = this.state.nodes.slice();
-      let newNode = { ...node, isFinal: true };
-      newGrid[node.row][node.col] = newNode;
-      this.setState({ nodes: newGrid });
-    }, this.state.intervalDelay * i); // Increase the timeout for a slower animation
+  if (this.state.algorithmDone === true){
+    for (let i = 0; i < finalPathNodes.length; i++) {
+      let node = finalPathNodes[i];
+      setTimeout(() => {
+        const newGrid = this.state.nodes.slice();
+        let newNode = { ...node, isFinal: true };
+        newGrid[node.row][node.col] = newNode;
+        this.setState({ nodes: newGrid });
+      }, this.state.intervalDelay * i); // Increase the timeout for a slower animation
+    }
+    this.setState({ algorithmDone: false});
   }
 }
 
@@ -323,4 +325,3 @@ visualizeDijkstra(grid) {
     );
   }
 }
-

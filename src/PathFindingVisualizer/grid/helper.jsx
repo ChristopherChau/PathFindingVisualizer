@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
-const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
+let FINISH_NODE_ROW = 10;
+let FINISH_NODE_COL = 35;
+let START_NODE_ROW = 10;
+let START_NODE_COL = 15;
 
 const initializeGrid = () => {
   const grid = [];

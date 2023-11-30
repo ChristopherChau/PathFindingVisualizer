@@ -1,9 +1,8 @@
 body{
   display:flex;
   flex-direction: column;
-  inset:0;
-  white-space: nowrap; /* Prevent line breaks */
-  overflow-x: auto;   /* Add horizontal scrolling when needed */
+  /* inset:0; */
+
 } 
 
 .App {
