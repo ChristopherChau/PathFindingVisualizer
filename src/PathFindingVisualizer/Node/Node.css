@@ -5,6 +5,13 @@
   background-color: white;
   display: inline-block;
 }
+/*.node{
+  width:30px;
+  height:30px;
+  outline: 1px solid rgba(128, 128, 128, 0.712);
+  background-color: white;
+}
+*/
 
 .nodeFinish{
   background-color: red;
@@ -32,4 +39,11 @@
 
 .nodeVisited.weightNode {
   background-color: rgb(50, 127, 169);
+}
+th {
+  /* Reset or override styles */
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  /* Add more styles as needed */
 }

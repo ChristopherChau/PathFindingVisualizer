@@ -1,8 +1,6 @@
 .grid {
-  margin-top: 45px;
-  margin-bottom: 20px;
-  white-space: nowrap; /* Prevent line breaks */
-  display: flex;
-  flex-wrap: wrap; /* Enable wrapping to the next line when the width is reduced */
-  border-collapse:collapse;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-collapse: collapse;
 }
+

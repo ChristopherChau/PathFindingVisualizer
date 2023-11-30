@@ -6,6 +6,7 @@ import { getFinalPath } from '../algorithms/algHelpers/globalHelpers';
 import {dfs} from '../algorithms/bfs&dfs/dfs';
 import {bfs} from '../algorithms/bfs&dfs/bfs';
 import Node from './Node/Node';
+import Grid from './components/Grid'
 import { testMain } from '../test';
 import './styles/navBar.css';
 import './styles/grid.css'
@@ -292,34 +293,42 @@ visualizeDijkstra(grid) {
 
           </div>
         </div>
-
-        <div className='grid'>
-          {nodes.map((row,rowIndex) => {
-            return <div key={rowIndex}>
-              {row.map((node, nodeIndex) => {
-                let {isStart, isFinish, visited, row, col, isVisitedAgain,isFinal, isWall, isWeight} = node;
-                return(
-                  <Node
-                    key={nodeIndex}
-                    col={col}
-                    row={row}
-                    isWall = {isWall}
-                    isStart = {isStart}
-                    isFinish = {isFinish}
-                    visited = {visited}
-                    isVisitedAgain = {isVisitedAgain}
-                    isFinal = {isFinal}
-                    isWeight = {isWeight}
-                    mouseIsPressed = {mouseIsPressed}
-                    onMouseDown={(row,col) => this.handleMouseDown(row,col)}
-                    onMouseEnter={(row,col) => this.handleMouseEnter(row,col)}
-                    onMouseUp={() => this.handleMouseUp()}
-                  ></Node>
-                )
-              })}
-            </div>
-          })}
-          </div>
+{/* 
+        <Grid
+			mouseIsPressed={mouseIsPressed}	
+			onMouseDown={this.handleMouseDown}
+        	onMouseEnter={this.handleMouseEnter}
+        	onMouseUp={this.handleMouseUp}
+		/> */}
+		<table className='grid'>
+			<tbody>
+				{nodes.map((row, rowIndex) => (
+				<tr key={rowIndex}>
+					{row.map((node, nodeIndex) => {
+					const { isStart, isFinish, visited, row, col, isVisitedAgain, isFinal, isWall, isWeight } = node;
+					return (
+						<Node
+						key={nodeIndex}
+						col={col}
+						row={row}
+						isWall = {isWall}
+						isStart = {isStart}
+						isFinish = {isFinish}
+						visited = {visited}
+						isVisitedAgain = {isVisitedAgain}
+						isFinal = {isFinal}
+						isWeight = {isWeight}
+						mouseIsPressed = {mouseIsPressed}
+						onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+  						onMouseEnter={(row, col) => this.handleMouseEnter(row, col)}
+  						onMouseUp={() => this.handleMouseUp()}
+					></Node>
+					);
+					})}
+				</tr>
+				))}
+			</tbody>
+			</table>
         </div>
       </>
     );

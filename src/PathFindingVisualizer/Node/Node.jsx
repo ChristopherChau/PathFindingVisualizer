@@ -37,12 +37,14 @@ export default class Node extends Component{
 
     return(
       <>
+      <th>
          <div 
               className={`node ${extraClassName}`}
               onMouseEnter={() => onMouseEnter(row,col)} //onMouseEnter will call the function we pass in as onMouseEnter and pass in col and row
               onMouseDown={() => onMouseDown(row,col)}
               onMouseUp={() => onMouseUp()}
          ></div>
+      </th>
        </>
     )
   }

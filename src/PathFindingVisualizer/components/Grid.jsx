@@ -37,28 +37,6 @@ const Grid = (props) => {
     };
   };
 
-  const getNewGridWithWall = (grid, row, col) => {
-    const newGrid = grid.slice();
-    const node = grid[row][col];
-    if (node.isWeight) {
-      node.isWeight = !node.isWeight;
-    }
-    const newNode = { ...node, isWall: !node.isWall };
-    newGrid[row][col] = newNode;
-    return newGrid;
-  }
-  
-  const getNewGridWithWeight = (grid, row, col) => {
-    const newGrid = grid.slice();
-    const node = grid[row][col];
-    if (node.isWall) {
-      node.isWall = !node.isWall;
-    }
-    const newNode = { ...node, isWeight: !node.isWeight };
-    newGrid[row][col] = newNode;
-    return newGrid;
-  }
-
   const grid = initializeGrid();
 
   return (
@@ -81,9 +59,9 @@ const Grid = (props) => {
                 isFinal = {isFinal}
                 isWeight = {isWeight}
                 mouseIsPressed = {props.mouseIsPressed}
-                onMouseDown={(row,col) => props.handleMouseDown(row,col)}
-                onMouseEnter={(row,col) => props.handleMouseEnter(row,col)}
-                onMouseUp={() => props.handleMouseUp()}
+                onMouseDown={() => props.onMouseDown(row, col)}
+                onMouseEnter={() => props.onMouseEnter(row, col)}
+                onMouseUp={props.onMouseUp()}
               ></Node>
               );
             })}
