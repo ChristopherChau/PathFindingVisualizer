@@ -245,11 +245,10 @@ visualizeDijkstra(grid) {
       <>
       <div className='container'>
         <div className='header'>
-          <div className='buttonList'>
           <div className='title'>Pathfinding Visualizer</div>
             <div className='dropdown'>
-              <button className='dropButn regularButn'>Algorithms </button>
-              <span class="caret"></span>
+              <button className='dropButn regularButn'>Algorithms <span className="caret"></span> </button>
+              
               <div className='dropdownContent'>
                 <button 
                   className='regularButn dijkstrasMenu' 
@@ -261,8 +260,8 @@ visualizeDijkstra(grid) {
                   <button className='regularButn dijkstrasMenu'
                   onClick={() => this.setCurrentAlgorithm('DFS')}
                   >Depth First Search</button>
-              </div>
               
+            </div>
             </div>
             <button onClick={() => this.resetGrid()} className='regularButn'>
               Reset Grid
@@ -276,9 +275,8 @@ visualizeDijkstra(grid) {
             <button onClick={() => this.setMode('wallMode')}className='regularButn wallButn'>Wall Mode</button>
             <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
             <div className='dropdown'>
-              <button className='dropButn regularButn'>Speed</button>
-              <span class="caret"></span>
-              <div className='dropdownContent'>
+              <button className='dropButn regularButn'>Speed <span class="caret"></span></button>
+              <div className='dropdownContent2'>
                 <button 
                   className='regularButn dijkstrasMenu' 
                   onClick={() => this.setState({ intervalDelay: 20 })}
@@ -291,7 +289,6 @@ visualizeDijkstra(grid) {
                   >Fast</button>
               </div>
               
-            </div>
 
           </div>
         </div>

@@ -3,7 +3,7 @@
 .header{
   display:flex;
   flex-direction: row;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   background-color: #34495e;
   width:100%;
@@ -17,20 +17,11 @@
   color:white;
   font-size:35px;
   font-weight: 700;
-
   padding-top:15px;
   margin-bottom:25px;
 }
 
-.visualizeButn{
-  font-weight: 700;
-  font-size:25px;
-  background-color: dodgerblue;
-  color:white;
-  border-radius:5px;
-  padding: 10px 15px 10px 15px;
-  cursor:pointer
-}
+
 .visualizeButn:active{
   background-color: rgb(23, 117, 211);
 }
@@ -41,7 +32,7 @@
   justify-content: space-between;
   align-items: center;
 } */
-.regularButn{
+.visualizeButn, .regularButn{
   font-size:20px;
   background-color: #34495e;
   color:white;
@@ -50,6 +41,10 @@
   border:none;
   cursor: pointer;
   margin-bottom: 15px;
+}
+.visualizeButn{
+  background-color: dodgerblue;
+  border-radius:5px;
 }
 .regularButn:hover{
   color: aquamarine;
@@ -61,26 +56,26 @@
   position:relative;
   display:inline-block;
 }
-.dropdownContent {
+.dropdownContent, .dropdownContent2{
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
+.dropdown:hover .dropdownContent, .dropdown:hover .dropdownContent2{
+  display:flex;
+  flex-direction: column;
+}
+
 .dijkstrasMenu{
-  background-color: #34495e;
+  background-color: red;
   margin-bottom: 0px;
 }
 
-.dropdown:hover .dropdownContent{
-  display:flex;
-  flex-direction: column;
-  background-color: #34495e;
-  cursor: pointer;
-}
+/* .dropdown:hover .dropdownContent{
+} */
 .caret{
   width: 20px; /* Set the width of the caret */
   height: 20px; /* Set the height of the caret */
