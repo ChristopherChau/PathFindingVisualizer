@@ -5,10 +5,12 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: rgb(22, 49, 94);
+  background-color: #34495e;
   width:100%;
   box-sizing: border-box;
   margin-bottom: 50px;
+  padding: 15px 21px;
+
 }
 
 .title{
@@ -33,28 +35,26 @@
   background-color: rgb(23, 117, 211);
 }
 
-
-.buttonList{
+/* .buttonList{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
+} */
 .regularButn{
-  font-size:25px;
-  background-color: transparent;
+  font-size:20px;
+  background-color: #34495e;
   color:white;
   font-weight: 700;
   padding: 10px 25px 10px 25px;
   border:none;
   cursor: pointer;
   margin-bottom: 15px;
-  margin-right:10px;
 }
 .regularButn:hover{
   color: aquamarine;
-  border: 1px solid white;
-  background-color: rgb(33, 71, 137);
+  /* border: 1px solid white; */
+
   border-radius: 5px;
 }
 .dropdown{
@@ -71,11 +71,21 @@
 }
 
 .dijkstrasMenu{
-  background-color: rgb(22, 49, 94);
+  background-color: #34495e;
   margin-bottom: 0px;
 }
 
 .dropdown:hover .dropdownContent{
   display:flex;
   flex-direction: column;
+  background-color: #34495e;
+  cursor: pointer;
+}
+.caret{
+  width: 20px; /* Set the width of the caret */
+  height: 20px; /* Set the height of the caret */
+  display: inline-block; /* Ensure the caret takes the size specified */
+  background: url('https://cdn1.iconfinder.com/data/icons/outline-17/16/caret-down-512.png') no-repeat center center;
+  background-size: cover; /* Adjust background size as needed */
+  cursor: pointer;
 }

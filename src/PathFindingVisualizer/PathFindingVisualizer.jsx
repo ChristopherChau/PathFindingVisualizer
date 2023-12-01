@@ -248,7 +248,8 @@ visualizeDijkstra(grid) {
           <div className='buttonList'>
           <div className='title'>Pathfinding Visualizer</div>
             <div className='dropdown'>
-              <button className='dropButn regularButn'>Algorithms</button>
+              <button className='dropButn regularButn'>Algorithms </button>
+              <span class="caret"></span>
               <div className='dropdownContent'>
                 <button 
                   className='regularButn dijkstrasMenu' 
@@ -276,6 +277,7 @@ visualizeDijkstra(grid) {
             <button onClick={() => this.setMode('weightMode')}className='regularButn weightButn'>Weight Mode</button>
             <div className='dropdown'>
               <button className='dropButn regularButn'>Speed</button>
+              <span class="caret"></span>
               <div className='dropdownContent'>
                 <button 
                   className='regularButn dijkstrasMenu' 
