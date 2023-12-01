@@ -44,13 +44,10 @@
 }
 .visualizeButn{
   background-color: dodgerblue;
-  border-radius:5px;
+  /* border-radius:5px; */
 }
 .regularButn:hover{
   color: aquamarine;
-  /* border: 1px solid white; */
-
-  border-radius: 5px;
 }
 .dropdown{
   position:relative;
@@ -70,9 +67,13 @@
 }
 
 .dijkstrasMenu{
-  background-color: red;
+  background-color: #34495e;
   margin-bottom: 0px;
 }
+.dijkstrasMenu:hover{
+    background-color: #1ec8a6;
+    color:white;
+  }
 
 /* .dropdown:hover .dropdownContent{
 } */
