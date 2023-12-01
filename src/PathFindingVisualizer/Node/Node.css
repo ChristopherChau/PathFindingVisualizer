@@ -4,8 +4,6 @@
   outline: 1px solid rgba(0, 0, 0, 0.712);
   background-color: white;
 }
-
-
 .nodeFinish{
   background-color: red;
 }
@@ -15,9 +13,6 @@
 }
 .nodeWall{
   background-color: rgb(90, 90, 93);
-}
-.finalNode{
-  background-color: rgb(246, 246, 44);
 }
 
 .weightNode {
@@ -33,17 +28,41 @@
 
 .nodeVisited {
     background-color: rgb(83, 195, 255);
-    animation: fillAnimation 0.5s ease-in-out;
+    animation-name: fillAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-delay: 0;
   }
-  
+  .finalNode{
+       /* border: 1px solid rgb(175, 216, 248); */
+    background-color: rgb(255, 254, 106);
+    animation-name: triangletwo;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-delay: 0;
+
+  }
 
   @keyframes fillAnimation {
     0% {
       transform: scale(0.1);
       opacity: 0.25;
     }
+
     100% {
       transform: scale(1);
       opacity: 1;
+    }
+  }
+  
+  @keyframes triangletwo{
+    0% {
+        transform: scale(.6);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1.0);
     }
   }
