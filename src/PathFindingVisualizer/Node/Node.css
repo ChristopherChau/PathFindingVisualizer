@@ -4,13 +4,7 @@
   outline: 1px solid rgba(0, 0, 0, 0.712);
   background-color: white;
 }
-/*.node{
-  width:30px;
-  height:30px;
-  outline: 1px solid rgba(128, 128, 128, 0.712);
-  background-color: white;
-}
-*/
+
 
 .nodeFinish{
   background-color: red;
@@ -19,11 +13,8 @@
 .nodeStart{
   background-color: green;
 }
-.nodeVisited{
-  background-color: rgb(83, 195, 255);
-}
 .nodeWall{
-  background-color: rgb(27, 27, 125);
+  background-color: rgb(90, 90, 93);
 }
 .finalNode{
   background-color: rgb(246, 246, 44);
@@ -39,10 +30,20 @@
 .nodeVisited.weightNode {
   background-color: rgb(50, 127, 169);
 }
-th {
-  /* Reset or override styles */
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  /* Add more styles as needed */
-}
+
+.nodeVisited {
+    background-color: rgb(83, 195, 255);
+    animation: fillAnimation 0.5s ease-in-out;
+  }
+  
+
+  @keyframes fillAnimation {
+    0% {
+      transform: scale(0.1);
+      opacity: 0.25;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
