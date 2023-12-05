@@ -22,7 +22,7 @@ export default class Node extends Component{
       onMouseEnter, 
       onMouseUp,
       isFinal,
-      isWeight
+      isWeight,
     } = this.props;
     
     let extraClassName = 
