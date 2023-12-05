@@ -358,6 +358,7 @@ export default class PathFindingVisualizer extends Component {
             </tbody>
           </table>
         </div>
+        <h1>Update css so that weighted nodes are still shown in final path</h1>
       </>
     );
   }
