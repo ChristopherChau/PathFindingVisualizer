@@ -23,7 +23,7 @@ const createNode = (row, col) => {
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
     distance: Infinity,
-    euclideanDist: Infinity,
+    euclideanDist: Infinity, //actually supposed to set this distance right away, do not keep it as inifnity. might have to include this somewhere else but it should be fine 
     visited: false,
     previousNode: null,
     isVisitedAgain: false,
