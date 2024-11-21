@@ -1,12 +1,10 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { minHeapDijkstra } from "../algorithms/greedy/dijkstras";
 import { getFinalPath } from "../algorithms/algHelpers/globalHelpers";
 import { dfs } from "../algorithms/bfs&dfs/dfs";
 import { bfs } from "../algorithms/bfs&dfs/bfs";
 import Node from "./Node/Node";
-import Grid from "./components/Grid";
+import Navbar from "./components/Navbar";
 import "./styles/navBar.css";
 import "./styles/grid.css";
 import {
@@ -15,42 +13,35 @@ import {
   START_NODE_ROW,
   START_NODE_COL,
   initializeGrid,
-  createNode,
   getNewGridWithWall,
   getNewGridWithWeight,
 } from "./grid/helper";
 
-let reset = false;
-let pathFound = false;
+const PathFindingVisualizer = () => {
+  const [nodes, setNodes] = useState([]);
+  const [mouseIsPressed, setMouseIsPressed] = useState(false);
+  const [currentMode, setCurrentMode] = useState("wallMode");
+  const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
+  const [intervalDelay, setIntervalDelay] = useState(12);
+  const [algorithmDone, setAlgorithmDone] = useState(false);
+  const [animationId, setAnimationId] = useState(null);
 
-export default class PathFindingVisualizer extends Component {
-  constructor(props) {
-    super(props);
-    const currentAlgorithm =
-      localStorage.getItem("currentAlgorithm") || "Dijkstra's";
-    this.state = {
-      nodes: [],
-      mouseIsPressed: false,
-      currentMode: "wallMode",
-      currentAlg: currentAlgorithm,
-      intervalDelay: 12,
-      algorithmDone: false,
-    };
-  }
 
-  // ------------------------------------------------------------------------------------------
-  resetWalls = () => {
-    const newGrid = this.state.nodes.slice();
+  let reset = false;
+  let pathFound = false;
+
+  const resetWalls = useCallback(() => {
+    const newGrid = nodes.slice();
     for (let row of newGrid) {
       for (let node of row) {
         node.isWall = false;
       }
     }
-    this.setState({ nodes: newGrid });
-  };
+    setNodes(newGrid);
+  }, [nodes]);
 
-  resetPath() {
-    const newGrid = this.state.nodes.slice();
+  const resetPath = useCallback(() => {
+    const newGrid = nodes.slice();
     for (let row of newGrid) {
       for (let node of row) {
         node.visited = false;
@@ -58,308 +49,154 @@ export default class PathFindingVisualizer extends Component {
         node.isFinal = false;
         node.distance = Infinity;
         node.previousNode = null;
-        if (node.isWall || node.isWeight) {
-          continue;
-        }
+        if (node.isWall || node.isWeight) continue;
       }
     }
-    this.setState({ nodes: newGrid });
+    setNodes(newGrid);
     return newGrid;
-  }
+  }, [nodes]);
 
-  resetGrid() {
+  const resetGrid = useCallback(() => {
     const grid = initializeGrid();
-    this.setState({ nodes: grid });
+    setNodes(grid);
     reset = false;
-  }
+  }, []);
 
-  componentDidMount() {
-    this.resetGrid();
-  }
+  useEffect(() => {
+    resetGrid();
+  }, [resetGrid]);
 
-  // ------------------------------------------------------------------------------------------
-
-  handleMouseDown(row, col) {
-    if (pathFound === true) {
+  const handleMouseDown = (row, col) => {
+    if (pathFound) {
       pathFound = false;
-      this.resetPath();
+      resetPath();
     }
     let newGrid;
-    if (this.state.currentAlg !== "Dijkstra's") {
-      return; //preferably create a function that we can use to create a pop up of somesort saying this algorithm isn't weighted
-    }
-    if (this.state.currentMode === "weightMode") {
-      newGrid = getNewGridWithWeight(this.state.nodes, row, col);
+    if (currentAlg !== "Dijkstra's") return;
+    if (currentMode === "weightMode") {
+      newGrid = getNewGridWithWeight(nodes, row, col);
     } else {
-      newGrid = getNewGridWithWall(this.state.nodes, row, col);
+      newGrid = getNewGridWithWall(nodes, row, col);
     }
-    this.setState({ nodes: newGrid, mouseIsPressed: true });
-  }
+    setNodes(newGrid);
+    setMouseIsPressed(true);
+  };
 
-  handleMouseEnter(row, col) {
-    if (!this.state.mouseIsPressed) return;
+  const handleMouseEnter = (row, col) => {
+    if (!mouseIsPressed) return;
     let newGrid;
-    if (this.state.currentMode === "weightMode") {
-      newGrid = getNewGridWithWeight(this.state.nodes, row, col);
+    if (currentMode === "weightMode") {
+      newGrid = getNewGridWithWeight(nodes, row, col);
     } else {
-      newGrid = getNewGridWithWall(this.state.nodes, row, col);
+      newGrid = getNewGridWithWall(nodes, row, col);
     }
-    this.setState({ nodes: newGrid });
-  }
+    setNodes(newGrid);
+  };
 
-  handleMouseUp() {
-    this.setState({ mouseIsPressed: false });
-  }
+  const handleMouseUp = () => setMouseIsPressed(false);
 
-  setMode(mode) {
-    this.setState({ currentMode: mode });
-  }
-
-  setCurrentAlgorithm(currAlg) {
-    this.setState({ currentAlg: currAlg });
-    localStorage.setItem("currentAlgorithm", currAlg);
-    window.location.reload();
-  }
-
-  // ------------------------------------------------------------------------------------------
-
-  animateAlgorithm(visitedNodesInOrder) {
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-      let node = visitedNodesInOrder[i];
-      setTimeout(() => {
-        const newGrid = this.state.nodes.slice();
-        let newNode = { ...node, isVisitedAgain: true };
-        newGrid[node.row][node.col] = newNode;
-        this.setState({ nodes: newGrid });
-
-        // Check if it's the last iteration
-        if (i === visitedNodesInOrder.length - 1) {
-          // Call animateFinalPath after the last iteration
-
-          const finishNode = this.state.nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-          const finalPath = getFinalPath(finishNode);
-          this.animateFinalPath(finalPath);
-        }
-      }, this.state.intervalDelay * i); // Increase the timeout for a slower animation
-    }
-    this.setState({ algorithmDone: true });
-  }
-
-  animateFinalPath(finalPathNodes) {
-    if (this.state.algorithmDone === true) {
-      for (let i = 0; i < finalPathNodes.length; i++) {
-        let node = finalPathNodes[i];
+  const animateAlgorithm = (visitedNodesInOrder) => {
+    return new Promise((resolve) => {
+      const id = setTimeout(() => {
+        visitedNodesInOrder.forEach((node, i) => {
+          setTimeout(() => {
+            if (reset) return; // Abort if reset is triggered
+            const newGrid = nodes.slice();
+            const newNode = { ...node, isVisitedAgain: true };
+            newGrid[node.row][node.col] = newNode;
+            setNodes(newGrid);
+            if (i === visitedNodesInOrder.length - 1) {
+              resolve(); // Resolve when animation finishes
+            }
+          }, intervalDelay * i);
+        });
+      }, 0);
+      setAnimationId(id);
+    });
+  };
+  
+  const animateFinalPath = async (finalPathNodes) => {
+    for (let i = 0; i < finalPathNodes.length; i++) {
+      if (reset) return; // Abort if reset is triggered
+      await new Promise((resolve) => {
         setTimeout(() => {
-          const newGrid = this.state.nodes.slice();
-          let newNode = { ...node, isFinal: true };
-          newGrid[node.row][node.col] = newNode;
-          this.setState({ nodes: newGrid });
-        }, this.state.intervalDelay * i); // Increase the timeout for a slower animation
-      }
-      this.setState({ algorithmDone: false });
+          const newGrid = nodes.slice();
+          const newNode = { ...finalPathNodes[i], isFinal: true };
+          newGrid[finalPathNodes[i].row][finalPathNodes[i].col] = newNode;
+          setNodes(newGrid);
+          resolve();
+        }, intervalDelay);
+      });
     }
-  }
+  };
+  
+  
 
-  visualizeDijkstra(grid) {
-    if (pathFound === true) {
-      let newGrid = this.resetPath();
-      this.setState({ nodes: newGrid, resetPath: false });
+  const visualizeCurrAlg = async () => {
+    // Abort ongoing animations
+    if (animationId) {
+      clearTimeout(animationId);
+      setAnimationId(null);
     }
-
-    let nodes = grid;
-
+    reset = true; // Trigger reset
+    await new Promise((resolve) => setTimeout(resolve, 100)); // Short delay to ensure reset completes
+    reset = false;
+  
+    resetPath(); // Reset the grid
+    let visitedNodesInOrder;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-    startNode.distance = 0;
-
-    const visitedNodesInOrder = minHeapDijkstra(nodes, startNode, finishNode);
-    this.animateAlgorithm(visitedNodesInOrder);
+  
+    if (currentAlg === "Dijkstra's") {
+      startNode.distance = 0;
+      visitedNodesInOrder = minHeapDijkstra(nodes, startNode, finishNode);
+    } else if (currentAlg === "BFS") {
+      visitedNodesInOrder = bfs(nodes, startNode, finishNode);
+    } else if (currentAlg === "DFS") {
+      visitedNodesInOrder = dfs(nodes, startNode, finishNode);
+    }
+  
+    await animateAlgorithm(visitedNodesInOrder);
+  
+    const finalPath = getFinalPath(nodes[FINISH_NODE_ROW][FINISH_NODE_COL]);
+    await animateFinalPath(finalPath);
+  
     pathFound = true;
-  }
+  };
+  
+  
 
-  visualizeDFS(grid) {
-    if (pathFound === true) {
-      let newGrid = this.resetPath();
-      this.setState({ nodes: newGrid, resetPath: false });
-    }
-    let nodes = grid;
-    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
-    const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = dfs(grid, startNode, finishNode);
-    this.animateAlgorithm(visitedNodesInOrder);
-    const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same
-    this.animateFinalPath(finalPath);
-    pathFound = true;
-  }
-
-  visualizeBFS(grid) {
-    if (pathFound === true) {
-      let newGrid = this.resetPath();
-      this.setState({ nodes: newGrid, resetPath: false });
-    }
-    let nodes = grid;
-    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
-    const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
-    this.animateAlgorithm(visitedNodesInOrder);
-    const finalPath = getFinalPath(finishNode); //this function is from dijkstras helper should be the same
-    this.animateFinalPath(finalPath);
-    pathFound = true;
-  }
-
-  visualizeCurrAlg(grid) {
-    if (pathFound === true) {
-      let newGrid = this.resetPath();
-      this.setState({ nodes: newGrid, resetPath: false });
-    }
-    if (this.state.currentAlg === "Dijkstra's") {
-      this.visualizeDijkstra(grid);
-    } else if (this.state.currentAlg === "BFS") {
-      this.visualizeBFS(grid);
-    } else if (this.state.currentAlg === "DFS") {
-      this.visualizeDFS(grid);
-    }
-  }
-
-  // ------------------------------------------------------------------------------------------
-
-  render() {
-    const { nodes, mouseIsPressed } = this.state;
-
-    return (
-      <>
-        <div className="container">
-          <div className="header">
-            <div className="title">Pathfinding Visualizer</div>
-            <div className="dropdown">
-              <button className="dropButn regularButn">
-                Algorithms <span className="caret"></span>{" "}
-              </button>
-
-              <div className="dropdownContent">
-                <button
-                  className="regularButn dijkstrasMenu"
-                  onClick={() => this.setCurrentAlgorithm("Dijkstra's")}
-                >
-                  Dijkstra's Algorithm
-                </button>
-                <button
-                  className="regularButn dijkstrasMenu"
-                  onClick={() => this.setCurrentAlgorithm("BFS")}
-                >
-                  Breadth First Search
-                </button>
-                <button
-                  className="regularButn dijkstrasMenu"
-                  onClick={() => this.setCurrentAlgorithm("DFS")}
-                >
-                  Depth First Search
-                </button>
-              </div>
-            </div>
-            <button onClick={() => this.resetGrid()} className="regularButn">
-              Reset Grid
-            </button>
-            <button onClick={() => this.resetWalls()} className="regularButn">
-              Clear Walls
-            </button>
-            <button
-              className="visualizeButn"
-              onClick={() => this.visualizeCurrAlg(this.state.nodes)}
-            >
-              Visualize {this.state.currentAlg}!
-            </button>
-            <button
-              onClick={() => this.setMode("wallMode")}
-              className="regularButn wallButn"
-            >
-              Wall Mode
-            </button>
-            <button
-              onClick={() => this.setMode("weightMode")}
-              className="regularButn weightButn"
-            >
-              Weight Mode
-            </button>
-            <div className="dropdown">
-              <button className="dropButn regularButn">
-                Speed <span class="caret"></span>
-              </button>
-              <div className="dropdownContent2">
-                <button
-                  className="regularButn dijkstrasMenu"
-                  onClick={() => this.setState({ intervalDelay: 20 })}
-                >
-                  Slow
-                </button>
-                <button
-                  className="regularButn dijkstrasMenu"
-                  onClick={() => this.setState({ intervalDelay: 12 })}
-                >
-                  Medium
-                </button>
-                <button
-                  className="regularButn dijkstrasMenu"
-                  onClick={() => this.setState({ intervalDelay: 3 })}
-                >
-                  Fast
-                </button>
-              </div>
-            </div>
-          </div>
-          {/* 
-        <Grid
-			mouseIsPressed={mouseIsPressed}	
-			onMouseDown={this.handleMouseDown}
-        	onMouseEnter={this.handleMouseEnter}
-        	onMouseUp={this.handleMouseUp}
-		/> */}
-          <table className="grid">
-            <tbody>
-              {nodes.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((node, nodeIndex) => {
-                    const {
-                      isStart,
-                      isFinish,
-                      visited,
-                      row,
-                      col,
-                      isVisitedAgain,
-                      isFinal,
-                      isWall,
-                      isWeight,
-                    } = node;
-                    return (
-                      <Node
-                        key={nodeIndex}
-                        col={col}
-                        row={row}
-                        isWall={isWall}
-                        isStart={isStart}
-                        isFinish={isFinish}
-                        visited={visited}
-                        isVisitedAgain={isVisitedAgain}
-                        isFinal={isFinal}
-                        isWeight={isWeight}
-                        mouseIsPressed={mouseIsPressed}
-                        onMouseDown={(row, col) =>
-                          this.handleMouseDown(row, col)
-                        }
-                        onMouseEnter={(row, col) =>
-                          this.handleMouseEnter(row, col)
-                        }
-                        onMouseUp={() => this.handleMouseUp()}
-                      ></Node>
-                    );
-                  })}
-                </tr>
+  return (
+    <div className="container">
+      <Navbar
+        currentAlg={currentAlg}
+        setCurrentAlgorithm={setCurrentAlg}
+        resetGrid={resetGrid}
+        resetWalls={resetWalls}
+        visualizeCurrAlg={() => visualizeCurrAlg(nodes)}
+        setMode={setCurrentMode}
+        setSpeed={setIntervalDelay}
+      />
+      <table className="grid">
+        <tbody>
+          {nodes.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((node, nodeIndex) => (
+                <Node
+                  key={nodeIndex}
+                  {...node}
+                  mouseIsPressed={mouseIsPressed}
+                  onMouseDown={() => handleMouseDown(node.row, node.col)}
+                  onMouseEnter={() => handleMouseEnter(node.row, node.col)}
+                  onMouseUp={handleMouseUp}
+                />
               ))}
-            </tbody>
-          </table>
-        </div>
-        <h1>Update css so that weighted nodes are still shown in final path</h1>
-      </>
-    );
-  }
-}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default PathFindingVisualizer;

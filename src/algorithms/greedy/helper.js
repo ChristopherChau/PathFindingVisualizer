@@ -29,16 +29,19 @@ function updateUnvisitedNeighbors(node, grid){
 }
 
 function minHeapUpdateNeighbors(node, grid, minHeap){
-  const unvisitedNeighbors = getAllNeighbors(node,grid);
-  for (let neighbor of unvisitedNeighbors){
-    neighbor.distance = node.distance + 1;
-    if (neighbor.isWeight){
-      neighbor.distance += 10;
+    const unvisitedNeighbors = getAllNeighbors(node, grid);
+    for (let neighbor of unvisitedNeighbors) {
+        const newDist = node.distance + 1 + (neighbor.isWeight ? 10 : 0);
+        
+        if (newDist < neighbor.distance) {
+            neighbor.distance = newDist;
+            neighbor.previousNode = node;
+            // Update the heap if necessary
+            minHeap.push(neighbor); // You may need to check whether the neighbor is already in the heap
+        }
     }
-    neighbor.previousNode = node;
-    minHeap.push(neighbor)
-  }
 }
+
 
 
 
