@@ -25,6 +25,7 @@ const PathFindingVisualizer = () => {
   const [intervalDelay, setIntervalDelay] = useState(12);
   const [algorithmDone, setAlgorithmDone] = useState(false);
   const [animationId, setAnimationId] = useState(null);
+  const [animationIds, setAnimationIds] = useState([]);
 
 
   let reset = false;
@@ -97,56 +98,59 @@ const PathFindingVisualizer = () => {
 
   const animateAlgorithm = (visitedNodesInOrder) => {
     return new Promise((resolve) => {
-      const id = setTimeout(() => {
-        visitedNodesInOrder.forEach((node, i) => {
-          setTimeout(() => {
-            if (reset) return; // Abort if reset is triggered
-            const newGrid = nodes.slice();
-            const newNode = { ...node, isVisitedAgain: true };
-            newGrid[node.row][node.col] = newNode;
-            setNodes(newGrid);
-            if (i === visitedNodesInOrder.length - 1) {
-              resolve(); // Resolve when animation finishes
-            }
-          }, intervalDelay * i);
-        });
-      }, 0);
-      setAnimationId(id);
+      const ids = [];
+      visitedNodesInOrder.forEach((node, i) => {
+        const id = setTimeout(() => {
+          if (reset) return; // Abort if reset is triggered
+          const newGrid = nodes.slice();
+          const newNode = { ...node, isVisitedAgain: true };
+          newGrid[node.row][node.col] = newNode;
+          setNodes(newGrid);
+          if (i === visitedNodesInOrder.length - 1) {
+            resolve(); // Resolve when animation finishes
+          }
+        }, intervalDelay * i);
+        ids.push(id);
+      });
+      setAnimationIds(ids);
     });
   };
   
   const animateFinalPath = async (finalPathNodes) => {
+    const ids = [];
     for (let i = 0; i < finalPathNodes.length; i++) {
       if (reset) return; // Abort if reset is triggered
       await new Promise((resolve) => {
-        setTimeout(() => {
+        const id = setTimeout(() => {
           const newGrid = nodes.slice();
           const newNode = { ...finalPathNodes[i], isFinal: true };
           newGrid[finalPathNodes[i].row][finalPathNodes[i].col] = newNode;
           setNodes(newGrid);
           resolve();
         }, intervalDelay);
+        ids.push(id);
       });
     }
+    setAnimationIds((prev) => [...prev, ...ids]);
   };
   
-  
+  const clearAnimations = useCallback(() => {
+    animationIds.forEach((id) => clearTimeout(id));
+    setAnimationIds([]);
+  }, [animationIds]);
 
   const visualizeCurrAlg = async () => {
-    // Abort ongoing animations
-    if (animationId) {
-      clearTimeout(animationId);
-      setAnimationId(null);
-    }
+    // Stop any ongoing animations
+    clearAnimations();
     reset = true; // Trigger reset
     await new Promise((resolve) => setTimeout(resolve, 100)); // Short delay to ensure reset completes
     reset = false;
-  
+
     resetPath(); // Reset the grid
     let visitedNodesInOrder;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-  
+
     if (currentAlg === "Dijkstra's") {
       startNode.distance = 0;
       visitedNodesInOrder = minHeapDijkstra(nodes, startNode, finishNode);
@@ -155,12 +159,12 @@ const PathFindingVisualizer = () => {
     } else if (currentAlg === "DFS") {
       visitedNodesInOrder = dfs(nodes, startNode, finishNode);
     }
-  
+
     await animateAlgorithm(visitedNodesInOrder);
-  
+
     const finalPath = getFinalPath(nodes[FINISH_NODE_ROW][FINISH_NODE_COL]);
     await animateFinalPath(finalPath);
-  
+
     pathFound = true;
   };
   
