@@ -27,7 +27,6 @@ const PathFindingVisualizer = () => {
   const [animationId, setAnimationId] = useState(null);
   const [animationIds, setAnimationIds] = useState([]);
 
-
   let reset = false;
   let pathFound = false;
 
@@ -40,7 +39,12 @@ const PathFindingVisualizer = () => {
     }
     setNodes(newGrid);
   }, [nodes]);
-
+  const resetButtonHandler = () => {
+    clearAnimations(); // Stop ongoing animations
+    resetGrid(); // Reset the entire grid
+    pathFound = false; // Reset path flag
+  };
+  
   const resetPath = useCallback(() => {
     const newGrid = nodes.slice();
     for (let row of newGrid) {
@@ -72,8 +76,11 @@ const PathFindingVisualizer = () => {
       pathFound = false;
       resetPath();
     }
+
+    const node = nodes[row][col];
+    if (node.isStart || node.isFinish) return; // Prevent modification
+
     let newGrid;
-    if (currentAlg !== "Dijkstra's") return;
     if (currentMode === "weightMode") {
       newGrid = getNewGridWithWeight(nodes, row, col);
     } else {
@@ -85,6 +92,10 @@ const PathFindingVisualizer = () => {
 
   const handleMouseEnter = (row, col) => {
     if (!mouseIsPressed) return;
+
+    const node = nodes[row][col];
+    if (node.isStart || node.isFinish) return; // Prevent modification
+
     let newGrid;
     if (currentMode === "weightMode") {
       newGrid = getNewGridWithWeight(nodes, row, col);
@@ -115,7 +126,7 @@ const PathFindingVisualizer = () => {
       setAnimationIds(ids);
     });
   };
-  
+
   const animateFinalPath = async (finalPathNodes) => {
     const ids = [];
     for (let i = 0; i < finalPathNodes.length; i++) {
@@ -133,7 +144,7 @@ const PathFindingVisualizer = () => {
     }
     setAnimationIds((prev) => [...prev, ...ids]);
   };
-  
+
   const clearAnimations = useCallback(() => {
     animationIds.forEach((id) => clearTimeout(id));
     setAnimationIds([]);
@@ -167,38 +178,45 @@ const PathFindingVisualizer = () => {
 
     pathFound = true;
   };
-  
-  
+
+  const handleGridClick = () => {
+    if (pathFound) {
+      resetPath(); // Resets all path-related nodes
+      pathFound = false; // Prevent multiple resets
+    }
+  };
 
   return (
     <div className="container">
       <Navbar
         currentAlg={currentAlg}
         setCurrentAlgorithm={setCurrentAlg}
-        resetGrid={resetGrid}
+        resetGrid={resetButtonHandler}
         resetWalls={resetWalls}
         visualizeCurrAlg={() => visualizeCurrAlg(nodes)}
         setMode={setCurrentMode}
         setSpeed={setIntervalDelay}
       />
-      <table className="grid">
-        <tbody>
-          {nodes.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row.map((node, nodeIndex) => (
-                <Node
-                  key={nodeIndex}
-                  {...node}
-                  mouseIsPressed={mouseIsPressed}
-                  onMouseDown={() => handleMouseDown(node.row, node.col)}
-                  onMouseEnter={() => handleMouseEnter(node.row, node.col)}
-                  onMouseUp={handleMouseUp}
-                />
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="grid-container" onClick={handleGridClick}>
+        <table className="grid">
+          <tbody>
+            {nodes.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((node, nodeIndex) => (
+                  <Node
+                    key={nodeIndex}
+                    {...node}
+                    mouseIsPressed={mouseIsPressed}
+                    onMouseDown={() => handleMouseDown(node.row, node.col)}
+                    onMouseEnter={() => handleMouseEnter(node.row, node.col)}
+                    onMouseUp={handleMouseUp}
+                  />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

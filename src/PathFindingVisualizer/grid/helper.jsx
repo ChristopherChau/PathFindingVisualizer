@@ -8,7 +8,7 @@ const initializeGrid = () => {
   const grid = [];
   for (let row = 0; row < 20; row++) {
     const currentRow = [];
-    for (let col = 0; col < 50; col++) {
+    for (let col = 0; col < 45; col++) {
       currentRow.push(createNode(row, col));
     }
     grid.push(currentRow);
@@ -34,15 +34,18 @@ const createNode = (row, col) => {
 }
 
 const getNewGridWithWall = (grid, row, col) => {
-  const newGrid = grid.slice();
-  const node = grid[row][col];
-  if (node.isWeight) {
-    node.isWeight = !node.isWeight;
-  }
-  const newNode = { ...node, isWall: !node.isWall };
-  newGrid[row][col] = newNode;
-  return newGrid;
-}
+    const newGrid = grid.slice();
+    const node = newGrid[row][col];
+    const newNode = {
+      ...node,
+      isWall: !node.isWall,
+      isVisitedAgain: false, // Clear visited status
+      isFinal: false,        // Clear final path status
+    };
+    newGrid[row][col] = newNode;
+    return newGrid;
+  };
+  
 
 const getNewGridWithWeight = (grid, row, col) => {
   const newGrid = grid.slice();

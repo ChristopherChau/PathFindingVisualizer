@@ -1,17 +1,17 @@
 
 
-.header{
-  display:flex;
-  flex-direction: row;
-  /* justify-content: center; */
-  align-items: center;
-  background-color: #34495e;
-  width:100%;
-  box-sizing: border-box;
-  margin-bottom: 50px;
-  padding: 15px 21px;
-
-}
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #34495e;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+    padding: 15px 21px;
+    overflow: hidden;
+  }
 
 .title{
   color:white;
@@ -26,12 +26,6 @@
   background-color: rgb(23, 117, 211);
 }
 
-/* .buttonList{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-} */
 .visualizeButn, .regularButn{
   font-size:20px;
   background-color: #34495e;
@@ -41,6 +35,7 @@
   border:none;
   cursor: pointer;
   margin-bottom: 15px;
+  border-radius: 0.5rem;
 }
 .visualizeButn{
   background-color: dodgerblue;
@@ -78,10 +73,10 @@
 /* .dropdown:hover .dropdownContent{
 } */
 .caret{
-  width: 20px; /* Set the width of the caret */
-  height: 20px; /* Set the height of the caret */
-  display: inline-block; /* Ensure the caret takes the size specified */
+  width: 20px; 
+  height: 20px;
+  display: inline-block; 
   background: url('https://cdn1.iconfinder.com/data/icons/outline-17/16/caret-down-512.png') no-repeat center center;
-  background-size: cover; /* Adjust background size as needed */
+  background-size: cover; 
   cursor: pointer;
 }
