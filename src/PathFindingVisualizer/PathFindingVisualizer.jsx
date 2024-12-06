@@ -24,8 +24,9 @@ const PathFindingVisualizer = () => {
   const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
   const [intervalDelay, setIntervalDelay] = useState(12);
   const [algorithmDone, setAlgorithmDone] = useState(false);
-  const [animationId, setAnimationId] = useState(null);
   const [animationIds, setAnimationIds] = useState([]);
+  const [isAnimating, setIsAnimating] = useState(false);
+
 
   let reset = false;
   let pathFound = false;
@@ -72,14 +73,15 @@ const PathFindingVisualizer = () => {
   }, [resetGrid]);
 
   const handleMouseDown = (row, col) => {
+    if (isAnimating) return; // Prevent interaction during animation
     if (pathFound) {
       pathFound = false;
       resetPath();
     }
-
+  
     const node = nodes[row][col];
     if (node.isStart || node.isFinish) return; // Prevent modification
-
+  
     let newGrid;
     if (currentMode === "weightMode") {
       newGrid = getNewGridWithWeight(nodes, row, col);
@@ -89,13 +91,12 @@ const PathFindingVisualizer = () => {
     setNodes(newGrid);
     setMouseIsPressed(true);
   };
-
+  
   const handleMouseEnter = (row, col) => {
-    if (!mouseIsPressed) return;
-
+    if (isAnimating || !mouseIsPressed) return; // Prevent interaction during animation
     const node = nodes[row][col];
-    if (node.isStart || node.isFinish) return; // Prevent modification
-
+    if (node.isStart || node.isFinish) return;
+  
     let newGrid;
     if (currentMode === "weightMode") {
       newGrid = getNewGridWithWeight(nodes, row, col);
@@ -104,9 +105,12 @@ const PathFindingVisualizer = () => {
     }
     setNodes(newGrid);
   };
-
-  const handleMouseUp = () => setMouseIsPressed(false);
-
+  
+  const handleMouseUp = () => {
+    if (isAnimating) return; // Prevent interaction during animation
+    setMouseIsPressed(false);
+  };
+  
   const animateAlgorithm = (visitedNodesInOrder) => {
     return new Promise((resolve) => {
       const ids = [];
@@ -151,17 +155,16 @@ const PathFindingVisualizer = () => {
   }, [animationIds]);
 
   const visualizeCurrAlg = async () => {
-    // Stop any ongoing animations
-    clearAnimations();
+    clearAnimations(); // Stop ongoing animations
     reset = true; // Trigger reset
     await new Promise((resolve) => setTimeout(resolve, 100)); // Short delay to ensure reset completes
     reset = false;
-
+  
     resetPath(); // Reset the grid
     let visitedNodesInOrder;
     const startNode = nodes[START_NODE_ROW][START_NODE_COL];
     const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
-
+  
     if (currentAlg === "Dijkstra's") {
       startNode.distance = 0;
       visitedNodesInOrder = minHeapDijkstra(nodes, startNode, finishNode);
@@ -170,14 +173,18 @@ const PathFindingVisualizer = () => {
     } else if (currentAlg === "DFS") {
       visitedNodesInOrder = dfs(nodes, startNode, finishNode);
     }
-
+  
+    setIsAnimating(true); // Disable grid interactions
+  
     await animateAlgorithm(visitedNodesInOrder);
-
+  
     const finalPath = getFinalPath(nodes[FINISH_NODE_ROW][FINISH_NODE_COL]);
     await animateFinalPath(finalPath);
-
+  
+    setIsAnimating(false); // Re-enable grid interactions
     pathFound = true;
   };
+  
 
   const handleGridClick = () => {
     if (pathFound) {
@@ -196,6 +203,7 @@ const PathFindingVisualizer = () => {
         visualizeCurrAlg={() => visualizeCurrAlg(nodes)}
         setMode={setCurrentMode}
         setSpeed={setIntervalDelay}
+        isDisabled={isAnimating} // Add this prop
       />
       <div className="grid-container" onClick={handleGridClick}>
         <table className="grid">

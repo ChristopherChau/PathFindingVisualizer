@@ -9,7 +9,15 @@ const Navbar = ({
   visualizeCurrAlg,
   setMode,
   setSpeed,
+  isDisabled,
 }) => {
+  const algorithms = ["Dijkstra's", "BFS", "DFS"];
+  const speeds = [
+    { label: "Slow", delay: 20 },
+    { label: "Medium", delay: 12 },
+    { label: "Fast", delay: 3 },
+  ];
+
   return (
     <div className="header">
       <div className="title">Pathfinding Visualizer</div>
@@ -20,24 +28,15 @@ const Navbar = ({
           Algorithms <span className="caret"></span>
         </button>
         <div className="dropdownContent">
-          <button
-            className="regularButn dijkstrasMenu"
-            onClick={() => setCurrentAlgorithm("Dijkstra's")}
-          >
-            Dijkstra's Algorithm
-          </button>
-          <button
-            className="regularButn dijkstrasMenu"
-            onClick={() => setCurrentAlgorithm("BFS")}
-          >
-            Breadth First Search
-          </button>
-          <button
-            className="regularButn dijkstrasMenu"
-            onClick={() => setCurrentAlgorithm("DFS")}
-          >
-            Depth First Search
-          </button>
+          {algorithms.map((alg) => (
+            <button
+              key={alg}
+              className="regularButn dijkstrasMenu"
+              onClick={() => setCurrentAlgorithm(alg)}
+            >
+              {alg}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -50,7 +49,8 @@ const Navbar = ({
       </button>
       <button
         className="visualizeButn"
-        onClick={() => visualizeCurrAlg()}
+        onClick={visualizeCurrAlg}
+        disabled={isDisabled}
       >
         Visualize {currentAlg}!
       </button>
@@ -73,24 +73,15 @@ const Navbar = ({
           Speed <span className="caret"></span>
         </button>
         <div className="dropdownContent2">
-          <button
-            className="regularButn dijkstrasMenu"
-            onClick={() => setSpeed(20)}
-          >
-            Slow
-          </button>
-          <button
-            className="regularButn dijkstrasMenu"
-            onClick={() => setSpeed(12)}
-          >
-            Medium
-          </button>
-          <button
-            className="regularButn dijkstrasMenu"
-            onClick={() => setSpeed(3)}
-          >
-            Fast
-          </button>
+          {speeds.map(({ label, delay }) => (
+            <button
+              key={label}
+              className="regularButn dijkstrasMenu"
+              onClick={() => setSpeed(delay)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
     </div>
