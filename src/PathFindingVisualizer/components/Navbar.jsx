@@ -71,6 +71,7 @@ const Navbar = ({
           Weight Mode
         </span>
       </button>
+
       {/* Speed Dropdown */}
       <div className="dropdown">
         <button className="dropButn regularButn">
