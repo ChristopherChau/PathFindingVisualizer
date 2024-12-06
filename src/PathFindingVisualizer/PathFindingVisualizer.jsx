@@ -22,7 +22,7 @@ const PathFindingVisualizer = () => {
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [currentMode, setCurrentMode] = useState("wallMode");
   const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
-  const [intervalDelay, setIntervalDelay] = useState(12);
+  const [intervalDelay, setIntervalDelay] = useState(10);
   const [algorithmDone, setAlgorithmDone] = useState(false);
   const [animationIds, setAnimationIds] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);

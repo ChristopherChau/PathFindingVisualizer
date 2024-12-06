@@ -1,4 +1,6 @@
-
+.crossed-out-text {
+    text-decoration: line-through;
+  }
 
 .header {
     display: flex;
@@ -20,7 +22,6 @@
   padding-top:15px;
   margin-bottom:25px;
 }
-
 
 .visualizeButn:active{
   background-color: rgb(23, 117, 211);

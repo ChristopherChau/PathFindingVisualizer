@@ -62,11 +62,15 @@ const Navbar = ({
       </button>
       <button
         onClick={() => setMode("weightMode")}
-        className="regularButn weightButn"
+        className={`regularButn weightButn ${
+          currentAlg !== "Dijkstra's" ? "disabled-button" : ""
+        }`}
+        disabled={currentAlg !== "Dijkstra's"}
       >
-        Weight Mode
+        <span className={currentAlg !== "Dijkstra's" ? "crossed-out-text" : ""}>
+          Weight Mode
+        </span>
       </button>
-
       {/* Speed Dropdown */}
       <div className="dropdown">
         <button className="dropButn regularButn">
