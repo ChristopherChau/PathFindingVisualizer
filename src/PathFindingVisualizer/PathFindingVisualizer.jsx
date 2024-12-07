@@ -8,11 +8,11 @@ import Navbar from "./components/Navbar";
 import "./styles/navBar.css";
 import "./styles/grid.css";
 import {
-  FINISH_NODE_ROW,
-  FINISH_NODE_COL,
-  START_NODE_ROW,
-  START_NODE_COL,
-  initializeGrid,
+  // FINISH_NODE_ROW,
+  // FINISH_NODE_COL,
+  // START_NODE_ROW,
+  // START_NODE_COL,
+  // initializeGrid,
   getNewGridWithWall,
   getNewGridWithWeight,
 } from "./grid/helper";
@@ -26,7 +26,41 @@ const PathFindingVisualizer = () => {
   const [algorithmDone, setAlgorithmDone] = useState(false);
   const [animationIds, setAnimationIds] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [draggingNode, setDraggingNode] = useState(null);
+  const [startNode, setStartNode] = useState({ row: 10, col: 15 });
+  const [finishNode, setFinishNode] = useState({ row: 10, col: 35 });
 
+  // let FINISH_NODE_ROW = 10;
+  // let FINISH_NODE_COL = 35;
+  // let START_NODE_ROW = 10;
+  // let START_NODE_COL = 15;
+
+  useEffect(() => {
+    initializeGrid();
+  }, []); // Empty dependency array ensures this runs only once
+  
+  const initializeGrid = () => {
+    return Array.from({ length: 20 }, (_, row) =>
+      Array.from({ length: 45 }, (_, col) =>
+        createNode(row, col)
+      )
+    );
+  };
+  
+
+  const createNode = (row, col) => {
+    return {
+      row,
+      col,
+      isStart: row === startNode.row && col === startNode.col,
+      isFinish: row === finishNode.row && col === finishNode.col,
+      distance: Infinity,
+      isVisited: false,
+      isWall: false,
+      previousNode: null,
+      weight: 1,
+    };
+  };
 
   let reset = false;
   let pathFound = false;
@@ -45,7 +79,7 @@ const PathFindingVisualizer = () => {
     resetGrid(); // Reset the entire grid
     pathFound = false; // Reset path flag
   };
-  
+
   const resetPath = useCallback(() => {
     const newGrid = nodes.slice();
     for (let row of newGrid) {
@@ -73,44 +107,71 @@ const PathFindingVisualizer = () => {
   }, [resetGrid]);
 
   const handleMouseDown = (row, col) => {
-    if (isAnimating) return; // Prevent interaction during animation
-    if (pathFound) {
-      pathFound = false;
-      resetPath();
-    }
-  
     const node = nodes[row][col];
-    if (node.isStart || node.isFinish) return; // Prevent modification
-  
-    let newGrid;
-    if (currentMode === "weightMode") {
-      newGrid = getNewGridWithWeight(nodes, row, col);
+    if (node.isStart || node.isFinish) {
+      setDraggingNode(node.isStart ? "start" : "finish");
     } else {
-      newGrid = getNewGridWithWall(nodes, row, col);
+      let newGrid;
+      if (currentMode === "weightMode") {
+        newGrid = getNewGridWithWeight(nodes, row, col);
+      } else {
+        newGrid = getNewGridWithWall(nodes, row, col);
+      }
+      setNodes(newGrid);
     }
-    setNodes(newGrid);
     setMouseIsPressed(true);
   };
-  
-  const handleMouseEnter = (row, col) => {
-    if (isAnimating || !mouseIsPressed) return; // Prevent interaction during animation
+
+  const handleMouseMove = (row, col) => {
+    if (!mouseIsPressed) return;
+
     const node = nodes[row][col];
-    if (node.isStart || node.isFinish) return;
-  
-    let newGrid;
-    if (currentMode === "weightMode") {
-      newGrid = getNewGridWithWeight(nodes, row, col);
+    if (draggingNode) {
+      if (node.isStart || node.isFinish) return;
+
+      const newGrid = nodes.map((r) =>
+        r.map((node) => ({
+          ...node,
+          isStart: draggingNode === "start" ? false : node.isStart,
+          isFinish: draggingNode === "finish" ? false : node.isFinish,
+        }))
+      );
+
+      newGrid[row][col] = {
+        ...newGrid[row][col],
+        isStart: draggingNode === "start",
+        isFinish: draggingNode === "finish",
+      };
+
+      setNodes(newGrid);
+
+      if (draggingNode === "start") {
+        setStartNode({ row, col });
+      } else if (draggingNode === "finish") {
+        setFinishNode({ row, col });
+      }
     } else {
-      newGrid = getNewGridWithWall(nodes, row, col);
+      if (node.isStart || node.isFinish) return;
+      let newGrid;
+      if (currentMode === "weightMode") {
+        newGrid = getNewGridWithWeight(nodes, row, col);
+      } else {
+        newGrid = getNewGridWithWall(nodes, row, col);
+      }
+      setNodes(newGrid);
     }
-    setNodes(newGrid);
   };
-  
+
+  const handleMouseEnter = (row, col) => {
+    if (!mouseIsPressed) return;
+    handleMouseMove(row, col);
+  };
+
   const handleMouseUp = () => {
-    if (isAnimating) return; // Prevent interaction during animation
     setMouseIsPressed(false);
+    setDraggingNode(null);
   };
-  
+
   const animateAlgorithm = (visitedNodesInOrder) => {
     return new Promise((resolve) => {
       const ids = [];
@@ -161,30 +222,36 @@ const PathFindingVisualizer = () => {
     reset = false;
   
     resetPath(); // Reset the grid
+  
+    // Ensure nodes are properly initialized
+    if (!nodes || nodes.length === 0) {
+      console.error("Nodes are not initialized");
+      return;
+    }
+  
     let visitedNodesInOrder;
-    const startNode = nodes[START_NODE_ROW][START_NODE_COL];
-    const finishNode = nodes[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const startNodeObj = nodes[startNode.row][startNode.col];
+    const finishNodeObj = nodes[finishNode.row][finishNode.col];
   
     if (currentAlg === "Dijkstra's") {
-      startNode.distance = 0;
-      visitedNodesInOrder = minHeapDijkstra(nodes, startNode, finishNode);
+      startNodeObj.distance = 0;
+      visitedNodesInOrder = minHeapDijkstra(nodes, startNodeObj, finishNodeObj);
     } else if (currentAlg === "BFS") {
-      visitedNodesInOrder = bfs(nodes, startNode, finishNode);
+      visitedNodesInOrder = bfs(nodes, startNodeObj, finishNodeObj);
     } else if (currentAlg === "DFS") {
-      visitedNodesInOrder = dfs(nodes, startNode, finishNode);
+      visitedNodesInOrder = dfs(nodes, startNodeObj, finishNodeObj);
     }
   
     setIsAnimating(true); // Disable grid interactions
   
     await animateAlgorithm(visitedNodesInOrder);
   
-    const finalPath = getFinalPath(nodes[FINISH_NODE_ROW][FINISH_NODE_COL]);
+    const finalPath = getFinalPath(nodes[finishNode.row][finishNode.col]);
     await animateFinalPath(finalPath);
   
     setIsAnimating(false); // Re-enable grid interactions
     pathFound = true;
   };
-  
 
   const handleGridClick = () => {
     if (pathFound) {
@@ -205,25 +272,22 @@ const PathFindingVisualizer = () => {
         setSpeed={setIntervalDelay}
         isDisabled={isAnimating} // Add this prop
       />
-      <div className="grid-container" onClick={handleGridClick}>
-        <table className="grid">
-          <tbody>
-            {nodes.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((node, nodeIndex) => (
-                  <Node
-                    key={nodeIndex}
-                    {...node}
-                    mouseIsPressed={mouseIsPressed}
-                    onMouseDown={() => handleMouseDown(node.row, node.col)}
-                    onMouseEnter={() => handleMouseEnter(node.row, node.col)}
-                    onMouseUp={handleMouseUp}
-                  />
-                ))}
-              </tr>
+      <div className="grid" onClick={handleGridClick}>
+        {nodes?.map((row, rowIndex) => (
+          <div key={rowIndex}>
+            {row.map((node, nodeIndex) => (
+              <Node
+                key={`${node.row}-${node.col}`}
+                {...node}
+                mouseIsPressed={mouseIsPressed}
+                onMouseDown={() => handleMouseDown(node.row, node.col)}
+                onMouseEnter={() => handleMouseEnter(node.row, node.col)}
+                onMouseUp={handleMouseUp}
+                onMouseMove={() => handleMouseMove(node.row, node.col)} // Add this line
+              />
             ))}
-          </tbody>
-        </table>
+          </div>
+        ))}
       </div>
     </div>
   );

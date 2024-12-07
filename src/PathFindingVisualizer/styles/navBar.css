@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: flex-start;
     background-color: #34495e;
-    width: 100%;
+    width: 100vw;
     box-sizing: border-box;
     padding: 10px 15px;
     position: relative; /* Ensures dropdowns are positioned correctly */

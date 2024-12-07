@@ -3,12 +3,6 @@
     gap: 1px; /* Space between nodes */
     width: 100%; /* Adjust to the container's width */
     height: 100%; /* Adjust to the container's height */
+    margin: 1.6rem;
   }
   
-
-.grid-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
