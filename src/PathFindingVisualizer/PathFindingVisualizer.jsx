@@ -5,6 +5,7 @@ import { dfs } from "../algorithms/bfs&dfs/dfs";
 import { bfs } from "../algorithms/bfs&dfs/bfs";
 import Node from "./Node/Node";
 import Navbar from "./components/Navbar";
+import Legend from "./components/Legend";
 import "./styles/navBar.css";
 import "./styles/grid.css";
 import {
@@ -23,7 +24,6 @@ const PathFindingVisualizer = () => {
   const [currentMode, setCurrentMode] = useState("wallMode");
   const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
   const [intervalDelay, setIntervalDelay] = useState(2);
-  const [algorithmDone, setAlgorithmDone] = useState(false);
   const [animationIds, setAnimationIds] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [draggingNode, setDraggingNode] = useState(null);
@@ -272,6 +272,7 @@ const PathFindingVisualizer = () => {
         setSpeed={setIntervalDelay}
         isDisabled={isAnimating} // Add this prop
       />
+      <Legend/>
       <div className="grid" onClick={handleGridClick}>
         {nodes?.map((row, rowIndex) => (
           <div key={rowIndex}>

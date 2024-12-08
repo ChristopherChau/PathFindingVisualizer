@@ -1,0 +1,47 @@
+.legend-container {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .legend-icon {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .legend-box {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    background-color: transparent;
+  }
+  
+  .unvisited-node {
+    background-color: white;
+  }
+  
+  .visited-node {
+    background-color: teal;
+  }
+  
+  .shortest-path-node {
+    background-color: yellow;
+  }
+  
+  .wall-node {
+    background-color: gray;
+  }
+  
+  .legend-label {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
