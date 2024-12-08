@@ -35,25 +35,73 @@ const PathFindingVisualizer = () => {
   // let START_NODE_ROW = 10;
   // let START_NODE_COL = 15;
 
+  const clampPosition = (pos, max) => Math.min(pos, max - 1);
+
+  const NODE_WIDTH = 28; // width of each node in pixels
+  const NODE_HEIGHT = 28; // height of each node in pixels
+
+  const calculateDimensions = () => {
+    const rows = Math.floor(window.innerHeight / NODE_HEIGHT);
+    const cols = Math.floor(window.innerWidth / NODE_WIDTH);
+    return { rows, cols };
+  };
+
+  const initializeGrid = () => {
+    const { rows, cols } = calculateDimensions();
+    const grid = Array.from({ length: rows }, (_, row) =>
+      Array.from({ length: cols }, (_, col) =>
+        createNode(row, col, startNode, finishNode)
+      )
+    );
+    setNodes(grid);
+  };
+
   useEffect(() => {
     initializeGrid();
   }, []); // Empty dependency array ensures this runs only once
-  
-  const initializeGrid = () => {
-    return Array.from({ length: 20 }, (_, row) =>
-      Array.from({ length: 45 }, (_, col) =>
-        createNode(row, col)
+
+  const resetGrid = useCallback(() => {
+    const { rows, cols } = calculateDimensions();
+
+    // Adjust start and finish nodes to stay within bounds
+    const updatedStartNode = {
+      ...startNode,
+      row: clampPosition(startNode.row, rows),
+      col: clampPosition(startNode.col, cols),
+    };
+    const updatedFinishNode = {
+      ...finishNode,
+      row: clampPosition(finishNode.row, rows),
+      col: clampPosition(finishNode.col, cols),
+    };
+
+    setStartNode(updatedStartNode);
+    setFinishNode(updatedFinishNode);
+
+    // Initialize grid with updated dimensions
+    const grid = Array.from({ length: rows }, (_, row) =>
+      Array.from({ length: cols }, (_, col) =>
+        createNode(row, col, updatedStartNode, updatedFinishNode)
       )
     );
-  };
-  
+    setNodes(grid);
+  }, [startNode, finishNode]);
 
-  const createNode = (row, col) => {
+  useEffect(() => {
+    const handleResize = () => {
+      resetGrid(); // Automatically adjusts start/finish node positions
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [resetGrid]);
+
+  const createNode = (row, col, updatedStartNode, updatedFinishNode) => {
     return {
       row,
       col,
-      isStart: row === startNode.row && col === startNode.col,
-      isFinish: row === finishNode.row && col === finishNode.col,
+      isStart: row === updatedStartNode.row && col === updatedStartNode.col,
+      isFinish: row === updatedFinishNode.row && col === updatedFinishNode.col,
       distance: Infinity,
       isVisited: false,
       isWall: false,
@@ -95,16 +143,6 @@ const PathFindingVisualizer = () => {
     setNodes(newGrid);
     return newGrid;
   }, [nodes]);
-
-  const resetGrid = useCallback(() => {
-    const grid = initializeGrid();
-    setNodes(grid);
-    reset = false;
-  }, []);
-
-  useEffect(() => {
-    resetGrid();
-  }, [resetGrid]);
 
   const handleMouseDown = (row, col) => {
     const node = nodes[row][col];
@@ -220,19 +258,19 @@ const PathFindingVisualizer = () => {
     reset = true; // Trigger reset
     await new Promise((resolve) => setTimeout(resolve, 100)); // Short delay to ensure reset completes
     reset = false;
-  
+
     resetPath(); // Reset the grid
-  
+
     // Ensure nodes are properly initialized
     if (!nodes || nodes.length === 0) {
       console.error("Nodes are not initialized");
       return;
     }
-  
+
     let visitedNodesInOrder;
     const startNodeObj = nodes[startNode.row][startNode.col];
     const finishNodeObj = nodes[finishNode.row][finishNode.col];
-  
+
     if (currentAlg === "Dijkstra's") {
       startNodeObj.distance = 0;
       visitedNodesInOrder = minHeapDijkstra(nodes, startNodeObj, finishNodeObj);
@@ -241,14 +279,14 @@ const PathFindingVisualizer = () => {
     } else if (currentAlg === "DFS") {
       visitedNodesInOrder = dfs(nodes, startNodeObj, finishNodeObj);
     }
-  
+
     setIsAnimating(true); // Disable grid interactions
-  
+
     await animateAlgorithm(visitedNodesInOrder);
-  
+
     const finalPath = getFinalPath(nodes[finishNode.row][finishNode.col]);
     await animateFinalPath(finalPath);
-  
+
     setIsAnimating(false); // Re-enable grid interactions
     pathFound = true;
   };
@@ -272,7 +310,7 @@ const PathFindingVisualizer = () => {
         setSpeed={setIntervalDelay}
         isDisabled={isAnimating} // Add this prop
       />
-      <Legend/>
+      <Legend />
       <div className="grid" onClick={handleGridClick}>
         {nodes?.map((row, rowIndex) => (
           <div key={rowIndex}>
