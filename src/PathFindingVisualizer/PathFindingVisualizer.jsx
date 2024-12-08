@@ -40,13 +40,15 @@ const PathFindingVisualizer = () => {
   const NODE_WIDTH = 28; // width of each node in pixels
   const NODE_HEIGHT = 28; // height of each node in pixels
 
-  const calculateDimensions = () => {
-    const rows = Math.floor(window.innerHeight / NODE_HEIGHT);
-    const cols = Math.floor(window.innerWidth / NODE_WIDTH);
-    return { rows, cols };
-  };
+  const MAX_ROWS = 25; // Maximum number of rows
 
-  const initializeGrid = () => {
+const calculateDimensions = () => {
+  const rows = Math.min(Math.floor(window.innerHeight / NODE_HEIGHT), MAX_ROWS);
+  const cols = Math.floor(window.innerWidth / NODE_WIDTH);
+  return { rows, cols };
+};
+
+const initializeGrid = () => {
     const { rows, cols } = calculateDimensions();
     const grid = Array.from({ length: rows }, (_, row) =>
       Array.from({ length: cols }, (_, col) =>
@@ -55,14 +57,14 @@ const PathFindingVisualizer = () => {
     );
     setNodes(grid);
   };
-
+  
   useEffect(() => {
     initializeGrid();
   }, []); // Empty dependency array ensures this runs only once
-
+  
   const resetGrid = useCallback(() => {
     const { rows, cols } = calculateDimensions();
-
+  
     // Adjust start and finish nodes to stay within bounds
     const updatedStartNode = {
       ...startNode,
@@ -74,10 +76,10 @@ const PathFindingVisualizer = () => {
       row: clampPosition(finishNode.row, rows),
       col: clampPosition(finishNode.col, cols),
     };
-
+  
     setStartNode(updatedStartNode);
     setFinishNode(updatedFinishNode);
-
+  
     // Initialize grid with updated dimensions
     const grid = Array.from({ length: rows }, (_, row) =>
       Array.from({ length: cols }, (_, col) =>
@@ -86,12 +88,12 @@ const PathFindingVisualizer = () => {
     );
     setNodes(grid);
   }, [startNode, finishNode]);
-
+  
   useEffect(() => {
     const handleResize = () => {
       resetGrid(); // Automatically adjusts start/finish node positions
     };
-
+  
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [resetGrid]);
