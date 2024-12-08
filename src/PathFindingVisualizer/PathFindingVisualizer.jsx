@@ -8,15 +8,13 @@ import Navbar from "./components/Navbar";
 import Legend from "./components/Legend";
 import "./styles/navBar.css";
 import "./styles/grid.css";
+import { getNewGridWithWall, getNewGridWithWeight } from "./grid/helper";
 import {
-  // FINISH_NODE_ROW,
-  // FINISH_NODE_COL,
-  // START_NODE_ROW,
-  // START_NODE_COL,
-  // initializeGrid,
-  getNewGridWithWall,
-  getNewGridWithWeight,
-} from "./grid/helper";
+  animateAlgorithm,
+  animateFinalPath,
+  clearAnimations,
+  visualizeAlgorithm,
+} from "./utils";
 
 const PathFindingVisualizer = () => {
   const [nodes, setNodes] = useState([]);
@@ -29,11 +27,8 @@ const PathFindingVisualizer = () => {
   const [draggingNode, setDraggingNode] = useState(null);
   const [startNode, setStartNode] = useState({ row: 10, col: 15 });
   const [finishNode, setFinishNode] = useState({ row: 10, col: 35 });
-
-  // let FINISH_NODE_ROW = 10;
-  // let FINISH_NODE_COL = 35;
-  // let START_NODE_ROW = 10;
-  // let START_NODE_COL = 15;
+  const [pathFound, setPathFound] = useState(false);
+  const [reset, setReset] = useState(false);
 
   const clampPosition = (pos, max) => Math.min(pos, max - 1);
 
@@ -42,13 +37,16 @@ const PathFindingVisualizer = () => {
 
   const MAX_ROWS = 25; // Maximum number of rows
 
-const calculateDimensions = () => {
-  const rows = Math.min(Math.floor(window.innerHeight / NODE_HEIGHT), MAX_ROWS);
-  const cols = Math.floor(window.innerWidth / NODE_WIDTH);
-  return { rows, cols };
-};
+  const calculateDimensions = () => {
+    const rows = Math.min(
+      Math.floor(window.innerHeight / NODE_HEIGHT),
+      MAX_ROWS
+    );
+    const cols = Math.floor(window.innerWidth / NODE_WIDTH);
+    return { rows, cols };
+  };
 
-const initializeGrid = () => {
+  const initializeGrid = () => {
     const { rows, cols } = calculateDimensions();
     const grid = Array.from({ length: rows }, (_, row) =>
       Array.from({ length: cols }, (_, col) =>
@@ -57,14 +55,14 @@ const initializeGrid = () => {
     );
     setNodes(grid);
   };
-  
+
   useEffect(() => {
     initializeGrid();
   }, []); // Empty dependency array ensures this runs only once
-  
+
   const resetGrid = useCallback(() => {
     const { rows, cols } = calculateDimensions();
-  
+
     // Adjust start and finish nodes to stay within bounds
     const updatedStartNode = {
       ...startNode,
@@ -76,10 +74,10 @@ const initializeGrid = () => {
       row: clampPosition(finishNode.row, rows),
       col: clampPosition(finishNode.col, cols),
     };
-  
+
     setStartNode(updatedStartNode);
     setFinishNode(updatedFinishNode);
-  
+
     // Initialize grid with updated dimensions
     const grid = Array.from({ length: rows }, (_, row) =>
       Array.from({ length: cols }, (_, col) =>
@@ -88,12 +86,12 @@ const initializeGrid = () => {
     );
     setNodes(grid);
   }, [startNode, finishNode]);
-  
+
   useEffect(() => {
     const handleResize = () => {
       resetGrid(); // Automatically adjusts start/finish node positions
     };
-  
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [resetGrid]);
@@ -112,9 +110,6 @@ const initializeGrid = () => {
     };
   };
 
-  let reset = false;
-  let pathFound = false;
-
   const resetWalls = useCallback(() => {
     const newGrid = nodes.slice();
     for (let row of newGrid) {
@@ -127,7 +122,7 @@ const initializeGrid = () => {
   const resetButtonHandler = () => {
     clearAnimations(); // Stop ongoing animations
     resetGrid(); // Reset the entire grid
-    pathFound = false; // Reset path flag
+    setPathFound(false); // Reset path flag
   };
 
   const resetPath = useCallback(() => {
@@ -147,6 +142,7 @@ const initializeGrid = () => {
   }, [nodes]);
 
   const handleMouseDown = (row, col) => {
+    if (isAnimating) return;
     const node = nodes[row][col];
     if (node.isStart || node.isFinish) {
       setDraggingNode(node.isStart ? "start" : "finish");
@@ -203,101 +199,43 @@ const initializeGrid = () => {
   };
 
   const handleMouseEnter = (row, col) => {
-    if (!mouseIsPressed) return;
+    if (isAnimating || !mouseIsPressed) return;
     handleMouseMove(row, col);
   };
 
   const handleMouseUp = () => {
+    if (isAnimating) return;
     setMouseIsPressed(false);
     setDraggingNode(null);
-  };
-
-  const animateAlgorithm = (visitedNodesInOrder) => {
-    return new Promise((resolve) => {
-      const ids = [];
-      visitedNodesInOrder.forEach((node, i) => {
-        const id = setTimeout(() => {
-          if (reset) return; // Abort if reset is triggered
-          const newGrid = nodes.slice();
-          const newNode = { ...node, isVisitedAgain: true };
-          newGrid[node.row][node.col] = newNode;
-          setNodes(newGrid);
-          if (i === visitedNodesInOrder.length - 1) {
-            resolve(); // Resolve when animation finishes
-          }
-        }, intervalDelay * i);
-        ids.push(id);
-      });
-      setAnimationIds(ids);
-    });
-  };
-
-  const animateFinalPath = async (finalPathNodes) => {
-    const ids = [];
-    for (let i = 0; i < finalPathNodes.length; i++) {
-      if (reset) return; // Abort if reset is triggered
-      await new Promise((resolve) => {
-        const id = setTimeout(() => {
-          const newGrid = nodes.slice();
-          const newNode = { ...finalPathNodes[i], isFinal: true };
-          newGrid[finalPathNodes[i].row][finalPathNodes[i].col] = newNode;
-          setNodes(newGrid);
-          resolve();
-        }, intervalDelay);
-        ids.push(id);
-      });
-    }
-    setAnimationIds((prev) => [...prev, ...ids]);
-  };
-
-  const clearAnimations = useCallback(() => {
-    animationIds.forEach((id) => clearTimeout(id));
-    setAnimationIds([]);
-  }, [animationIds]);
-
-  const visualizeCurrAlg = async () => {
-    clearAnimations(); // Stop ongoing animations
-    reset = true; // Trigger reset
-    await new Promise((resolve) => setTimeout(resolve, 100)); // Short delay to ensure reset completes
-    reset = false;
-
-    resetPath(); // Reset the grid
-
-    // Ensure nodes are properly initialized
-    if (!nodes || nodes.length === 0) {
-      console.error("Nodes are not initialized");
-      return;
-    }
-
-    let visitedNodesInOrder;
-    const startNodeObj = nodes[startNode.row][startNode.col];
-    const finishNodeObj = nodes[finishNode.row][finishNode.col];
-
-    if (currentAlg === "Dijkstra's") {
-      startNodeObj.distance = 0;
-      visitedNodesInOrder = minHeapDijkstra(nodes, startNodeObj, finishNodeObj);
-    } else if (currentAlg === "BFS") {
-      visitedNodesInOrder = bfs(nodes, startNodeObj, finishNodeObj);
-    } else if (currentAlg === "DFS") {
-      visitedNodesInOrder = dfs(nodes, startNodeObj, finishNodeObj);
-    }
-
-    setIsAnimating(true); // Disable grid interactions
-
-    await animateAlgorithm(visitedNodesInOrder);
-
-    const finalPath = getFinalPath(nodes[finishNode.row][finishNode.col]);
-    await animateFinalPath(finalPath);
-
-    setIsAnimating(false); // Re-enable grid interactions
-    pathFound = true;
   };
 
   const handleGridClick = () => {
     if (pathFound) {
       resetPath(); // Resets all path-related nodes
-      pathFound = false; // Prevent multiple resets
+      setPathFound(false); // Prevent multiple resets
     }
+  };
+
+  const visualizeCurrAlg = () => {
+    visualizeAlgorithm({
+      currentAlg,
+      nodes,
+      startNode,
+      finishNode,
+      resetPath,
+      animateAlgorithmFn: animateAlgorithm,
+      animateFinalPathFn: animateFinalPath,
+      minHeapDijkstra,
+      bfs,
+      dfs,
+      getFinalPath,
+      intervalDelay,
+      reset: () => reset,
+      setNodes,
+      setAnimationIds,
+      setIsAnimating,
+      setPathFound,
+    });
   };
 
   return (
@@ -305,12 +243,11 @@ const initializeGrid = () => {
       <Navbar
         currentAlg={currentAlg}
         setCurrentAlgorithm={setCurrentAlg}
-        resetGrid={resetButtonHandler}
-        resetWalls={resetWalls}
-        visualizeCurrAlg={() => visualizeCurrAlg(nodes)}
+        resetGrid={resetGrid}
+        visualizeCurrAlg={visualizeCurrAlg}
         setMode={setCurrentMode}
         setSpeed={setIntervalDelay}
-        isDisabled={isAnimating} // Add this prop
+        isDisabled={isAnimating}
       />
       <Legend />
       <div className="grid" onClick={handleGridClick}>
