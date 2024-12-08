@@ -1,22 +1,32 @@
-.node{
-  width:25px;
-  height:25px;
+.node {
+  width: 25px;
+  height: 25px;
   outline: 1px solid rgba(0, 0, 0, 0.512);
   background-color: white;
 }
-.nodeFinish{
-  background-color: red;
+.nodeFinish {
+  background-image: url("https://static.vecteezy.com/system/resources/thumbnails/023/257/613/small/flag-icon-isolated-illustration-vector.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 25px;
+  height: 25px;
 }
 
-.nodeStart{
-  background-color: green;
+.nodeStart {
+  background-image: url("https://static.vecteezy.com/system/resources/previews/034/371/682/non_2x/simple-map-pin-icon-location-information-and-the-current-location-icon-vector.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 25px;
+  height: 25px;
 }
-.nodeWall{
+.nodeWall {
   background-color: rgb(90, 90, 93);
 }
 
 .weightNode {
-  background-image: url('../../../public/images/weight.svg');
+  background-image: url("../../../public/images/weight.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -27,42 +37,41 @@
 }
 
 .nodeVisited {
-    background-color: rgb(83, 195, 255);
-    animation-name: fillAnimation;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-delay: 0;
-  }
-  .finalNode{
-       /* border: 1px solid rgb(175, 216, 248); */
-    background-color: rgb(255, 254, 106);
-    animation-name: fillFinal;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-delay: 0;
+  background-color: rgb(83, 195, 255);
+  animation-name: fillAnimation;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+}
+.finalNode {
+  /* border: 1px solid rgb(175, 216, 248); */
+  background-color: rgb(255, 254, 106);
+  animation-name: fillFinal;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+}
 
+@keyframes fillAnimation {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.25;
   }
 
-  @keyframes fillAnimation {
-    0% {
-      transform: scale(0.1);
-      opacity: 0.25;
-    }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+@keyframes fillFinal {
+  0% {
+    transform: scale(0.6);
   }
-  
-  @keyframes fillFinal{
-    0% {
-        transform: scale(.6);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1.0);
-    }
+  50% {
+    transform: scale(1.05);
   }
+  100% {
+    transform: scale(1);
+  }
+}
