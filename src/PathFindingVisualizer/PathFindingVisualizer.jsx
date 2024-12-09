@@ -15,6 +15,16 @@ import {
   clearAnimations,
   visualizeAlgorithm,
 } from "./utils";
+import { createMouseHandlers } from "./mouseHandler";
+import {
+  initializeGrid,
+  createNode,
+  resetGrid,
+  resetWalls,
+  resetPath,
+  calculateDimensions,
+  clampPosition,
+} from "./grid/helper";
 
 const PathFindingVisualizer = () => {
   const [nodes, setNodes] = useState([]);
@@ -30,35 +40,10 @@ const PathFindingVisualizer = () => {
   const [pathFound, setPathFound] = useState(false);
   const [reset, setReset] = useState(false);
 
-  const clampPosition = (pos, max) => Math.min(pos, max - 1);
-
-  const NODE_WIDTH = 28; // width of each node in pixels
-  const NODE_HEIGHT = 28; // height of each node in pixels
-
-  const MAX_ROWS = 25; // Maximum number of rows
-
-  const calculateDimensions = () => {
-    const rows = Math.min(
-      Math.floor(window.innerHeight / NODE_HEIGHT),
-      MAX_ROWS
-    );
-    const cols = Math.floor(window.innerWidth / NODE_WIDTH);
-    return { rows, cols };
-  };
-
-  const initializeGrid = () => {
-    const { rows, cols } = calculateDimensions();
-    const grid = Array.from({ length: rows }, (_, row) =>
-      Array.from({ length: cols }, (_, col) =>
-        createNode(row, col, startNode, finishNode)
-      )
-    );
-    setNodes(grid);
-  };
-
   useEffect(() => {
-    initializeGrid();
-  }, []); // Empty dependency array ensures this runs only once
+    const grid = initializeGrid(startNode, finishNode);
+    setNodes(grid);
+  }, [startNode, finishNode]);
 
   const resetGrid = useCallback(() => {
     const { rows, cols } = calculateDimensions();
@@ -96,20 +81,6 @@ const PathFindingVisualizer = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [resetGrid]);
 
-  const createNode = (row, col, updatedStartNode, updatedFinishNode) => {
-    return {
-      row,
-      col,
-      isStart: row === updatedStartNode.row && col === updatedStartNode.col,
-      isFinish: row === updatedFinishNode.row && col === updatedFinishNode.col,
-      distance: Infinity,
-      isVisited: false,
-      isWall: false,
-      previousNode: null,
-      weight: 1,
-    };
-  };
-
   const resetWalls = useCallback(() => {
     const newGrid = nodes.slice();
     for (let row of newGrid) {
@@ -119,11 +90,6 @@ const PathFindingVisualizer = () => {
     }
     setNodes(newGrid);
   }, [nodes]);
-  const resetButtonHandler = () => {
-    clearAnimations(); // Stop ongoing animations
-    resetGrid(); // Reset the entire grid
-    setPathFound(false); // Reset path flag
-  };
 
   const resetPath = useCallback(() => {
     const newGrid = nodes.slice();
@@ -141,74 +107,25 @@ const PathFindingVisualizer = () => {
     return newGrid;
   }, [nodes]);
 
-  const handleMouseDown = (row, col) => {
-    if (isAnimating) return;
-    const node = nodes[row][col];
-    if (node.isStart || node.isFinish) {
-      setDraggingNode(node.isStart ? "start" : "finish");
-    } else {
-      let newGrid;
-      if (currentMode === "weightMode") {
-        newGrid = getNewGridWithWeight(nodes, row, col);
-      } else {
-        newGrid = getNewGridWithWall(nodes, row, col);
-      }
-      setNodes(newGrid);
-    }
-    setMouseIsPressed(true);
+  const resetButtonHandler = () => {
+    clearAnimations(); // Stop ongoing animations
+    resetGrid(); // Reset the entire grid
+    setPathFound(false); // Reset path flag
   };
 
-  const handleMouseMove = (row, col) => {
-    if (!mouseIsPressed) return;
-
-    const node = nodes[row][col];
-    if (draggingNode) {
-      if (node.isStart || node.isFinish) return;
-
-      const newGrid = nodes.map((r) =>
-        r.map((node) => ({
-          ...node,
-          isStart: draggingNode === "start" ? false : node.isStart,
-          isFinish: draggingNode === "finish" ? false : node.isFinish,
-        }))
-      );
-
-      newGrid[row][col] = {
-        ...newGrid[row][col],
-        isStart: draggingNode === "start",
-        isFinish: draggingNode === "finish",
-      };
-
-      setNodes(newGrid);
-
-      if (draggingNode === "start") {
-        setStartNode({ row, col });
-      } else if (draggingNode === "finish") {
-        setFinishNode({ row, col });
-      }
-    } else {
-      if (node.isStart || node.isFinish) return;
-      let newGrid;
-      if (currentMode === "weightMode") {
-        newGrid = getNewGridWithWeight(nodes, row, col);
-      } else {
-        newGrid = getNewGridWithWall(nodes, row, col);
-      }
-      setNodes(newGrid);
-    }
-  };
-
-  const handleMouseEnter = (row, col) => {
-    if (isAnimating || !mouseIsPressed) return;
-    handleMouseMove(row, col);
-  };
-
-  const handleMouseUp = () => {
-    if (isAnimating) return;
-    setMouseIsPressed(false);
-    setDraggingNode(null);
-  };
-
+  const { handleMouseDown, handleMouseMove, handleMouseEnter, handleMouseUp } =
+    createMouseHandlers({
+      nodes,
+      setNodes,
+      currentMode,
+      mouseIsPressed,
+      setMouseIsPressed,
+      setDraggingNode,
+      draggingNode,
+      setStartNode,
+      setFinishNode,
+      isAnimating,
+    });
   const handleGridClick = () => {
     if (pathFound) {
       resetPath(); // Resets all path-related nodes
@@ -244,6 +161,7 @@ const PathFindingVisualizer = () => {
         currentAlg={currentAlg}
         setCurrentAlgorithm={setCurrentAlg}
         resetGrid={resetGrid}
+        resetWalls={resetWalls}
         visualizeCurrAlg={visualizeCurrAlg}
         setMode={setCurrentMode}
         setSpeed={setIntervalDelay}
