@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { minHeapDijkstra } from "../algorithms/greedy/dijkstras";
 import { getFinalPath } from "../algorithms/algHelpers/globalHelpers";
 import { dfs } from "../algorithms/bfs&dfs/dfs";
@@ -8,14 +8,13 @@ import Navbar from "./components/Navbar";
 import Legend from "./components/Legend";
 import "./styles/navBar.css";
 import "./styles/grid.css";
-import { getNewGridWithWall, getNewGridWithWeight } from "./grid/helper";
 import {
   animateAlgorithm,
   animateFinalPath,
   clearAnimations,
   visualizeAlgorithm,
-} from "./utils";
-import { createMouseHandlers } from "./mouseHandler";
+} from "./utils/animationUtils";
+import { createMouseHandlers } from "./utils/mouseHandler";
 import {
   initializeGrid,
   createNode,
@@ -24,7 +23,9 @@ import {
   resetPath,
   calculateDimensions,
   clampPosition,
-} from "./grid/helper";
+  getNewGridWithWall,
+  getNewGridWithWeight,
+} from "./utils/gridUtils";
 
 const PathFindingVisualizer = () => {
   const [nodes, setNodes] = useState([]);
@@ -58,13 +59,21 @@ const PathFindingVisualizer = () => {
   }, [nodes]);
 
   useEffect(() => {
-    const handleResize = () => {
-      resetGrid(); // Automatically adjusts start/finish node positions
+    const debounce = (func, delay) => {
+      let timeout;
+      return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), delay);
+      };
     };
-
+  
+    const handleResize = debounce(() => {
+      resetGrid(startNode, finishNode, setStartNode, setFinishNode, setNodes);
+    }, 200);
+  
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [resetGrid]);
+  }, [startNode, finishNode]);
 
   const { handleMouseDown, handleMouseMove, handleMouseEnter, handleMouseUp } =
     createMouseHandlers({

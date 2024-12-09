@@ -41,6 +41,12 @@ const resetGrid = (
 ) => {
   const { rows, cols } = calculateDimensions();
 
+  // Ensure startNode and finishNode are defined
+  if (!startNode || !finishNode) {
+    console.error("startNode or finishNode is undefined");
+    return;
+  }
+
   // Adjust start and finish nodes to stay within bounds
   const updatedStartNode = {
     ...startNode,
