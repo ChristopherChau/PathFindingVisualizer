@@ -1,38 +1,33 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { minHeapDijkstra } from "../algorithms/greedy/dijkstras";
-import { getFinalPath } from "../algorithms/algHelpers/globalHelpers";
-import { dfs } from "../algorithms/bfs&dfs/dfs";
-import { bfs } from "../algorithms/bfs&dfs/bfs";
-import Node from "./Node/Node";
-import Navbar from "./components/Navbar";
-import Legend from "./components/Legend";
-import "./styles/navBar.css";
-import "./styles/grid.css";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { minHeapDijkstra } from '../algorithms/greedy/dijkstras';
+import { getFinalPath } from '../algorithms/algHelpers/globalHelpers';
+import { dfs } from '../algorithms/bfs&dfs/dfs';
+import { bfs } from '../algorithms/bfs&dfs/bfs';
+import Node from './Node/Node';
+import Navbar from './components/Navbar';
+import Legend from './components/Legend';
+import './styles/navBar.css';
+import './styles/grid.css';
 import {
   animateAlgorithm,
   animateFinalPath,
   clearAnimations,
   visualizeAlgorithm,
-} from "./utils/animationUtils";
-import { createMouseHandlers } from "./utils/mouseHandler";
+} from './utils/animationUtils';
+import { createMouseHandlers } from './utils/mouseHandler';
 import {
   initializeGrid,
-  createNode,
   resetGrid,
   resetWalls,
   resetPath,
-  calculateDimensions,
-  clampPosition,
-  getNewGridWithWall,
-  getNewGridWithWeight,
-} from "./utils/gridUtils";
+} from './utils/gridUtils';
 
 const PathFindingVisualizer = () => {
   const [nodes, setNodes] = useState([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
-  const [currentMode, setCurrentMode] = useState("wallMode");
+  const [currentMode, setCurrentMode] = useState('wallMode');
   const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
-  const [intervalDelay, setIntervalDelay] = useState(2);
+  const [intervalDelay, setIntervalDelay] = useState(12);
   const [animationIds, setAnimationIds] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [draggingNode, setDraggingNode] = useState(null);
@@ -66,13 +61,13 @@ const PathFindingVisualizer = () => {
         timeout = setTimeout(() => func(...args), delay);
       };
     };
-  
+
     const handleResize = debounce(() => {
       resetGrid(startNode, finishNode, setStartNode, setFinishNode, setNodes);
     }, 200);
-  
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [startNode, finishNode]);
 
   const { handleMouseDown, handleMouseMove, handleMouseEnter, handleMouseUp } =
@@ -142,7 +137,7 @@ const PathFindingVisualizer = () => {
                 onMouseDown={() => handleMouseDown(node.row, node.col)}
                 onMouseEnter={() => handleMouseEnter(node.row, node.col)}
                 onMouseUp={handleMouseUp}
-                onMouseMove={() => handleMouseMove(node.row, node.col)} // Add this line
+                onMouseMove={() => handleMouseMove(node.row, node.col)}
               />
             ))}
           </div>

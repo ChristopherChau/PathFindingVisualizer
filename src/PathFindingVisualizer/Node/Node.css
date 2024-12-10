@@ -5,7 +5,7 @@
   background-color: white;
 }
 .nodeFinish {
-  background-image: url("https://static.vecteezy.com/system/resources/thumbnails/023/257/613/small/flag-icon-isolated-illustration-vector.jpg");
+  background-image: url('https://static.vecteezy.com/system/resources/thumbnails/023/257/613/small/flag-icon-isolated-illustration-vector.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -14,7 +14,7 @@
 }
 
 .nodeStart {
-  background-image: url("https://static.vecteezy.com/system/resources/previews/034/371/682/non_2x/simple-map-pin-icon-location-information-and-the-current-location-icon-vector.jpg");
+  background-image: url('https://static.vecteezy.com/system/resources/previews/034/371/682/non_2x/simple-map-pin-icon-location-information-and-the-current-location-icon-vector.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,7 +26,7 @@
 }
 
 .weightNode {
-  background-image: url("../../../public/images/weight.svg");
+  background-image: url('../../../public/images/weight.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

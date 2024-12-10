@@ -1,11 +1,9 @@
-body{
-  display:flex;
+body {
+  display: flex;
   flex-direction: column;
   /* inset:0; */
-
-} 
+}
 
 .App {
   text-align: center;
 }
-

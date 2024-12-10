@@ -1,99 +1,98 @@
 .header {
-    display: flex;
-    flex-wrap: wrap; /* Allows items to wrap to the next line */
-    align-items: center;
-    justify-content: center;
-    background-color: #34495e;
-    width: 100vw;
-    box-sizing: border-box;
-    padding: 10px 15px;
-    position: relative; /* Ensures dropdowns are positioned correctly */
-    z-index: 1; /* Sets default z-index for the navbar */
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  align-items: center;
+  justify-content: center;
+  background-color: #34495e;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  position: relative; /* Ensures dropdowns are positioned correctly */
+  z-index: 1; /* Sets default z-index for the navbar */
+}
+
+.title {
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin-right: 20px;
+}
+
+.visualizeButn:active {
+  background-color: rgb(23, 117, 211);
+}
+
+.visualizeButn,
+.regularButn {
+  font-size: 16px;
+  background-color: #34495e;
+  color: white;
+  font-weight: 700;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.visualizeButn {
+  background-color: dodgerblue;
+}
+
+.regularButn:hover {
+  color: aquamarine;
+}
+
+.dropdown {
+  position: relative;
+  margin: 5px;
+}
+
+.dropdownContent,
+.dropdownContent2 {
+  display: none;
+  position: absolute;
+  top: 100%; /* Ensures dropdown appears below the button */
+  left: 0;
+  min-width: 160px;
+  background-color: #34495e;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 10; /* Ensures dropdown is on top */
+  flex-direction: column;
+}
+
+.dropdown:hover .dropdownContent,
+.dropdown:hover .dropdownContent2 {
+  display: flex; /* Shows dropdown content on hover */
+}
+
+.dijkstrasMenu {
+  background-color: #34495e;
+  margin: 0;
+}
+
+.dijkstrasMenu:hover {
+  background-color: #1ec8a6;
+  color: white;
+}
+
+.caret {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-left: 5px;
+  background: url('https://cdn1.iconfinder.com/data/icons/outline-17/16/caret-down-512.png')
+    no-repeat center center;
+  background-size: contain;
+}
+
+.crossed-out-text {
+  text-decoration: line-through;
+}
+
+/* Flexbox for wrapping */
+@media (max-width: 768px) {
+  .header {
+    justify-content: center; /* Center items when navbar wraps */
   }
-  
-  .title {
-    color: white;
-    font-size: 24px;
-    font-weight: 700;
-    margin-right: 20px;
-  }
-  
-  .visualizeButn:active {
-    background-color: rgb(23, 117, 211);
-  }
-  
-  .visualizeButn,
-  .regularButn {
-    font-size: 16px;
-    background-color: #34495e;
-    color: white;
-    font-weight: 700;
-    padding: 8px 15px;
-    border: none;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
-  }
-  
-  .visualizeButn {
-    background-color: dodgerblue;
-  }
-  
-  .regularButn:hover {
-    color: aquamarine;
-  }
-  
-  .dropdown {
-    position: relative;
-    margin: 5px;
-  }
-  
-  .dropdownContent,
-  .dropdownContent2 {
-    display: none;
-    position: absolute;
-    top: 100%; /* Ensures dropdown appears below the button */
-    left: 0;
-    min-width: 160px;
-    background-color: #34495e;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 10; /* Ensures dropdown is on top */
-    flex-direction: column;
-  }
-  
-  .dropdown:hover .dropdownContent,
-  .dropdown:hover .dropdownContent2 {
-    display: flex; /* Shows dropdown content on hover */
-  }
-  
-  .dijkstrasMenu {
-    background-color: #34495e;
-    margin: 0;
-  }
-  
-  .dijkstrasMenu:hover {
-    background-color: #1ec8a6;
-    color: white;
-  }
-  
-  .caret {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    margin-left: 5px;
-    background: url('https://cdn1.iconfinder.com/data/icons/outline-17/16/caret-down-512.png')
-      no-repeat center center;
-    background-size: contain;
-  }
-  
-  .crossed-out-text {
-    text-decoration: line-through;
-  }
-  
-  /* Flexbox for wrapping */
-  @media (max-width: 768px) {
-    .header {
-      justify-content: center; /* Center items when navbar wraps */
-    }
-  }
-  
+}

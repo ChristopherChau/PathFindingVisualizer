@@ -43,7 +43,7 @@ const resetGrid = (
 
   // Ensure startNode and finishNode are defined
   if (!startNode || !finishNode) {
-    console.error("startNode or finishNode is undefined");
+    console.error('startNode or finishNode is undefined');
     return;
   }
 

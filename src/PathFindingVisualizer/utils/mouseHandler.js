@@ -1,4 +1,4 @@
-import { getNewGridWithWall, getNewGridWithWeight } from "./gridUtils";
+import { getNewGridWithWall, getNewGridWithWeight } from './gridUtils';
 
 export const createMouseHandlers = ({
   nodes,
@@ -16,10 +16,10 @@ export const createMouseHandlers = ({
     if (isAnimating) return;
     const node = nodes[row][col];
     if (node.isStart || node.isFinish) {
-      setDraggingNode(node.isStart ? "start" : "finish");
+      setDraggingNode(node.isStart ? 'start' : 'finish');
     } else {
       let newGrid;
-      if (currentMode === "weightMode") {
+      if (currentMode === 'weightMode') {
         newGrid = getNewGridWithWeight(nodes, row, col);
       } else {
         newGrid = getNewGridWithWall(nodes, row, col);
@@ -35,7 +35,7 @@ export const createMouseHandlers = ({
       if (node.isStart || node.isFinish) return;
 
       let newGrid;
-      if (currentMode === "weightMode") {
+      if (currentMode === 'weightMode') {
         newGrid = getNewGridWithWeight(nodes, row, col);
       } else {
         newGrid = getNewGridWithWall(nodes, row, col);
@@ -45,22 +45,22 @@ export const createMouseHandlers = ({
       const newGrid = nodes.map((r) =>
         r.map((node) => ({
           ...node,
-          isStart: draggingNode === "start" ? false : node.isStart,
-          isFinish: draggingNode === "finish" ? false : node.isFinish,
+          isStart: draggingNode === 'start' ? false : node.isStart,
+          isFinish: draggingNode === 'finish' ? false : node.isFinish,
         }))
       );
 
       newGrid[row][col] = {
         ...newGrid[row][col],
-        isStart: draggingNode === "start",
-        isFinish: draggingNode === "finish",
+        isStart: draggingNode === 'start',
+        isFinish: draggingNode === 'finish',
       };
 
       setNodes(newGrid);
 
-      if (draggingNode === "start") {
+      if (draggingNode === 'start') {
         setStartNode({ row, col });
-      } else if (draggingNode === "finish") {
+      } else if (draggingNode === 'finish') {
         setFinishNode({ row, col });
       }
     }

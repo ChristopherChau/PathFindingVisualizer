@@ -1,5 +1,5 @@
-import React from "react";
-import "../styles/navBar.css";
+import React from 'react';
+import '../styles/navBar.css';
 
 const Navbar = ({
   currentAlg,
@@ -11,11 +11,11 @@ const Navbar = ({
   setSpeed,
   isDisabled,
 }) => {
-  const algorithms = ["Dijkstra's", "BFS", "DFS"];
+  const algorithms = ["Dijkstra's", 'BFS', 'DFS'];
   const speeds = [
-    { label: "Slow", delay: 20 },
-    { label: "Medium", delay: 12 },
-    { label: "Fast", delay: 3 },
+    { label: 'Slow', delay: 20 },
+    { label: 'Medium', delay: 12 },
+    { label: 'Fast', delay: 5 },
   ];
 
   return (
@@ -55,19 +55,19 @@ const Navbar = ({
         Visualize {currentAlg}!
       </button>
       <button
-        onClick={() => setMode("wallMode")}
+        onClick={() => setMode('wallMode')}
         className="regularButn wallButn"
       >
         Wall Mode
       </button>
       <button
-        onClick={() => setMode("weightMode")}
+        onClick={() => setMode('weightMode')}
         className={`regularButn weightButn ${
-          currentAlg !== "Dijkstra's" ? "disabled-button" : ""
+          currentAlg !== "Dijkstra's" ? 'disabled-button' : ''
         }`}
         disabled={currentAlg !== "Dijkstra's"}
       >
-        <span className={currentAlg !== "Dijkstra's" ? "crossed-out-text" : ""}>
+        <span className={currentAlg !== "Dijkstra's" ? 'crossed-out-text' : ''}>
           Weight Mode
         </span>
       </button>

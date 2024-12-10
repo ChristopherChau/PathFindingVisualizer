@@ -1,52 +1,51 @@
 .legend-container {
-    margin: 1.5rem 0rem 1.5rem 0rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-  }
-  
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .legend-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    background-color: transparent;
-  }
-  
-  .legend-box {
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 1px solid black;
-    background-color: transparent;
-  }
-  
-  .unvisited-node {
-    background-color: white;
-  }
-  
-  .visited-node {
-    background-color: rgb(83, 195, 255);
-  }
+  margin: 1.5rem 0rem 1.5rem 0rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
 
-  .weight-visited-node{
-    background-color: rgb(50, 127, 169);
-  }
-  
-  .shortest-path-node {
-    background-color: rgb(255, 254, 106);
-  }
-  
-  .wall-node {
-    background-color: rgb(90, 90, 93);
-  }
-  
-  .legend-label {
-    font-size: 0.9rem;
-    color: #333;
-  }
-  
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: transparent;
+}
+
+.legend-box {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid black;
+  background-color: transparent;
+}
+
+.unvisited-node {
+  background-color: white;
+}
+
+.visited-node {
+  background-color: rgb(83, 195, 255);
+}
+
+.weight-visited-node {
+  background-color: rgb(50, 127, 169);
+}
+
+.shortest-path-node {
+  background-color: rgb(255, 254, 106);
+}
+
+.wall-node {
+  background-color: rgb(90, 90, 93);
+}
+
+.legend-label {
+  font-size: 0.9rem;
+  color: #333;
+}
