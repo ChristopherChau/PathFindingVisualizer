@@ -3,7 +3,7 @@ import { minHeapDijkstra } from '../algorithms/greedy/dijkstras';
 import { getFinalPath } from '../algorithms/algHelpers/globalHelpers';
 import { dfs } from '../algorithms/bfs&dfs/dfs';
 import { bfs } from '../algorithms/bfs&dfs/bfs';
-import Node from './Node/Node';
+import Grid from './components/Grid';
 import Navbar from './components/Navbar';
 import Legend from './components/Legend';
 import './styles/navBar.css';
@@ -26,7 +26,7 @@ const PathFindingVisualizer = () => {
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [currentMode, setCurrentMode] = useState('wallMode');
   const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
-  const [intervalDelay, setIntervalDelay] = useState(2);
+  const [intervalDelay, setIntervalDelay] = useState(12);
   const [animationIds, setAnimationIds] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [draggingNode, setDraggingNode] = useState(null);
@@ -125,28 +125,16 @@ const PathFindingVisualizer = () => {
         isDisabled={isAnimating}
       />
       <Legend />
-      <div
-        className="grid"
-        style={{
-          gridTemplateColumns: `repeat(${nodes[0]?.length || 1}, 1fr)`,
-          gridTemplateRows: `repeat(${nodes.length || 1}, 1fr)`,
-        }}
+
+      <Grid
+        nodes={nodes}
+        mouseIsPressed={mouseIsPressed}
+        handleMouseDown={handleMouseDown}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseUp={handleMouseUp}
+        handleMouseMove={handleMouseMove}
         onClick={handleGridClick}
-      >
-        {nodes?.map((row, rowIndex) =>
-          row.map((node, nodeIndex) => (
-            <Node
-              key={`${node.row}-${node.col}`}
-              {...node}
-              mouseIsPressed={mouseIsPressed}
-              onMouseDown={() => handleMouseDown(node.row, node.col)}
-              onMouseEnter={() => handleMouseEnter(node.row, node.col)}
-              onMouseUp={handleMouseUp}
-              onMouseMove={() => handleMouseMove(node.row, node.col)}
-            />
-          ))
-        )}
-      </div>
+      />
     </div>
   );
 };
