@@ -1,6 +1,6 @@
 # Pathfinding Visualizer
 
-[![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-2386A4?style=for-the-badge)](https://<your-username>.github.io/PathFindingVisualizer)
+[![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-2386A4?style=for-the-badge)](https://ChristopherChau.github.io/PathFindingVisualizer)
 
 ## Overview
 Pathfinding Visualizer is a tool designed to visualize and compare various pathfinding algorithms. Users can input a grid and watch as algorithms such as Dijkstra's, BFS, and DFS solve the problem of finding the shortest path from a start to a goal. This project was built to help me reinforce my understanding of these algorithms after learning them from my classes. 
