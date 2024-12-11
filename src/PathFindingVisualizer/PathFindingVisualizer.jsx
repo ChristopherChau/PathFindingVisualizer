@@ -11,7 +11,6 @@ import './styles/grid.css';
 import {
   animateAlgorithm,
   animateFinalPath,
-  clearAnimations,
   visualizeAlgorithm,
 } from './utils/animationUtils';
 import { createMouseHandlers } from './utils/mouseHandler';
@@ -27,7 +26,7 @@ const PathFindingVisualizer = () => {
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
   const [currentMode, setCurrentMode] = useState('wallMode');
   const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
-  const [intervalDelay, setIntervalDelay] = useState(12);
+  const [intervalDelay, setIntervalDelay] = useState(2);
   const [animationIds, setAnimationIds] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [draggingNode, setDraggingNode] = useState(null);
@@ -87,7 +86,7 @@ const PathFindingVisualizer = () => {
   const handleGridClick = () => {
     if (pathFound) {
       resetPathHandler();
-      setPathFound(false); // Prevent multiple resets
+      setPathFound(false);
     }
   };
 
@@ -126,22 +125,27 @@ const PathFindingVisualizer = () => {
         isDisabled={isAnimating}
       />
       <Legend />
-      <div className="grid" onClick={handleGridClick}>
-        {nodes?.map((row, rowIndex) => (
-          <div key={rowIndex}>
-            {row.map((node, nodeIndex) => (
-              <Node
-                key={`${node.row}-${node.col}`}
-                {...node}
-                mouseIsPressed={mouseIsPressed}
-                onMouseDown={() => handleMouseDown(node.row, node.col)}
-                onMouseEnter={() => handleMouseEnter(node.row, node.col)}
-                onMouseUp={handleMouseUp}
-                onMouseMove={() => handleMouseMove(node.row, node.col)}
-              />
-            ))}
-          </div>
-        ))}
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: `repeat(${nodes[0]?.length || 1}, 1fr)`,
+          gridTemplateRows: `repeat(${nodes.length || 1}, 1fr)`,
+        }}
+        onClick={handleGridClick}
+      >
+        {nodes?.map((row, rowIndex) =>
+          row.map((node, nodeIndex) => (
+            <Node
+              key={`${node.row}-${node.col}`}
+              {...node}
+              mouseIsPressed={mouseIsPressed}
+              onMouseDown={() => handleMouseDown(node.row, node.col)}
+              onMouseEnter={() => handleMouseEnter(node.row, node.col)}
+              onMouseUp={handleMouseUp}
+              onMouseMove={() => handleMouseMove(node.row, node.col)}
+            />
+          ))
+        )}
       </div>
     </div>
   );

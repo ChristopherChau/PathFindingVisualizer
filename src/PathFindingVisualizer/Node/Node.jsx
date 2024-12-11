@@ -14,7 +14,6 @@ const Node = ({
   isFinal,
   isWeight,
 }) => {
-  // Determine the appropriate CSS class for the node
   const extraClassName =
     isVisitedAgain && isWeight
       ? 'nodeVisited weightNode'
@@ -33,7 +32,7 @@ const Node = ({
                   : '';
 
   return (
-    <td
+    <div
       className={`node ${extraClassName}`}
       onMouseEnter={() => onMouseEnter(row, col)}
       onMouseDown={() => onMouseDown(row, col)}

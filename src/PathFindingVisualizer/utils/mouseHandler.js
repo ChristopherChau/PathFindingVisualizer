@@ -42,6 +42,7 @@ export const createMouseHandlers = ({
       }
       setNodes(newGrid);
     } else if (draggingNode) {
+      if (isAnimating) return;
       const newGrid = nodes.map((r) =>
         r.map((node) => ({
           ...node,

@@ -41,13 +41,11 @@ const resetGrid = (
 ) => {
   const { rows, cols } = calculateDimensions();
 
-  // Ensure startNode and finishNode are defined
   if (!startNode || !finishNode) {
     console.error('startNode or finishNode is undefined');
     return;
   }
 
-  // Adjust start and finish nodes to stay within bounds
   const updatedStartNode = {
     ...startNode,
     row: clampPosition(startNode.row, rows),
@@ -103,8 +101,8 @@ const getNewGridWithWall = (grid, row, col) => {
   const newNode = {
     ...node,
     isWall: !node.isWall,
-    isVisitedAgain: false, // Clear visited status
-    isFinal: false, // Clear final path status
+    isVisitedAgain: false,
+    isFinal: false,
   };
   newGrid[row][col] = newNode;
   return newGrid;
