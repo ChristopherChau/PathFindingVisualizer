@@ -26,7 +26,7 @@
 }
 
 .weightNode {
-  background-image: url('../../../public/images/weight.svg');
+  background-image: url('../../images/weight.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

@@ -1,5 +1,6 @@
 import React from 'react';
-import '../styles/legend.css'; // Import custom styles if needed
+import '../styles/legend.css'; 
+import weightNodeImage from '../../images/weight.svg'; 
 
 const Legend = () => {
   const legendItems = [
@@ -13,7 +14,7 @@ const Legend = () => {
       image:
         'https://static.vecteezy.com/system/resources/thumbnails/023/257/613/small/flag-icon-isolated-illustration-vector.jpg',
     },
-    { label: 'Weight Node', image: '/images/weight.svg' },
+    { label: 'Weight Node', image: weightNodeImage }, 
     { label: 'Unvisited Node', className: 'unvisited-node' },
     {
       label: 'Visited Node',

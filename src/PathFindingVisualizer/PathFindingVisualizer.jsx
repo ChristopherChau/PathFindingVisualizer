@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { minHeapDijkstra } from '../algorithms/greedy/dijkstras';
 import { getFinalPath } from '../algorithms/algHelpers/globalHelpers';
 import { dfs } from '../algorithms/bfs&dfs/dfs';
@@ -27,12 +27,14 @@ const PathFindingVisualizer = () => {
   const [currentMode, setCurrentMode] = useState('wallMode');
   const [currentAlg, setCurrentAlg] = useState("Dijkstra's");
   const [intervalDelay, setIntervalDelay] = useState(12);
+  // eslint-disable-next-line no-unused-vars
   const [animationIds, setAnimationIds] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [draggingNode, setDraggingNode] = useState(null);
   const [startNode, setStartNode] = useState({ row: 10, col: 15 });
   const [finishNode, setFinishNode] = useState({ row: 10, col: 35 });
   const [pathFound, setPathFound] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [reset, setReset] = useState(false);
 
   useEffect(() => {
