@@ -40,7 +40,6 @@ const Legend = () => {
           <span className="legend-label">{item.label}</span>
         </div>
       ))}
-      <dsa>Testing deployment</dsa>
     </div>
   );
 };
